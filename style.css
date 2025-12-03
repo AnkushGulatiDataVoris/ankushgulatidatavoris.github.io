@@ -116,7 +116,7 @@ body {
 .logo-text {
     font-weight: 600;
     letter-spacing: 0.04em;
-    font-size: 1.05rem;
+    font-size: 1.50rem;
 }
 
 .main-nav {
@@ -548,3 +548,4 @@ body {
         width: 100%;
     }
 }
+
