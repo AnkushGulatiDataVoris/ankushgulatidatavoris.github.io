@@ -4,35 +4,57 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Datavoris | Automated Data Solutions for Modern Businesses</title>
+
+    <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="favicon.svg">
+
     <!-- Google Font -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
 
-    <!-- Main Styles -->
+    <!-- Main CSS -->
     <link rel="stylesheet" href="style.css" />
 </head>
+
 <body>
 
-    <!-- ================= HEADER / NAV ================= -->
-    <header class="site-header" id="home">
-        <div class="container nav-container">
-            <div class="logo">
-                <span class="logo-mark">D</span>
-                <span class="logo-text">Datavoris</span>
-            </div>
+<header class="site-header" id="home">
+    <div class="container nav-container">
 
-            <nav class="main-nav">
-    		<a href="#services">Services</a>
-    		<a href="#process">Process</a>
-    		<a href="#about">About</a>
-    		<a href="#founder">Founder</a>
-    		<a href="#case-studies">Case Studies</a>
-	    </nav>
-
-
-            <a href="#contact" class="btn btn-outline nav-cta">Book a Call</a>
+        <!-- LOGO -->
+        <div class="logo">
+            <span class="logo-mark">D</span>
+            <span class="logo-text">Datavoris</span>
         </div>
 
+        <!-- DESKTOP NAV -->
+        <nav class="main-nav">
+            <div class="nav-left">
+                <a href="#services">Services</a>
+                <a href="#process">Process</a>
+                <a href="#about">About</a>
+                <a href="founder.html">Founder</a>
+                <a href="#case-studies">Case Studies</a>
+                <a href="#contact">Contact</a>
+            </div>
+        </nav>
+
+        <!-- HAMBURGER (MOBILE ONLY) -->
+        <div class="hamburger" id="hamburger">
+            <span></span><span></span><span></span>
+        </div>
+
+    </div>
+
+    <!-- MOBILE MENU -->
+    <div class="mobile-menu" id="mobileMenu">
+        <a href="#services">Services</a>
+        <a href="#process">Process</a>
+        <a href="#about">About</a>
+        <a href="founder.html">Founder</a>
+        <a href="#case-studies">Case Studies</a>
+        <a href="#contact">Contact</a>
+        <a href="#contact" class="btn btn-primary" style="margin-top:10px;">Book a Call</a>
+    </div>
         <!-- ================= HERO ================= -->
         <div class="container hero">
             <div class="hero-content">
@@ -377,31 +399,34 @@
 </section>
 
 	
-    <!-- ================= FOOTER ================= -->
-    <footer class="site-footer">
-        <div class="container footer-layout">
-
-            <div class="footer-left">
-                <div class="logo footer-logo">
-                    <span class="logo-mark">D</span>
-                    <span class="logo-text">Datavoris</span>
-                </div>
-                <p class="footer-tagline">Automated data solutions for modern teams.</p>
+ <footer class="site-footer">
+    <div class="container footer-layout">
+        <div class="footer-left">
+            <div class="logo footer-logo">
+                <span class="logo-mark">D</span>
+                <span class="logo-text">Datavoris</span>
             </div>
-
-            <div class="footer-right">
-                <p>© <span id="year"></span> Datavoris. All rights reserved.</p>
-                <p class="footer-meta">Data Automation · Dashboards · Diagnostics · Workflows</p>
-            </div>
-
+            <p class="footer-tagline">Automated data solutions for modern teams.</p>
         </div>
-    </footer>
 
-    <script>
-        document.getElementById("year").textContent = new Date().getFullYear();
-    </script>
+        <div class="footer-right">
+            <p>© <span id="year"></span> Datavoris. All rights reserved.</p>
+        </div>
+    </div>
+</footer>
+
+<script>
+    const hamburger = document.getElementById("hamburger");
+    const mobileMenu = document.getElementById("mobileMenu");
+
+    hamburger.addEventListener("click", () => {
+        hamburger.classList.toggle("active");
+        mobileMenu.classList.toggle("active");
+    });
+
+    document.getElementById("year").textContent = new Date().getFullYear();
+</script>
 
 </body>
 </html>
-
 
