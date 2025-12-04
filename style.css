@@ -119,40 +119,25 @@ body {
     font-size: 1.05rem;
 }
 
-.main-nav {
-    display: flex;
-    align-items: center;
-    gap: 1.5rem;
-    font-size: 0.95rem;
-}
+/* ================= UPDATED DESKTOP NAV LINKS ================= */
 
-.main-nav a {
-    color: var(--text-muted);
-    text-decoration: none;
-    position: relative;
-    padding-bottom: 0.2rem;
-    transition: color var(--transition-fast);
-}
-
-.main-nav a::after {
-    content: "";
-    position: absolute;
-    left: 0;
-    bottom: 0;
-    width: 0;
-    height: 2px;
-    border-radius: 999px;
-    background: linear-gradient(90deg, var(--accent), var(--accent-strong));
-    transition: width var(--transition-fast);
-}
-
-.main-nav a:hover {
+.main-nav .nav-left a {
     color: var(--text-main);
+    text-decoration: none;
+    font-weight: 500;
+    padding: 0.6rem 1rem;
+    border-radius: 8px;
+    transition: 0.25s ease;
+    display: inline-block;
 }
 
-.main-nav a:hover::after {
-    width: 100%;
+/* Hover Effect */
+.main-nav .nav-left a:hover {
+    background: rgba(79, 163, 218, 0.15);
+    color: #fff;
+    box-shadow: 0 0 12px rgba(79, 163, 218, 0.4);
 }
+
 
 /* ================= BUTTONS ================= */
 
@@ -613,5 +598,25 @@ body {
     .hamburger {
         display: flex;
     }
+}
+
+/* MOBILE MENU LINK STYLES */
+.mobile-menu a {
+    color: var(--text-main);
+    text-decoration: none;
+    font-size: 1.15rem;
+    padding: 0.7rem 1rem;
+    border-radius: 8px;
+    transition: 0.25s ease;
+    display: block;
+    margin: 0.3rem 1rem;
+    background: rgba(255, 255, 255, 0.04); /* subtle background */
+}
+
+/* MOBILE MENU HOVER EFFECT (same as desktop hover) */
+.mobile-menu a:hover {
+    background: rgba(79, 163, 218, 0.2);
+    color: #fff;
+    box-shadow: 0 0 12px rgba(79, 163, 218, 0.4);
 }
 
