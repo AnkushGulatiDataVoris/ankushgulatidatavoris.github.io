@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,12 +10,13 @@
     <link rel="icon" type="image/svg+xml" href="favicon.svg">
 
     <!-- Google Font -->
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
 
     <!-- Main Datavoris Style -->
     <link rel="stylesheet" href="style.css">
 
-    <!-- Bootstrap (only for form controls, not layout) -->
+    <!-- Bootstrap (only for form element styling, not layout) -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 
     <style>
@@ -30,13 +32,20 @@
             background: #0d1326;
             padding: 2.5rem;
             border-radius: 18px;
-            box-shadow: 0 12px 40px rgba(0,0,0,0.55);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.55);
             animation: fadeSlideUp .5s ease;
         }
 
         @keyframes fadeSlideUp {
-            from { opacity: 0; transform: translateY(40px); }
-            to   { opacity: 1; transform: translateY(0); }
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         .step-title {
@@ -69,23 +78,63 @@
         }
 
         @keyframes fadeIn {
-            from { opacity: 0; }
-            to   { opacity: 1; }
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
         }
 
-        #progressBar {
-            height: 10px;
+        /* Slider Styling */
+        .slider-wrapper {
+            width: 100%;
+            text-align: center;
+        }
+
+        .slider-input {
+            width: 100%;
+            -webkit-appearance: none;
+            height: 8px;
             border-radius: 10px;
-            background: linear-gradient(90deg, #4fa3da, #7cc4f0);
-            transition: width .3s ease;
+            background: rgba(255, 255, 255, 0.15);
+            outline: none;
+            margin-bottom: 10px;
         }
 
-        .btn-next, .btn-back {
-            border-radius: 30px;
-            padding: 10px 24px;
+        /* Thumb */
+        .slider-input::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 26px;
+            height: 26px;
+            border-radius: 50%;
+            background: #4fa3da;
+            border: 3px solid #0a0f1f;
+            cursor: pointer;
+            transition: .2s ease;
         }
 
-        /* SUCCESS BOX */
+        .slider-input::-webkit-slider-thumb:hover {
+            background: #7cc4f0;
+        }
+
+        .slider-input::-moz-range-thumb {
+            width: 26px;
+            height: 26px;
+            border-radius: 50%;
+            background: #4fa3da;
+            border: 3px solid #0a0f1f;
+            cursor: pointer;
+        }
+
+        .slider-value {
+            color: #4fa3da;
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-top: 5px;
+        }
+
         #successMsg {
             background: #09361e !important;
             border-radius: 10px;
@@ -97,183 +146,197 @@
 
 <body>
 
-<!-- HEADER (Matches Datavoris) -->
-<header class="site-header">
-    <div class="container nav-container">
+    <!-- ================= HEADER ================= -->
+    <header class="site-header">
+        <div class="container nav-container">
 
-        <div class="logo">
-            <span class="logo-mark">D</span>
-            <span class="logo-text">Datavoris</span>
-        </div>
-
-        <nav class="main-nav">
-            <div class="nav-left">
-                <a href="index.html">Home</a>
-                <a href="form.html" class="active">Assessment</a>
-                <a href="founder.html">Founder</a>
+            <div class="logo">
+                <span class="logo-mark">D</span>
+                <span class="logo-text">Datavoris</span>
             </div>
-        </nav>
 
-        <div class="hamburger" id="hamburger">
-            <span></span><span></span><span></span>
+            <nav class="main-nav">
+                <div class="nav-left">
+                    <a href="index.html">Home</a>
+                    <a href="form.html" class="active">Assessment</a>
+                    <a href="founder.html">Founder</a>
+                </div>
+            </nav>
+
+            <div class="hamburger" id="hamburger">
+                <span></span><span></span><span></span>
+            </div>
+
+        </div>
+
+        <div class="mobile-menu" id="mobileMenu">
+            <a href="index.html">Home</a>
+            <a href="form.html">Assessment</a>
+            <a href="founder.html">Founder</a>
+        </div>
+    </header>
+
+    <!-- ================= MAIN CONTAINER ================= -->
+    <div class="assessment-container">
+
+        <!-- Progress Bar -->
+        <div class="progress mb-3 bg-dark" style="height: 10px; border-radius: 10px;">
+            <div id="progressBar" style="width: 0%"></div>
+        </div>
+
+        <!-- Step Label -->
+        <div class="step-title" id="stepLabel">Step 1 of 17</div>
+
+        <div id="stepsContainer">
+
+            <!-- STEP 1 : User Info -->
+            <div class="question-card active">
+                <h2>Free AI-Powered Assessment</h2>
+                <p>We’ll analyze your inputs and send your personalized report instantly.</p>
+
+                <form id="diagForm">
+                    <input class="form-control mb-3" name="name" placeholder="Full Name" required>
+                    <input class="form-control mb-3" name="email" type="email" placeholder="Email Address" required>
+                    <input class="form-control mb-3" name="phone" placeholder="Phone Number" required>
+
+                    <button type="button" class="btn btn-primary btn-next w-100 mt-3">Start Assessment</button>
+                </form>
+            </div>
+
+        </div>
+
+        <!-- SUCCESS MESSAGE -->
+        <div id="successMsg" class="alert alert-success mt-4 d-none text-center">
+            🎉 Your responses have been received!  
+            Your AI-powered business report will arrive in your inbox shortly.
         </div>
 
     </div>
 
-    <div class="mobile-menu" id="mobileMenu">
-        <a href="index.html">Home</a>
-        <a href="form.html">Assessment</a>
-        <a href="founder.html">Founder</a>
-    </div>
-</header>
+    <!-- ================= SCRIPT ================= -->
+    <script>
+        // Your questions
+        const questions = [
+            "How satisfied are you with growth?",
+            "How effective is your teamwork?",
+            "How strong is your communication?",
+            "Rate customer experience quality.",
+            "How strong is your innovation?",
+            "How effective is your leadership?",
+            "How organized are your processes?",
+            "Rate your technology adoption.",
+            "How efficient is your operations flow?",
+            "Rate your decision-making speed.",
+            "How effective is your marketing?",
+            "Rate your sales performance.",
+            "How strong is your financial clarity?",
+            "How aligned is your workforce?",
+            "How strong is your execution ability?"
+        ];
 
-<!-- MAIN FORM -->
-<div class="assessment-container">
+        const stepsContainer = document.getElementById("stepsContainer");
 
-    <!-- Progress Bar -->
-    <div class="progress mb-3 bg-dark" style="height: 10px; border-radius: 10px;">
-        <div id="progressBar" style="width: 0%"></div>
-    </div>
+        // Generate slider-based rating questions
+        questions.forEach((q) => {
+            stepsContainer.innerHTML += `
+        <div class="question-card">
+            <h4 class="text-white mb-4">${q}</h4>
 
-    <!-- Step Indicator -->
-    <div class="step-title" id="stepLabel">Step 1 of 17</div>
+            <div class="slider-wrapper mb-4">
+                <input type="range" min="0" max="10" value="5" class="score slider-input">
+                <div class="slider-value">5</div>
+            </div>
 
-    <div id="stepsContainer">
-
-        <!-- Step 1: Basic Info -->
-        <div class="question-card active">
-            <h2>Free AI-Powered Assessment</h2>
-            <p>We’ll analyze your inputs and send your personalized report instantly.</p>
-
-            <form id="diagForm">
-                <input class="form-control mb-3" name="name" placeholder="Full Name" required>
-                <input class="form-control mb-3" name="email" type="email" placeholder="Email Address" required>
-                <input class="form-control mb-3" name="phone" placeholder="Phone Number" required>
-
-                <button type="button" class="btn btn-primary btn-next w-100 mt-3">Start Assessment</button>
-            </form>
+            <div class="d-flex justify-content-between mt-3">
+                <button class="btn btn-secondary btn-back">Back</button>
+                <button class="btn btn-primary btn-next">Next</button>
+            </div>
         </div>
+        `;
+        });
 
-    </div>
-
-    <!-- SUCCESS MESSAGE -->
-    <div id="successMsg" class="alert alert-success mt-4 d-none text-center">
-        🎉 Your responses have been received!  
-        Your AI-powered business report will arrive in your inbox shortly.
-    </div>
-
-</div>
-
-<script>
-// Questions from your file
-const questions = [
-  "How satisfied are you with growth?",
-  "How effective is your teamwork?",
-  "How strong is your communication?",
-  "Rate customer experience quality.",
-  "How strong is your innovation?",
-  "How effective is your leadership?",
-  "How organized are your processes?",
-  "Rate your technology adoption.",
-  "How efficient is your operations flow?",
-  "Rate your decision-making speed.",
-  "How effective is your marketing?",
-  "Rate your sales performance.",
-  "How strong is your financial clarity?",
-  "How aligned is your workforce?",
-  "How strong is your execution ability?"
-];
-
-const stepsContainer = document.getElementById("stepsContainer");
-
-questions.forEach((q) => {
-  stepsContainer.innerHTML += `
+        // Final step
+        stepsContainer.innerHTML += `
     <div class="question-card">
-      <h4 class="text-white mb-4">${q}</h4>
-
-      <select class="form-select score mb-4" required>
-        <option disabled selected value="">Score (0–10)</option>
-        ${[...Array(11)].map((_, s) => `<option value="${s}">${s}</option>`).join("")}
-      </select>
-
-      <div class="d-flex justify-content-between mt-3">
-        <button class="btn btn-secondary btn-back">Back</button>
-        <button class="btn btn-primary btn-next">Next</button>
-      </div>
+        <h3 class="text-white text-center mb-4">Submit & Get Your Report</h3>
+        <p class="text-center text-light">Your personalized AI report will be delivered to your email.</p>
+        <button id="submitBtn" class="btn btn-success w-100 mt-3">Submit</button>
     </div>
-  `;
-});
+    `;
 
-// Final submit step
-stepsContainer.innerHTML += `
-  <div class="question-card">
-    <h3 class="text-white text-center mb-4">Submit & Get Your Report</h3>
-    <p class="text-center text-light">Your personalized AI report will be delivered to your email.</p>
+        // Step control
+        let step = 0;
+        const cards = document.querySelectorAll(".question-card");
+        const progressBar = document.getElementById("progressBar");
+        const stepLabel = document.getElementById("stepLabel");
 
-    <button id="submitBtn" class="btn btn-success w-100 mt-3">Submit</button>
-  </div>
-`;
+        function showStep() {
+            cards.forEach(c => c.classList.remove("active"));
+            cards[step].classList.add("active");
 
-let step = 0;
-const cards = document.querySelectorAll(".question-card");
-const progressBar = document.getElementById("progressBar");
-const stepLabel = document.getElementById("stepLabel");
+            let percent = (step / (cards.length - 1)) * 100;
+            progressBar.style.width = percent + "%";
 
-function showStep() {
-    cards.forEach(c => c.classList.remove("active"));
-    cards[step].classList.add("active");
+            stepLabel.textContent = `Step ${step + 1} of ${cards.length}`;
+        }
 
-    // progress percent
-    let percent = (step / (cards.length - 1)) * 100;
-    progressBar.style.width = percent + "%";
+        document.addEventListener("click", function (e) {
+            if (e.target.classList.contains("btn-next")) {
+                if (step < cards.length - 1) step++;
+                showStep();
+            }
 
-    // step label
-    stepLabel.textContent = `Step ${step + 1} of ${cards.length}`;
-}
+            if (e.target.classList.contains("btn-back")) {
+                if (step > 0) step--;
+                showStep();
+            }
+        });
 
-document.addEventListener("click", function(e) {
-    if (e.target.classList.contains("btn-next")) {
-        if (step < cards.length - 1) step++;
-        showStep();
-    }
+        // Update slider dynamically
+        function updateSliderValue(e) {
+            if (e.target.classList.contains("slider-input")) {
+                let slider = e.target;
+                let valueBox = slider.parentElement.querySelector(".slider-value");
+                valueBox.textContent = slider.value;
+            }
+        }
 
-    if (e.target.classList.contains("btn-back")) {
-        if (step > 0) step--;
-        showStep();
-    }
-});
+        document.addEventListener("input", updateSliderValue);
+        document.addEventListener("change", updateSliderValue);
 
-// submit handler
-document.addEventListener("click", function(e) {
-  if (e.target.id === "submitBtn") {
-    let form = document.getElementById("diagForm");
-    let scores = [...document.querySelectorAll(".score")].map(s => s.value);
+        // Final submit
+        document.addEventListener("click", function (e) {
+            if (e.target.id === "submitBtn") {
+                let form = document.getElementById("diagForm");
 
-    let formData = {
-      name: form.name.value,
-      email: form.email.value,
-      phone: form.phone.value,
-      scores: scores
-    };
+                let scores = [...document.querySelectorAll(".slider-input")].map(s => s.value);
 
-    // Google Apps Script submit
-    google.script.run.withSuccessHandler(() => {
-      document.getElementById("successMsg").classList.remove("d-none");
-      step = 0;
-      form.reset();
-      showStep();
-    }).submitData(formData);
-  }
-});
+                let formData = {
+                    name: form.name.value,
+                    email: form.email.value,
+                    phone: form.phone.value,
+                    scores: scores
+                };
 
-// Hamburger menu
-const hamburger = document.getElementById("hamburger");
-const mobileMenu = document.getElementById("mobileMenu");
-hamburger.addEventListener("click", () => {
-    hamburger.classList.toggle("active");
-    mobileMenu.classList.toggle("active");
-});
-</script>
+                google.script.run.withSuccessHandler(() => {
+                    document.getElementById("successMsg").classList.remove("d-none");
+                    step = 0;
+                    form.reset();
+                    showStep();
+                }).submitData(formData);
+            }
+        });
+
+        // Hamburger
+        const hamburger = document.getElementById("hamburger");
+        const mobileMenu = document.getElementById("mobileMenu");
+
+        hamburger.addEventListener("click", () => {
+            hamburger.classList.toggle("active");
+            mobileMenu.classList.toggle("active");
+        });
+    </script>
 
 </body>
+
 </html>
