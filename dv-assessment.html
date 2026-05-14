@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Data Maturity Assessment — Datavoris</title>
+<meta name="description" content="Free 5-minute Data Maturity Assessment. Find out exactly where your data systems stand — instant personalised report."/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Cabinet+Grotesk:wght@300;400;500;700;800;900&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --navy-900:#050e1f;--navy-800:#0a1628;--navy-700:#0f1e3d;--navy-600:#162444;--navy-500:#1d2f54;--navy-400:#2a3f6b;--navy-300:#3d5585;
+  --cyan:#00d4ff;--cyan-dim:rgba(0,212,255,0.1);--cyan-glow:rgba(0,212,255,0.25);
+  --amber:#f59e0b;--amber-dim:rgba(245,158,11,0.1);--emerald:#10d9a0;--rose:#fb7185;
+  --white:#f8faff;--off:#eef2fa;--card:#ffffff;
+  --t100:#f0f6ff;--t300:#c8d8f0;--t500:#7a90b8;--t700:#3d5585;
+  --ow900:#080e1e;--ow700:#1a2744;--ow500:#4a607e;--ow300:#7a90b8;
+  --bn:rgba(255,255,255,0.07);--bw:rgba(8,14,30,0.1);
+  --r:14px;--rsm:9px;--rxl:24px;
+  --font-d:'Cabinet Grotesk',sans-serif;--font-b:'DM Sans',sans-serif;
+  --ease:cubic-bezier(0.16,1,0.3,1);
+}
+html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased;}
+body{font-family:var(--font-b);background:var(--white);color:var(--ow900);min-height:100vh;display:flex;flex-direction:column;align-items:center;}
+
+/* NAV */
+.nav{width:100%;background:var(--navy-800);border-bottom:1px solid var(--bn);height:60px;display:flex;align-items:center;justify-content:space-between;padding:0 1.5rem;position:sticky;top:0;z-index:200;}
+.brand{font-family:var(--font-d);font-size:1.1rem;font-weight:800;color:var(--t100);letter-spacing:-0.02em;display:flex;align-items:center;gap:0.5rem;text-decoration:none;}
+.brand-mark{width:28px;height:28px;border-radius:7px;background:var(--cyan);color:var(--navy-900);display:flex;align-items:center;justify-content:center;font-size:0.85rem;font-weight:900;}
+.nav-cta{background:var(--cyan);color:var(--navy-900);font-family:var(--font-b);font-size:0.8rem;font-weight:700;padding:0.45rem 1rem;border-radius:999px;text-decoration:none;border:none;cursor:pointer;}
+
+/* PROGRESS */
+.prog-bar{width:100%;height:3px;background:var(--bn);position:sticky;top:60px;z-index:199;}
+.prog-fill{height:100%;background:var(--cyan);border-radius:0 2px 2px 0;transition:width 0.5s var(--ease);width:0%;}
+
+/* STEP TRACK */
+.step-track{width:100%;max-width:680px;display:flex;align-items:center;justify-content:center;padding:1.25rem 1.5rem 0;margin:0 auto;background:var(--navy-800);}
+.step-node{display:flex;flex-direction:column;align-items:center;gap:3px;flex:1;position:relative;}
+.step-node:not(:last-child)::after{content:'';position:absolute;top:13px;left:50%;width:100%;height:1px;background:var(--bn);z-index:0;}
+.step-node.done::after,.step-node.active::after{background:var(--cyan);}
+.step-circle{width:26px;height:26px;border-radius:50%;border:1.5px solid var(--bn);background:var(--navy-700);font-size:10px;font-weight:700;color:var(--t700);display:flex;align-items:center;justify-content:center;position:relative;z-index:1;transition:all 0.3s;}
+.step-node.active .step-circle{background:var(--cyan);border-color:var(--cyan);color:var(--navy-900);box-shadow:0 0 0 3px var(--cyan-dim);}
+.step-node.done .step-circle{background:var(--navy-500);border-color:var(--cyan);color:var(--cyan);}
+.step-label{font-size:9px;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;color:var(--t700);text-align:center;white-space:nowrap;padding-bottom:0.5rem;}
+.step-node.active .step-label{color:var(--cyan);}
+.step-node.done .step-label{color:var(--t500);}
+
+/* MAIN */
+.main{width:100%;max-width:680px;padding:2rem 1.5rem 6rem;}
+
+/* PAGES */
+.pg{display:none;}
+.pg.active{display:block;animation:up 0.35s var(--ease) both;}
+@keyframes up{from{opacity:0;transform:translateY(18px);}to{opacity:1;transform:translateY(0);}}
+
+/* INTRO */
+.intro-hero{background:var(--navy-800);border-radius:var(--rxl);padding:3rem 2.5rem;margin-bottom:1.5rem;position:relative;overflow:hidden;}
+.intro-hero::before{content:'';position:absolute;top:-60px;right:-60px;width:300px;height:300px;background:radial-gradient(circle,rgba(0,212,255,0.1),transparent 65%);}
+.intro-badge{display:inline-flex;align-items:center;gap:0.5rem;font-size:0.68rem;font-weight:600;text-transform:uppercase;letter-spacing:0.14em;color:var(--cyan);background:var(--cyan-dim);border:1px solid rgba(0,212,255,0.2);border-radius:999px;padding:0.25rem 0.85rem;margin-bottom:1.2rem;}
+.intro-h1{font-family:var(--font-d);font-size:clamp(1.8rem,4vw,2.6rem);font-weight:800;color:var(--t100);line-height:1.1;letter-spacing:-0.03em;margin-bottom:1rem;position:relative;z-index:1;}
+.intro-h1 span{color:var(--cyan);}
+.intro-body{font-size:0.95rem;color:var(--t500);line-height:1.8;margin-bottom:2rem;position:relative;z-index:1;}
+.intro-tiles{display:grid;grid-template-columns:repeat(3,1fr);gap:0.75rem;margin-bottom:2rem;}
+.intro-tile{background:rgba(255,255,255,0.04);border:1px solid var(--bn);border-radius:var(--r);padding:1.1rem 0.9rem;text-align:center;}
+.intro-tile-n{font-family:var(--font-d);font-size:1.6rem;font-weight:800;color:var(--t100);letter-spacing:-0.04em;line-height:1;}
+.intro-tile-l{font-size:0.7rem;color:var(--t500);margin-top:0.3rem;text-transform:uppercase;letter-spacing:0.08em;}
+.intro-notice{background:rgba(0,212,255,0.06);border:1px solid rgba(0,212,255,0.15);border-radius:var(--rsm);padding:0.9rem 1.1rem;font-size:0.83rem;color:var(--t300);line-height:1.7;margin-bottom:1.5rem;position:relative;z-index:1;}
+
+/* SECTION HEADER */
+.sec-pill{display:inline-flex;align-items:center;gap:0.4rem;font-size:0.68rem;font-weight:600;text-transform:uppercase;letter-spacing:0.14em;border-radius:999px;padding:0.25rem 0.8rem;margin-bottom:0.75rem;}
+.sec-pill-navy{color:var(--cyan);background:var(--cyan-dim);border:1px solid rgba(0,212,255,0.2);}
+.sec-pill-white{color:var(--ow500);background:rgba(8,14,30,0.06);border:1px solid var(--bw);}
+.sec-title{font-family:var(--font-d);font-size:1.4rem;font-weight:800;color:var(--ow900);letter-spacing:-0.02em;margin-bottom:0.3rem;}
+.sec-title-navy{color:var(--t100);}
+.sec-sub{font-size:0.83rem;color:var(--ow500);line-height:1.65;margin-bottom:1.75rem;}
+.sec-sub-navy{color:var(--t500);}
+
+/* FIELDS */
+.fg{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem;}
+.fg.full{grid-template-columns:1fr;}
+.field{display:flex;flex-direction:column;gap:0.4rem;}
+.field label{font-size:0.72rem;font-weight:600;color:var(--ow500);text-transform:uppercase;letter-spacing:0.08em;}
+.field input,.field select{padding:0.7rem 1rem;font-size:0.88rem;font-family:var(--font-b);border:1.5px solid var(--bw);border-radius:var(--rsm);background:var(--off);color:var(--ow900);outline:none;transition:border-color 0.15s,box-shadow 0.15s,background 0.15s;-webkit-appearance:none;appearance:none;}
+.field input:focus,.field select:focus{border-color:rgba(0,212,255,0.5);box-shadow:0 0 0 3px rgba(0,212,255,0.08);background:#fff;}
+.field input::placeholder{color:var(--ow300);}
+.sel-wrap{position:relative;}
+.sel-wrap::after{content:'▾';position:absolute;right:14px;top:50%;transform:translateY(-50%);font-size:11px;color:var(--ow300);pointer-events:none;}
+.sel-wrap select{padding-right:2.5rem;}
+
+/* QUESTION CARDS */
+.q-card{background:var(--card);border:1.5px solid var(--bw);border-radius:var(--r);padding:1.4rem 1.4rem 1.2rem;margin-bottom:0.9rem;transition:border-color 0.2s,box-shadow 0.2s;position:relative;overflow:hidden;}
+.q-card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--cyan);opacity:0;transition:opacity 0.2s;}
+.q-card:focus-within{border-color:rgba(0,212,255,0.4);box-shadow:0 0 0 3px rgba(0,212,255,0.06);}
+.q-card:focus-within::before{opacity:1;}
+.q-num{font-size:0.68rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--ow300);margin-bottom:0.4rem;}
+.q-chip{display:inline-flex;font-size:0.68rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;padding:0.18rem 0.7rem;border-radius:999px;background:rgba(0,212,255,0.1);color:var(--navy-700);margin-bottom:0.75rem;}
+.q-text{font-size:0.93rem;color:var(--ow900);line-height:1.65;margin-bottom:1.1rem;font-weight:400;}
+
+/* SLIDER */
+.s-wrap{margin-bottom:0.3rem;}
+.s-track{display:flex;align-items:center;gap:10px;}
+.s-track input[type=range]{flex:1;-webkit-appearance:none;appearance:none;height:5px;background:linear-gradient(to right,var(--cyan) 0%,var(--cyan) var(--pct,44%),var(--off) var(--pct,44%),var(--off) 100%);border-radius:3px;outline:none;cursor:pointer;}
+.s-track input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:22px;height:22px;border-radius:50%;background:#fff;border:2.5px solid var(--cyan);box-shadow:0 2px 8px rgba(0,0,0,0.15);cursor:pointer;transition:transform 0.15s,box-shadow 0.15s;}
+.s-track input[type=range]::-webkit-slider-thumb:hover{transform:scale(1.15);box-shadow:0 0 0 4px var(--cyan-dim);}
+.s-track input[type=range]::-moz-range-thumb{width:22px;height:22px;border-radius:50%;background:#fff;border:2.5px solid var(--cyan);box-shadow:0 2px 8px rgba(0,0,0,0.15);}
+.s-val{font-family:var(--font-d);font-size:1.2rem;font-weight:800;color:var(--cyan);min-width:28px;text-align:center;letter-spacing:-0.02em;}
+.s-labels{display:flex;justify-content:space-between;padding:0 2px;font-size:0.68rem;color:var(--ow300);letter-spacing:0.04em;margin-top:4px;}
+
+/* NAV ROW */
+.nav-row{display:flex;justify-content:space-between;align-items:center;margin-top:2rem;}
+.nav-hint{font-size:0.75rem;color:var(--ow300);letter-spacing:0.06em;}
+.divider{border:none;border-top:1px solid var(--bw);margin:1.5rem 0;}
+
+/* BUTTONS */
+.btn{display:inline-flex;align-items:center;gap:7px;font-family:var(--font-b);font-size:0.88rem;font-weight:600;border-radius:999px;padding:0.65rem 1.4rem;cursor:pointer;border:none;transition:all 0.15s;letter-spacing:0.01em;}
+.btn-cyan{background:var(--cyan);color:var(--navy-900);box-shadow:0 4px 16px rgba(0,212,255,0.25);}
+.btn-cyan:hover{transform:translateY(-1px);box-shadow:0 6px 24px rgba(0,212,255,0.35);}
+.btn-ghost{background:transparent;color:var(--ow500);border:1.5px solid var(--bw);}
+.btn-ghost:hover{border-color:rgba(0,212,255,0.3);color:var(--ow700);}
+.btn-full{width:100%;justify-content:center;}
+
+/* LOADING */
+.loading-wrap{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:60vh;gap:1.5rem;text-align:center;}
+.spin-ring{width:52px;height:52px;border:3px solid var(--bw);border-top-color:var(--cyan);border-radius:50%;animation:spin 0.9s linear infinite;}
+@keyframes spin{to{transform:rotate(360deg);}}
+.loading-title{font-family:var(--font-d);font-size:1.5rem;font-weight:800;color:var(--ow900);letter-spacing:-0.02em;}
+.loading-sub{font-size:0.88rem;color:var(--ow500);max-width:300px;line-height:1.65;}
+
+/* TOAST */
+.toast{position:fixed;bottom:2rem;left:50%;transform:translateX(-50%) translateY(130%);background:var(--navy-900);color:var(--t100);font-size:0.82rem;padding:0.7rem 1.2rem;border-radius:var(--rsm);border:1px solid var(--bn);box-shadow:0 8px 32px rgba(0,0,0,0.4);transition:transform 0.3s var(--ease);z-index:999;white-space:nowrap;max-width:90vw;}
+.toast.show{transform:translateX(-50%) translateY(0);}
+
+@media(max-width:560px){.fg{grid-template-columns:1fr;}.intro-tiles{grid-template-columns:1fr 1fr;}.nav{padding:0 1rem;}.main{padding:1.5rem 1rem 5rem;}}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <a href="index.html" class="brand"><span class="brand-mark">D</span>Datavoris</a>
+  <a href="index.html#contact" class="nav-cta">Hire Me</a>
+</nav>
+<div class="prog-bar"><div class="prog-fill" id="progFill"></div></div>
+
+<div class="step-track" id="stepTrack" style="opacity:0.4">
+  <div class="step-node" data-s="0"><div class="step-circle">1</div><div class="step-label">You</div></div>
+  <div class="step-node" data-s="1"><div class="step-circle">2</div><div class="step-label">Data</div></div>
+  <div class="step-node" data-s="2"><div class="step-circle">3</div><div class="step-label">Reporting</div></div>
+  <div class="step-node" data-s="3"><div class="step-circle">4</div><div class="step-label">Automation</div></div>
+  <div class="step-node" data-s="4"><div class="step-circle">5</div><div class="step-label">AI</div></div>
+  <div class="step-node" data-s="5"><div class="step-circle">6</div><div class="step-label">Decisions</div></div>
+</div>
+
+<main class="main">
+
+<!-- INTRO -->
+<div class="pg active" id="pg-intro">
+  <div class="intro-hero">
+    <div class="intro-badge">Free · 5 minutes · Instant results</div>
+    <h1 class="intro-h1">How mature is your<br><span>data setup, really?</span></h1>
+    <p class="intro-body">A diagnostic across 5 pillars of data maturity — infrastructure, reporting, automation, AI readiness, and decision culture. You'll get a personalised score and actionable report the moment you finish.</p>
+    <div class="intro-tiles">
+      <div class="intro-tile"><div class="intro-tile-n">20</div><div class="intro-tile-l">Questions</div></div>
+      <div class="intro-tile"><div class="intro-tile-n">~5</div><div class="intro-tile-l">Minutes</div></div>
+      <div class="intro-tile"><div class="intro-tile-n">5</div><div class="intro-tile-l">Pillars scored</div></div>
+    </div>
+    <div class="intro-notice">Rate each statement based on what you <strong>actually observe</strong> today — not where you hope to be. Honest answers produce the most useful results.</div>
+    <button class="btn btn-cyan btn-full" style="border-radius:9px" onclick="goTo(0)">Start the assessment →</button>
+  </div>
+</div>
+
+<!-- STEP 1: ABOUT YOU -->
+<div class="pg" id="pg-0">
+  <div class="sec-pill sec-pill-white">Step 1 of 6 — About You</div>
+  <div class="sec-title">Tell us about yourself</div>
+  <p class="sec-sub">This personalises your report. We'll use your name and role to contextualise your results.</p>
+  <div class="fg">
+    <div class="field"><label>First Name *</label><input type="text" id="fname" placeholder="e.g. Priya"/></div>
+    <div class="field"><label>Last Name *</label><input type="text" id="lname" placeholder="e.g. Sharma"/></div>
+  </div>
+  <div class="fg full"><div class="field"><label>Email Address *</label><input type="email" id="email" placeholder="you@company.com"/></div></div>
+  <div class="fg">
+    <div class="field"><label>Your Role / Title *</label><input type="text" id="role" placeholder="e.g. Ops Manager, CEO"/></div>
+    <div class="field"><label>Company Size</label><div class="sel-wrap"><select id="size"><option value="" disabled selected>Select…</option><option>Just me / Solo</option><option>2–10 people</option><option>11–50 people</option><option>51–200 people</option><option>200+ people</option></select></div></div>
+  </div>
+  <div class="fg full">
+    <div class="field"><label>Industry</label><div class="sel-wrap"><select id="industry"><option value="" disabled selected>Select…</option><option>Consulting / Professional Services</option><option>E-commerce / Retail</option><option>Finance / Accounting</option><option>Healthcare</option><option>Manufacturing / Operations</option><option>Marketing / Agency</option><option>Real Estate</option><option>Technology / SaaS</option><option>Education</option><option>Other</option></select></div></div>
+  </div>
+  <div class="nav-row">
+    <button class="btn btn-ghost" onclick="showIntro()">← Back</button>
+    <span class="nav-hint">1 / 6</span>
+    <button class="btn btn-cyan" onclick="validateStep0()">Continue →</button>
+  </div>
+</div>
+
+<!-- STEP 2: DATA INFRASTRUCTURE -->
+<div class="pg" id="pg-1">
+  <div class="sec-pill sec-pill-white">Step 2 of 6 — Data Infrastructure</div>
+  <div class="sec-title">Your data infrastructure</div>
+  <p class="sec-sub">Rate each statement 1 (strongly disagree) to 10 (strongly agree) based on how things actually are today.</p>
+
+  <div class="q-card">
+    <div class="q-num">Q1 · Data Storage</div>
+    <div class="q-chip">Infrastructure</div>
+    <div class="q-text">Our business data is stored in one central, reliable place — not scattered across multiple spreadsheets and inboxes.</div>
+    <div class="s-wrap"><div class="s-track"><input type="range" min="1" max="10" value="5" step="1" id="q1" oninput="syncS(this,'dq1')"/><span class="s-val" id="dq1">5</span></div><div class="s-labels"><span>Strongly disagree</span><span>Strongly agree</span></div></div>
+  </div>
+
+  <div class="q-card">
+    <div class="q-num">Q2 · Data Quality</div>
+    <div class="q-chip">Infrastructure</div>
+    <div class="q-text">When we pull data from our systems, we trust that it's accurate, consistent, and up to date.</div>
+    <div class="s-wrap"><div class="s-track"><input type="range" min="1" max="10" value="5" step="1" id="q2" oninput="syncS(this,'dq2')"/><span class="s-val" id="dq2">5</span></div><div class="s-labels"><span>Strongly disagree</span><span>Strongly agree</span></div></div>
+  </div>
+
+  <div class="q-card">
+    <div class="q-num">Q3 · Data Access</div>
+    <div class="q-chip">Infrastructure</div>
+    <div class="q-text">The right people in our organisation can access the data they need without having to ask someone else to find it.</div>
+    <div class="s-wrap"><div class="s-track"><input type="range" min="1" max="10" value="5" step="1" id="q3" oninput="syncS(this,'dq3')"/><span class="s-val" id="dq3">5</span></div><div class="s-labels"><span>Strongly disagree</span><span>Strongly agree</span></div></div>
+  </div>
+
+  <div class="q-card">
+    <div class="q-num">Q4 · System Integration</div>
+    <div class="q-chip">Infrastructure</div>
+    <div class="q-text">Our key tools and systems (CRM, finance, ops, HR) share data with each other — we don't manually copy between them.</div>
+    <div class="s-wrap"><div class="s-track"><input type="range" min="1" max="10" value="5" step="1" id="q4" oninput="syncS(this,'dq4')"/><span class="s-val" id="dq4">5</span></div><div class="s-labels"><span>Strongly disagree</span><span>Strongly agree</span></div></div>
+  </div>
+
+  <div class="nav-row">
+    <button class="btn btn-ghost" onclick="goTo(0)">← Back</button>
+    <span class="nav-hint">2 / 6</span>
+    <button class="btn btn-cyan" onclick="goTo(2)">Continue →</button>
+  </div>
+</div>
+
+<!-- STEP 3: REPORTING -->
+<div class="pg" id="pg-2">
+  <div class="sec-pill sec-pill-white">Step 3 of 6 — Reporting &amp; Dashboards</div>
+  <div class="sec-title">Reporting &amp; dashboards</div>
+  <p class="sec-sub">Rate each statement 1 (strongly disagree) to 10 (strongly agree).</p>
+
+  <div class="q-card">
+    <div class="q-num">Q5 · Report Freshness</div>
+    <div class="q-chip">Reporting</div>
+    <div class="q-text">Our key business reports and dashboards update automatically — we don't need to manually refresh or rebuild them.</div>
+    <div class="s-wrap"><div class="s-track"><input type="range" min="1" max="10" value="5" step="1" id="q5" oninput="syncS(this,'dq5')"/><span class="s-val" id="dq5">5</span></div><div class="s-labels"><span>Strongly disagree</span><span>Strongly agree</span></div></div>
+  </div>
+
+  <div class="q-card">
+    <div class="q-num">Q6 · Report Usefulness</div>
+    <div class="q-chip">Reporting</div>
+    <div class="q-text">Our dashboards and reports answer real business questions — they don't just display numbers without context.</div>
+    <div class="s-wrap"><div class="s-track"><input type="range" min="1" max="10" value="5" step="1" id="q6" oninput="syncS(this,'dq6')"/><span class="s-val" id="dq6">5</span></div><div class="s-labels"><span>Strongly disagree</span><span>Strongly agree</span></div></div>
+  </div>
+
+  <div class="q-card">
+    <div class="q-num">Q7 · Manual Effort</div>
+    <div class="q-chip">Reporting</div>
+    <div class="q-text">Our team doesn't spend more than 1–2 hours per week on manual data preparation or report building tasks.</div>
+    <div class="s-wrap"><div class="s-track"><input type="range" min="1" max="10" value="5" step="1" id="q7" oninput="syncS(this,'dq7')"/><span class="s-val" id="dq7">5</span></div><div class="s-labels"><span>Strongly disagree</span><span>Strongly agree</span></div></div>
+  </div>
+
+  <div class="q-card">
+    <div class="q-num">Q8 · KPI Visibility</div>
+    <div class="q-chip">Reporting</div>
+    <div class="q-text">Leadership can see the company's key performance indicators in real time, without having to request a report.</div>
+    <div class="s-wrap"><div class="s-track"><input type="range" min="1" max="10" value="5" step="1" id="q8" oninput="syncS(this,'dq8')"/><span class="s-val" id="dq8">5</span></div><div class="s-labels"><span>Strongly disagree</span><span>Strongly agree</span></div></div>
+  </div>
+
+  <div class="nav-row">
+    <button class="btn btn-ghost" onclick="goTo(1)">← Back</button>
+    <span class="nav-hint">3 / 6</span>
+    <button class="btn btn-cyan" onclick="goTo(3)">Continue →</button>
+  </div>
+</div>
+
+<!-- STEP 4: AUTOMATION -->
+<div class="pg" id="pg-3">
+  <div class="sec-pill sec-pill-white">Step 4 of 6 — Automation &amp; Workflows</div>
+  <div class="sec-title">Automation &amp; workflows</div>
+  <p class="sec-sub">Rate each statement 1 (strongly disagree) to 10 (strongly agree).</p>
+
+  <div class="q-card">
+    <div class="q-num">Q9 · Repetitive Tasks</div>
+    <div class="q-chip">Automation</div>
+    <div class="q-text">Most repetitive tasks in our business (data entry, file transfers, notifications, report delivery) are automated rather than done manually.</div>
+    <div class="s-wrap"><div class="s-track"><input type="range" min="1" max="10" value="5" step="1" id="q9" oninput="syncS(this,'dq9')"/><span class="s-val" id="dq9">5</span></div><div class="s-labels"><span>Strongly disagree</span><span>Strongly agree</span></div></div>
+  </div>
+
+  <div class="q-card">
+    <div class="q-num">Q10 · Tool Connections</div>
+    <div class="q-chip">Automation</div>
+    <div class="q-text">Our key business tools (email, CRM, spreadsheets, forms, accounting) are connected and share data without manual intervention.</div>
+    <div class="s-wrap"><div class="s-track"><input type="range" min="1" max="10" value="5" step="1" id="q10" oninput="syncS(this,'dq10')"/><span class="s-val" id="dq10">5</span></div><div class="s-labels"><span>Strongly disagree</span><span>Strongly agree</span></div></div>
+  </div>
+
+  <div class="q-card">
+    <div class="q-num">Q11 · Error Reduction</div>
+    <div class="q-chip">Automation</div>
+    <div class="q-text">We rarely encounter data errors caused by manual copy-paste or human data entry mistakes.</div>
+    <div class="s-wrap"><div class="s-track"><input type="range" min="1" max="10" value="5" step="1" id="q11" oninput="syncS(this,'dq11')"/><span class="s-val" id="dq11">5</span></div><div class="s-labels"><span>Strongly disagree</span><span>Strongly agree</span></div></div>
+  </div>
+
+  <div class="nav-row">
+    <button class="btn btn-ghost" onclick="goTo(2)">← Back</button>
+    <span class="nav-hint">4 / 6</span>
+    <button class="btn btn-cyan" onclick="goTo(4)">Continue →</button>
+  </div>
+</div>
+
+<!-- STEP 5: AI READINESS -->
+<div class="pg" id="pg-4">
+  <div class="sec-pill sec-pill-white">Step 5 of 6 — AI Readiness</div>
+  <div class="sec-title">AI &amp; intelligent systems</div>
+  <p class="sec-sub">Rate each statement 1 (strongly disagree) to 10 (strongly agree).</p>
+
+  <div class="q-card">
+    <div class="q-num">Q12 · AI Adoption</div>
+    <div class="q-chip">AI Readiness</div>
+    <div class="q-text">We're actively using AI tools (beyond ChatGPT for writing) in our workflows — such as for analysis, classification, or automated insights.</div>
+    <div class="s-wrap"><div class="s-track"><input type="range" min="1" max="10" value="5" step="1" id="q12" oninput="syncS(this,'dq12')"/><span class="s-val" id="dq12">5</span></div><div class="s-labels"><span>Strongly disagree</span><span>Strongly agree</span></div></div>
+  </div>
+
+  <div class="q-card">
+    <div class="q-num">Q13 · Data Readiness for AI</div>
+    <div class="q-chip">AI Readiness</div>
+    <div class="q-text">Our data is clean, structured, and accessible enough that we could feed it into an AI model or analytics system today without major cleanup.</div>
+    <div class="s-wrap"><div class="s-track"><input type="range" min="1" max="10" value="5" step="1" id="q13" oninput="syncS(this,'dq13')"/><span class="s-val" id="dq13">5</span></div><div class="s-labels"><span>Strongly disagree</span><span>Strongly agree</span></div></div>
+  </div>
+
+  <div class="q-card">
+    <div class="q-num">Q14 · AI ROI Awareness</div>
+    <div class="q-chip">AI Readiness</div>
+    <div class="q-text">We can identify at least two specific workflows in our business where AI automation would meaningfully save time or improve quality.</div>
+    <div class="s-wrap"><div class="s-track"><input type="range" min="1" max="10" value="5" step="1" id="q14" oninput="syncS(this,'dq14')"/><span class="s-val" id="dq14">5</span></div><div class="s-labels"><span>Strongly disagree</span><span>Strongly agree</span></div></div>
+  </div>
+
+  <div class="nav-row">
+    <button class="btn btn-ghost" onclick="goTo(3)">← Back</button>
+    <span class="nav-hint">5 / 6</span>
+    <button class="btn btn-cyan" onclick="goTo(5)">Continue →</button>
+  </div>
+</div>
+
+<!-- STEP 6: DECISION CULTURE -->
+<div class="pg" id="pg-5">
+  <div class="sec-pill sec-pill-white">Step 6 of 6 — Decision Culture</div>
+  <div class="sec-title">Data-driven decision making</div>
+  <p class="sec-sub">Rate each statement 1 (strongly disagree) to 10 (strongly agree).</p>
+
+  <div class="q-card">
+    <div class="q-num">Q15 · Decision Quality</div>
+    <div class="q-chip">Decision Culture</div>
+    <div class="q-text">Major business decisions in our company are based on actual data rather than gut feel or assumptions.</div>
+    <div class="s-wrap"><div class="s-track"><input type="range" min="1" max="10" value="5" step="1" id="q15" oninput="syncS(this,'dq15')"/><span class="s-val" id="dq15">5</span></div><div class="s-labels"><span>Strongly disagree</span><span>Strongly agree</span></div></div>
+  </div>
+
+  <div class="q-card">
+    <div class="q-num">Q16 · Data Confidence</div>
+    <div class="q-chip">Decision Culture</div>
+    <div class="q-text">Our team trusts the numbers they see in reports — there's no regular debate about whether the data is right.</div>
+    <div class="s-wrap"><div class="s-track"><input type="range" min="1" max="10" value="5" step="1" id="q16" oninput="syncS(this,'dq16')"/><span class="s-val" id="dq16">5</span></div><div class="s-labels"><span>Strongly disagree</span><span>Strongly agree</span></div></div>
+  </div>
+
+  <div class="q-card">
+    <div class="q-num">Q17 · Speed of Insight</div>
+    <div class="q-chip">Decision Culture</div>
+    <div class="q-text">When we need to answer a business question with data, we can get a reliable answer within a few hours — not days or weeks.</div>
+    <div class="s-wrap"><div class="s-track"><input type="range" min="1" max="10" value="5" step="1" id="q17" oninput="syncS(this,'dq17')"/><span class="s-val" id="dq17">5</span></div><div class="s-labels"><span>Strongly disagree</span><span>Strongly agree</span></div></div>
+  </div>
+
+  <div class="q-card">
+    <div class="q-num">Q18 · Data Culture</div>
+    <div class="q-chip">Decision Culture</div>
+    <div class="q-text">People across our organisation — not just one analyst — regularly use data to inform their work and decisions.</div>
+    <div class="s-wrap"><div class="s-track"><input type="range" min="1" max="10" value="5" step="1" id="q18" oninput="syncS(this,'dq18')"/><span class="s-val" id="dq18">5</span></div><div class="s-labels"><span>Strongly disagree</span><span>Strongly agree</span></div></div>
+  </div>
+
+  <div class="q-card">
+    <div class="q-num">Q19 · Future Readiness</div>
+    <div class="q-chip">Decision Culture</div>
+    <div class="q-text">We have a clear idea of the data improvements we want to make in the next 12 months and a rough plan to achieve them.</div>
+    <div class="s-wrap"><div class="s-track"><input type="range" min="1" max="10" value="5" step="1" id="q19" oninput="syncS(this,'dq19')"/><span class="s-val" id="dq19">5</span></div><div class="s-labels"><span>Strongly disagree</span><span>Strongly agree</span></div></div>
+  </div>
+
+  <div class="nav-row">
+    <button class="btn btn-ghost" onclick="goTo(4)">← Back</button>
+    <span class="nav-hint">6 / 6</span>
+    <button class="btn btn-cyan" onclick="submitAssessment()">See my results →</button>
+  </div>
+</div>
+
+<!-- LOADING -->
+<div class="pg" id="pg-loading">
+  <div class="loading-wrap">
+    <div class="spin-ring"></div>
+    <div class="loading-title">Building your report…</div>
+    <div class="loading-sub">Scoring your 5 pillars and generating personalised insights.</div>
+  </div>
+</div>
+
+</main>
+<div class="toast" id="toast"></div>
+
+<script>
+const PAGES=['pg-0','pg-1','pg-2','pg-3','pg-4','pg-5'];
+const PROG=[10,28,44,60,76,92];
+
+function hideAll(){document.querySelectorAll('.pg').forEach(p=>p.classList.remove('active'));}
+function showIntro(){hideAll();document.getElementById('pg-intro').classList.add('active');document.getElementById('progFill').style.width='0%';document.getElementById('stepTrack').style.opacity='0.4';window.scrollTo({top:0,behavior:'smooth'});}
+function goTo(step){
+  if(step===-1){showIntro();return;}
+  hideAll();
+  document.getElementById(PAGES[step]).classList.add('active');
+  document.getElementById('progFill').style.width=PROG[step]+'%';
+  document.getElementById('stepTrack').style.opacity='1';
+  document.querySelectorAll('.step-node').forEach((n,i)=>{n.classList.remove('active','done');if(i===step)n.classList.add('active');else if(i<step)n.classList.add('done');});
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function syncS(inp,dispId){
+  document.getElementById(dispId).textContent=inp.value;
+  const pct=((+inp.value-1)/9*100).toFixed(1)+'%';
+  inp.style.setProperty('--pct',pct);
+}
+document.querySelectorAll('input[type=range]').forEach(inp=>syncS(inp,'d'+inp.id));
+
+let _t;
+function showToast(msg){const e=document.getElementById('toast');e.textContent=msg;e.classList.add('show');clearTimeout(_t);_t=setTimeout(()=>e.classList.remove('show'),3200);}
+
+function validateStep0(){
+  const checks=[{id:'fname',label:'First Name'},{id:'email',label:'Email Address',email:true},{id:'role',label:'Your Role'}];
+  for(const c of checks){
+    const el=document.getElementById(c.id);const v=el.value.trim();
+    if(!v){showToast('Please fill in: '+c.label);el.focus();return;}
+    if(c.email&&!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v)){showToast('Please enter a valid email');el.focus();return;}
+  }
+  goTo(1);
+}
+
+function submitAssessment(){
+  const scores={};
+  for(let i=1;i<=19;i++){const el=document.getElementById('q'+i);if(el)scores['q'+i]=+el.value;}
+  const ctx={
+    fname:document.getElementById('fname').value.trim(),
+    lname:document.getElementById('lname').value.trim(),
+    email:document.getElementById('email').value.trim(),
+    role:document.getElementById('role').value.trim(),
+    size:document.getElementById('size').value,
+    industry:document.getElementById('industry').value,
+  };
+  const pillars={
+    infrastructure:Math.round((scores.q1+scores.q2+scores.q3+scores.q4)/4*10)/10,
+    reporting:Math.round((scores.q5+scores.q6+scores.q7+scores.q8)/4*10)/10,
+    automation:Math.round((scores.q9+scores.q10+scores.q11)/3*10)/10,
+    ai:Math.round((scores.q12+scores.q13+scores.q14)/3*10)/10,
+    decisions:Math.round((scores.q15+scores.q16+scores.q17+scores.q18+scores.q19)/5*10)/10,
+  };
+  const allVals=Object.values(scores);
+  const overall=Math.round(allVals.reduce((a,b)=>a+b,0)/allVals.length*10)/10;
+
+  // ── NEW: Send to Google Sheet ──────────────────────────
+  const tier=overall>=8.5?'Advanced':overall>=6.5?'Proficient':overall>=4.5?'Developing':'Reactive';
+  fetch('https://script.google.com/macros/s/AKfycbzTG5ZbJZgWIFdD7KrD17PDNciOOc3j1tSEdvGP4Ocktp7nSCjk2Esg-BU-GaI8_uWh/exec', {
+    method:'POST', mode:'no-cors',
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({
+      type:'assessment',
+      fname:ctx.fname, email:ctx.email,
+      role:ctx.role,   size:ctx.size, industry:ctx.industry,
+      overall:overall, tier:tier,
+      infrastructure:pillars.infrastructure,
+      reporting:pillars.reporting,
+      automation:pillars.automation,
+      ai:pillars.ai,
+      decisions:pillars.decisions,
+      q1:scores.q1,   q2:scores.q2,   q3:scores.q3,
+      q4:scores.q4,   q5:scores.q5,   q6:scores.q6,
+      q7:scores.q7,   q8:scores.q8,   q9:scores.q9,
+      q10:scores.q10, q11:scores.q11, q12:scores.q12,
+      q13:scores.q13, q14:scores.q14, q15:scores.q15,
+      q16:scores.q16, q17:scores.q17, q18:scores.q18,
+      q19:scores.q19
+    })
+  });
+  // ── END NEW ────────────────────────────────────────────
+
+  hideAll();document.getElementById('pg-loading').classList.add('active');document.getElementById('progFill').style.width='97%';
+  sessionStorage.setItem('dv_assessment',JSON.stringify({scores,ctx,pillars,overall}));
+  setTimeout(()=>{window.location.href='dv-results.html';},1200);
+}
+</script>
+</body>
+</html>
