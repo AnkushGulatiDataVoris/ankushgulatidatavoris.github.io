@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Datavoris Blog</title>
+<meta name="description" content="Datavoris blog post."/>
+<link rel="icon" type="image/svg+xml" href="favicon.svg"/>
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png"/>
+<link rel="icon" type="image/png" sizes="16x16" href="favicon-16.png"/>
+<link rel="shortcut icon" href="favicon.ico"/>
+<link rel="apple-touch-icon" href="favicon-preview-256.png"/>
+<meta name="theme-color" content="#0a1628"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Cabinet+Grotesk:wght@300;400;500;700;800;900&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="dv-style.css"/>
+<style>
+.article-head{background:var(--navy-800);padding:3rem 0 2.6rem;position:relative;overflow:hidden;}
+.article-head::before{content:'';position:absolute;top:-80px;right:0;width:420px;height:420px;background:radial-gradient(circle,rgba(0,212,255,0.07),transparent 65%);}
+.article-head .inner{position:relative;z-index:1;max-width:740px;}
+.back-link{display:inline-flex;align-items:center;gap:6px;font-size:0.82rem;color:var(--text-500);text-decoration:none;margin-bottom:1.2rem;transition:color 0.15s;}
+.back-link:hover{color:var(--cyan);}
+.article-head h1{color:var(--text-100);font-size:clamp(1.8rem,4vw,2.7rem);line-height:1.12;margin-bottom:0.9rem;}
+.article-meta{display:flex;align-items:center;gap:0.7rem;font-size:0.78rem;color:var(--text-500);flex-wrap:wrap;}
+.article-tag{font-size:0.68rem;font-weight:600;text-transform:uppercase;letter-spacing:0.08em;color:var(--cyan);background:rgba(0,212,255,0.12);border:1px solid rgba(0,212,255,0.2);border-radius:4px;padding:0.15rem 0.5rem;}
+.dot-sep{width:3px;height:3px;border-radius:50%;background:var(--text-700);}
+
+.article-body{max-width:740px;margin:0 auto;padding:3rem 0 2rem;}
+.article-body h1{font-size:1.7rem;color:var(--on-white-900);margin:2.4rem 0 1rem;letter-spacing:-0.02em;}
+.article-body h2{font-size:1.4rem;color:var(--on-white-900);margin:2.4rem 0 0.9rem;letter-spacing:-0.02em;padding-left:1rem;border-left:3px solid var(--cyan);}
+.article-body h3{font-size:1.12rem;color:var(--on-white-900);margin:1.8rem 0 0.7rem;}
+.article-body p{font-size:1.02rem;color:var(--on-white-700);line-height:1.85;margin-bottom:1.3rem;}
+.article-body ul,.article-body ol{margin:0 0 1.4rem 0;padding-left:0;display:flex;flex-direction:column;gap:0.6rem;}
+.article-body ul li{font-size:1rem;color:var(--on-white-700);line-height:1.7;padding-left:1.6rem;position:relative;list-style:none;}
+.article-body ul li::before{content:'→';position:absolute;left:0;color:var(--cyan);font-weight:700;}
+.article-body ol{counter-reset:li;padding-left:0;}
+.article-body ol li{font-size:1rem;color:var(--on-white-700);line-height:1.7;padding-left:2rem;position:relative;list-style:none;counter-increment:li;}
+.article-body ol li::before{content:counter(li);position:absolute;left:0;top:1px;width:20px;height:20px;background:var(--navy-800);color:var(--cyan);border-radius:50%;font-size:0.7rem;font-weight:700;display:flex;align-items:center;justify-content:center;font-family:var(--font-display);}
+.article-body strong{color:var(--on-white-900);font-weight:700;}
+.article-body a{color:#0284a8;text-decoration:underline;text-underline-offset:2px;}
+.article-body blockquote{margin:1.8rem 0;padding:1.1rem 1.5rem;background:linear-gradient(135deg,rgba(0,212,255,0.06),transparent);border-left:3px solid var(--cyan);border-radius:0 var(--r-sm) var(--r-sm) 0;}
+.article-body blockquote p{margin:0;font-size:1.08rem;font-style:italic;color:var(--on-white-900);font-weight:500;}
+.article-body code{background:var(--surface-off);border:1px solid var(--border-white);border-radius:5px;padding:0.1rem 0.4rem;font-size:0.9em;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;color:#0284a8;}
+.article-body hr{border:none;border-top:1px solid var(--border-white);margin:2.5rem 0;}
+.article-body em{font-style:italic;}
+.article-body>p:last-child{font-size:0.95rem;color:var(--on-white-500);}
+
+.article-cta{background:var(--navy-800);border-radius:var(--r-xl);padding:2.4rem;text-align:center;margin:3rem auto 0;max-width:740px;position:relative;overflow:hidden;}
+.article-cta::after{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--cyan),#5b9dff,var(--cyan));background-size:200% auto;animation:shimmer 3s linear infinite;}
+.article-cta h3{font-size:1.4rem;color:var(--text-100);margin-bottom:0.6rem;}
+.article-cta p{font-size:0.92rem;color:var(--text-500);max-width:440px;margin:0 auto 1.5rem;line-height:1.7;}
+
+.more-posts{max-width:740px;margin:3.5rem auto 0;}
+.more-posts .sec{font-size:0.68rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--on-white-300);margin-bottom:1.2rem;display:flex;align-items:center;gap:10px;}
+.more-posts .sec::after{content:'';flex:1;height:1px;background:var(--border-white);}
+.mini-post{display:block;text-decoration:none;padding:1rem 1.2rem;border:1px solid var(--border-white);border-radius:var(--r-sm);margin-bottom:0.7rem;transition:border-color 0.15s,background 0.15s;}
+.mini-post:hover{border-color:rgba(0,212,255,0.4);background:rgba(0,212,255,0.03);}
+.mini-post .t{font-family:var(--font-display);font-weight:700;color:var(--on-white-900);font-size:0.98rem;margin-bottom:0.2rem;}
+.mini-post .d{font-size:0.76rem;color:var(--on-white-300);}
+
+.loading-block{max-width:740px;margin:0 auto;padding:4rem 0;text-align:center;color:var(--on-white-500);}
+.spin{width:42px;height:42px;border:3px solid var(--border-white);border-top-color:var(--cyan);border-radius:50%;animation:spin 0.9s linear infinite;margin:0 auto 1.2rem;}
+@keyframes spin{to{transform:rotate(360deg);}}
+</style>
+</head>
+<body>
+
+<nav class="site-nav">
+  <div class="container nav-inner">
+    <a href="index.html" class="nav-logo"><span class="nav-logo-mark"><svg viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="nm10" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#00d4ff"/><stop offset="1" stop-color="#5b9dff"/></linearGradient></defs><g stroke="url(#nm10)" stroke-width="9" stroke-linecap="round" fill="none"><path d="M128 70 L186 104 L186 152 L128 186 L70 152 L70 104 Z"/><line x1="128" y1="70" x2="128" y2="128"/><line x1="186" y1="152" x2="128" y2="128"/><line x1="70" y1="152" x2="128" y2="128"/></g><g fill="#00d4ff"><circle cx="128" cy="70" r="11"/><circle cx="186" cy="104" r="9"/><circle cx="186" cy="152" r="9"/><circle cx="128" cy="186" r="11"/><circle cx="70" cy="152" r="9"/><circle cx="70" cy="104" r="9"/></g><circle cx="128" cy="128" r="14" fill="#aef0ff"/></svg></span>Datavoris</a>
+    <div class="nav-links">
+      <a href="index.html#services">Services</a>
+      <a href="index.html#tools">Tools</a>
+      <a href="index.html#work">Work</a>
+      <a href="dv-founder.html">Founder</a>
+      <a href="blog.html" class="active">Blog</a>
+      <a href="reviews.html">Reviews</a>
+      <a href="dv-assessment.html">Assessment</a>
+      <a href="index.html#contact">Contact</a>
+    </div>
+    <a href="index.html#contact" class="btn btn-cyan" style="font-size:0.82rem;padding:0.55rem 1.2rem">Hire Me</a>
+  </div>
+</nav>
+
+<div class="article-head" id="articleHead" style="display:none">
+  <div class="container inner">
+    <a href="blog.html" class="back-link">← All posts</a>
+    <h1 id="aTitle"></h1>
+    <div class="article-meta" id="aMeta"></div>
+  </div>
+</div>
+
+<div class="container">
+  <div class="loading-block" id="loading"><div class="spin"></div>Loading post…</div>
+  <article class="article-body" id="articleBody" style="display:none"></article>
+
+  <div class="article-cta" id="articleCta" style="display:none">
+    <h3>Got a data problem like this?</h3>
+    <p>I help businesses turn manual data chaos into automated systems. Tell me what's broken — I'll tell you how I'd fix it.</p>
+    <a href="index.html#contact" class="btn btn-cyan">Start a conversation →</a>
+  </div>
+
+  <div class="more-posts" id="morePosts" style="display:none">
+    <div class="sec">More from the blog</div>
+    <div id="moreList"></div>
+  </div>
+</div>
+
+<footer class="site-footer" style="margin-top:4rem">
+  <div class="container footer-inner">
+    <div>
+      <div class="footer-logo"><span class="nav-logo-mark" style="width:26px;height:26px"><svg viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="nm12" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#00d4ff"/><stop offset="1" stop-color="#5b9dff"/></linearGradient></defs><g stroke="url(#nm12)" stroke-width="9" stroke-linecap="round" fill="none"><path d="M128 70 L186 104 L186 152 L128 186 L70 152 L70 104 Z"/><line x1="128" y1="70" x2="128" y2="128"/><line x1="186" y1="152" x2="128" y2="128"/><line x1="70" y1="152" x2="128" y2="128"/></g><g fill="#00d4ff"><circle cx="128" cy="70" r="11"/><circle cx="186" cy="104" r="9"/><circle cx="186" cy="152" r="9"/><circle cx="128" cy="186" r="11"/><circle cx="70" cy="152" r="9"/><circle cx="70" cy="104" r="9"/></g><circle cx="128" cy="128" r="14" fill="#aef0ff"/></svg></span>Datavoris</div>
+      <p class="footer-tagline">Automated data solutions for modern teams.</p>
+    </div>
+    <div class="footer-right">
+      <p>© <span id="yr"></span> Datavoris · Ankush Gulati · Agra, India</p>
+    </div>
+  </div>
+</footer>
+
+<script src="posts.js"></script>
+<script>
+document.getElementById('yr').textContent=new Date().getFullYear();
+function fmtDate(s){const d=new Date(s+'T00:00:00');return d.toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'});}
+function qp(n){return new URLSearchParams(location.search).get(n);}
+
+/* ── Self-contained Markdown renderer (no external CDN needed) ──
+   Supports: # ## ### headings, **bold**, *italic*, `code`, [links](url),
+   - bullet lists, 1. numbered lists, > blockquotes, --- rules, paragraphs.
+   This means the blog renders even if a CDN is blocked or offline. */
+function mdToHtml(md){
+  const esc=s=>s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  const inline=t=>esc(t)
+    .replace(/\*\*([^*]+)\*\*/g,'<strong>$1</strong>')
+    .replace(/(^|[^*])\*([^*]+)\*/g,'$1<em>$2</em>')
+    .replace(/`([^`]+)`/g,'<code>$1</code>')
+    .replace(/\[([^\]]+)\]\(([^)]+)\)/g,'<a href="$2">$1</a>');
+  const lines=md.split('\n');
+  let html='',i=0;
+  while(i<lines.length){
+    let l=lines[i];
+    if(/^###\s+/.test(l)){html+='<h3>'+inline(l.replace(/^###\s+/,''))+'</h3>';i++;continue;}
+    if(/^##\s+/.test(l)){html+='<h2>'+inline(l.replace(/^##\s+/,''))+'</h2>';i++;continue;}
+    if(/^#\s+/.test(l)){html+='<h1>'+inline(l.replace(/^#\s+/,''))+'</h1>';i++;continue;}
+    if(/^---\s*$/.test(l)){html+='<hr>';i++;continue;}
+    if(/^>\s?/.test(l)){
+      let buf=[];
+      while(i<lines.length&&/^>\s?/.test(lines[i])){buf.push(inline(lines[i].replace(/^>\s?/,'')));i++;}
+      html+='<blockquote><p>'+buf.join(' ')+'</p></blockquote>';continue;
+    }
+    if(/^[-*]\s+/.test(l)){
+      let buf=[];
+      while(i<lines.length&&/^[-*]\s+/.test(lines[i])){buf.push('<li>'+inline(lines[i].replace(/^[-*]\s+/,''))+'</li>');i++;}
+      html+='<ul>'+buf.join('')+'</ul>';continue;
+    }
+    if(/^\d+\.\s+/.test(l)){
+      let buf=[];
+      while(i<lines.length&&/^\d+\.\s+/.test(lines[i])){buf.push('<li>'+inline(lines[i].replace(/^\d+\.\s+/,''))+'</li>');i++;}
+      html+='<ol>'+buf.join('')+'</ol>';continue;
+    }
+    if(l.trim()===''){i++;continue;}
+    // paragraph: gather consecutive non-blank, non-block lines
+    let buf=[l];i++;
+    while(i<lines.length&&lines[i].trim()!==''&&!/^(#{1,3}\s|>|---|\s*[-*]\s|\d+\.\s)/.test(lines[i])){buf.push(lines[i]);i++;}
+    html+='<p>'+inline(buf.join(' '))+'</p>';
+  }
+  return html;
+}
+
+(async function(){
+  const slug=qp('p');
+  const posts=window.DV_POSTS||[];
+  const meta=posts.find(p=>p.slug===slug);
+  const loading=document.getElementById('loading');
+
+  if(!slug||!meta){
+    loading.innerHTML='<div style="font-family:var(--font-display);font-size:1.4rem;font-weight:800;color:var(--on-white-900);margin-bottom:0.8rem">Post not found</div><p style="margin-bottom:1.5rem">That post doesn\'t exist or has moved.</p><a href="blog.html" class="btn btn-cyan">← Back to all posts</a>';
+    return;
+  }
+
+  document.title=meta.title+' — Datavoris Blog';
+
+  let res;
+  try{
+    res=await fetch('posts/'+slug+'.md');
+  }catch(err){
+    // network/protocol failure (e.g. opened as a local file:// instead of via a server)
+    loading.innerHTML='<div style="font-family:var(--font-display);font-size:1.3rem;font-weight:800;color:var(--on-white-900);margin-bottom:0.8rem">Couldn\'t load this post</div><p style="margin-bottom:1.5rem">The post couldn\'t be fetched. If you\'re opening this file directly from your computer, that\'s expected — blog posts only work when the site is served over the web (your live site does this automatically).</p><a href="blog.html" class="btn btn-cyan">← Back to all posts</a>';
+    return;
+  }
+
+  if(!res.ok){
+    loading.innerHTML='<div style="font-family:var(--font-display);font-size:1.3rem;font-weight:800;color:var(--on-white-900);margin-bottom:0.8rem">Post file not found</div><p style="margin-bottom:1.5rem">The file <code>posts/'+slug+'.md</code> returned '+res.status+'. Make sure it exists and the slug in posts.js matches the filename exactly.</p><a href="blog.html" class="btn btn-cyan">← Back to all posts</a>';
+    return;
+  }
+
+  try{
+    const md=await res.text();
+    const body=md.replace(/^#\s+.+\n/, '');
+    let html=mdToHtml(body);
+    // If DOMPurify happens to be available, use it as an extra safety pass.
+    if(window.DOMPurify&&typeof DOMPurify.sanitize==='function'){html=DOMPurify.sanitize(html);}
+
+    document.getElementById('aTitle').textContent=meta.title;
+    document.getElementById('aMeta').innerHTML=
+      (meta.tags||[]).map(t=>`<span class="article-tag">${t}</span>`).join('')+
+      `<span>${fmtDate(meta.date)}</span>`+
+      (meta.readMins?`<span class="dot-sep"></span><span>${meta.readMins} min read</span>`:'')+
+      `<span class="dot-sep"></span><span>By Ankush Gulati</span>`;
+    document.getElementById('articleBody').innerHTML=html;
+
+    loading.style.display='none';
+    document.getElementById('articleHead').style.display='block';
+    document.getElementById('articleBody').style.display='block';
+    document.getElementById('articleCta').style.display='block';
+
+    const others=posts.filter(p=>p.slug!==slug).sort((a,b)=>b.date.localeCompare(a.date)).slice(0,3);
+    if(others.length){
+      document.getElementById('moreList').innerHTML=others.map(p=>
+        `<a class="mini-post" href="post.html?p=${encodeURIComponent(p.slug)}"><div class="t">${p.title}</div><div class="d">${fmtDate(p.date)}${p.readMins?' · '+p.readMins+' min read':''}</div></a>`).join('');
+      document.getElementById('morePosts').style.display='block';
+    }
+    window.scrollTo({top:0});
+  }catch(err){
+    loading.innerHTML='<div style="font-family:var(--font-display);font-size:1.3rem;font-weight:800;color:var(--on-white-900);margin-bottom:0.8rem">Couldn\'t render this post</div><p style="margin-bottom:1.5rem">The post loaded but something went wrong while displaying it. Please try again.</p><a href="blog.html" class="btn btn-cyan">← Back to all posts</a>';
+  }
+})();
+</script>
+</body>
+</html>

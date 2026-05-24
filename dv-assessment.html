@@ -3,6 +3,13 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<link rel="icon" type="image/svg+xml" href="favicon.svg"/>
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png"/>
+<link rel="icon" type="image/png" sizes="16x16" href="favicon-16.png"/>
+<link rel="shortcut icon" href="favicon.ico"/>
+<link rel="apple-touch-icon" href="favicon-preview-256.png"/>
+<meta name="theme-color" content="#0a1628"/>
+
 <title>Data Maturity Assessment — Datavoris</title>
 <meta name="description" content="Free 5-minute Data Maturity Assessment. Find out exactly where your data systems stand — instant personalised report."/>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
@@ -28,7 +35,8 @@ body{font-family:var(--font-b);background:var(--white);color:var(--ow900);min-he
 /* NAV */
 .nav{width:100%;background:var(--navy-800);border-bottom:1px solid var(--bn);height:60px;display:flex;align-items:center;justify-content:space-between;padding:0 1.5rem;position:sticky;top:0;z-index:200;}
 .brand{font-family:var(--font-d);font-size:1.1rem;font-weight:800;color:var(--t100);letter-spacing:-0.02em;display:flex;align-items:center;gap:0.5rem;text-decoration:none;}
-.brand-mark{width:28px;height:28px;border-radius:7px;background:var(--cyan);color:var(--navy-900);display:flex;align-items:center;justify-content:center;font-size:0.85rem;font-weight:900;}
+.brand-mark{width:30px;height:30px;border-radius:8px;background:var(--navy-900);display:flex;align-items:center;justify-content:center;box-shadow:0 4px 14px rgba(0,212,255,0.3);}
+.brand-mark svg{width:64%;height:64%;display:block;}
 .nav-cta{background:var(--cyan);color:var(--navy-900);font-family:var(--font-b);font-size:0.8rem;font-weight:700;padding:0.45rem 1rem;border-radius:999px;text-decoration:none;border:none;cursor:pointer;}
 
 /* PROGRESS */
@@ -138,7 +146,7 @@ body{font-family:var(--font-b);background:var(--white);color:var(--ow900);min-he
 <body>
 
 <nav class="nav">
-  <a href="index.html" class="brand"><span class="brand-mark">D</span>Datavoris</a>
+  <a href="index.html" class="brand"><span class="brand-mark"><svg viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="nm15" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#00d4ff"/><stop offset="1" stop-color="#5b9dff"/></linearGradient></defs><g stroke="url(#nm15)" stroke-width="9" stroke-linecap="round" fill="none"><path d="M128 70 L186 104 L186 152 L128 186 L70 152 L70 104 Z"/><line x1="128" y1="70" x2="128" y2="128"/><line x1="186" y1="152" x2="128" y2="128"/><line x1="70" y1="152" x2="128" y2="128"/></g><g fill="#00d4ff"><circle cx="128" cy="70" r="11"/><circle cx="186" cy="104" r="9"/><circle cx="186" cy="152" r="9"/><circle cx="128" cy="186" r="11"/><circle cx="70" cy="152" r="9"/><circle cx="70" cy="104" r="9"/></g><circle cx="128" cy="128" r="14" fill="#aef0ff"/></svg></span>Datavoris</a>
   <a href="index.html#contact" class="nav-cta">Hire Me</a>
 </nav>
 <div class="prog-bar"><div class="prog-fill" id="progFill"></div></div>

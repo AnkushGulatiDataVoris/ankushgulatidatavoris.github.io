@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Instant Data Analyzer — Datavoris</title>
+<meta name="description" content="Upload a small dataset and get instant analytics — entirely in your browser. Your data never leaves your device."/>
+<link rel="icon" type="image/svg+xml" href="favicon.svg"/>
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png"/>
+<link rel="icon" type="image/png" sizes="16x16" href="favicon-16.png"/>
+<link rel="shortcut icon" href="favicon.ico"/>
+<link rel="apple-touch-icon" href="favicon-preview-256.png"/>
+<meta name="theme-color" content="#0a1628"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Cabinet+Grotesk:wght@300;400;500;700;800;900&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --n9:#050e1f;--n8:#0a1628;--n7:#0f1e3d;--n6:#162444;--n5:#1d2f54;--n4:#2a3f6b;--n3:#3d5585;
+  --cyan:#00d4ff;--cdim:rgba(0,212,255,0.1);--cglow:rgba(0,212,255,0.25);
+  --amber:#f59e0b;--adim:rgba(245,158,11,0.1);--em:#10d9a0;--rose:#fb7185;--blue:#5b9dff;
+  --wh:#f8faff;--off:#eef2fa;--card:#fff;
+  --t1:#f0f6ff;--t3:#c8d8f0;--t5:#7a90b8;--t7:#3d5585;
+  --ow9:#080e1e;--ow7:#1a2744;--ow5:#4a607e;--ow3:#7a90b8;
+  --bn:rgba(255,255,255,0.07);--bw:rgba(8,14,30,0.1);
+  --r:14px;--rsm:9px;--rxl:24px;
+  --fd:'Cabinet Grotesk',sans-serif;--fb:'DM Sans',sans-serif;
+  --ease:cubic-bezier(0.16,1,0.3,1);
+}
+html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased;}
+body{font-family:var(--fb);background:var(--wh);color:var(--ow9);min-height:100vh;display:flex;flex-direction:column;align-items:center;}
+
+/* NAV */
+.nav{width:100%;background:var(--n8);border-bottom:1px solid var(--bn);height:60px;display:flex;align-items:center;justify-content:space-between;padding:0 1.5rem;position:sticky;top:0;z-index:200;}
+.brand{font-family:var(--fd);font-size:1.1rem;font-weight:800;color:var(--t1);letter-spacing:-0.02em;display:flex;align-items:center;gap:0.55rem;text-decoration:none;}
+.bmark{width:30px;height:30px;border-radius:8px;background:var(--n9);display:flex;align-items:center;justify-content:center;box-shadow:0 4px 14px rgba(0,212,255,0.3);}
+.bmark svg{width:64%;height:64%;display:block;}
+.hire-btn{background:var(--cyan);color:var(--n9);font-family:var(--fb);font-size:0.8rem;font-weight:700;padding:0.45rem 1rem;border-radius:999px;text-decoration:none;border:none;cursor:pointer;}
+
+.main{width:100%;max-width:980px;padding:2.5rem 1.5rem 8rem;}
+.fade{animation:fu 0.5s var(--ease) both;}
+@keyframes fu{from{opacity:0;transform:translateY(16px);}to{opacity:1;transform:translateY(0);}}
+
+.page-eyebrow{font-size:0.7rem;font-weight:600;text-transform:uppercase;letter-spacing:0.15em;color:var(--cyan);background:var(--cdim);border:1px solid rgba(0,212,255,0.2);border-radius:999px;padding:0.25rem 0.85rem;display:inline-flex;margin-bottom:1rem;}
+.page-title{font-family:var(--fd);font-size:clamp(1.8rem,3.5vw,2.5rem);font-weight:800;color:var(--ow9);letter-spacing:-0.03em;line-height:1.1;margin-bottom:0.6rem;}
+.page-title em{font-style:normal;background:linear-gradient(135deg,var(--cyan),var(--blue));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;}
+.page-sub{font-size:0.95rem;color:var(--ow5);line-height:1.75;margin-bottom:1.5rem;max-width:640px;}
+
+/* PRIVACY BANNER */
+.privacy{display:inline-flex;align-items:center;gap:0.6rem;font-size:0.82rem;color:#047857;background:#ecfdf5;border:1px solid #a7f3d0;border-radius:999px;padding:0.45rem 1rem;margin-bottom:2rem;}
+.privacy svg{width:15px;height:15px;}
+
+/* DROP ZONE */
+.drop{border:2px dashed rgba(0,212,255,0.4);border-radius:var(--rxl);background:linear-gradient(180deg,rgba(0,212,255,0.03),transparent);padding:3.5rem 2rem;text-align:center;cursor:pointer;transition:border-color 0.2s,background 0.2s,transform 0.2s;position:relative;overflow:hidden;}
+.drop:hover{border-color:var(--cyan);background:rgba(0,212,255,0.05);}
+.drop.drag{border-color:var(--cyan);background:rgba(0,212,255,0.08);transform:scale(1.01);}
+.drop-icon{width:64px;height:64px;margin:0 auto 1.2rem;border-radius:16px;background:var(--n8);display:flex;align-items:center;justify-content:center;box-shadow:0 12px 30px rgba(0,212,255,0.2);}
+.drop-icon svg{width:30px;height:30px;}
+.drop-title{font-family:var(--fd);font-size:1.25rem;font-weight:800;color:var(--ow9);margin-bottom:0.4rem;letter-spacing:-0.02em;}
+.drop-sub{font-size:0.88rem;color:var(--ow5);line-height:1.6;margin-bottom:1.3rem;}
+.drop-btn{display:inline-flex;align-items:center;gap:7px;background:var(--cyan);color:var(--n9);font-family:var(--fb);font-size:0.88rem;font-weight:700;padding:0.7rem 1.5rem;border-radius:999px;border:none;cursor:pointer;box-shadow:0 4px 16px var(--cglow);}
+.drop-formats{font-size:0.72rem;color:var(--ow3);margin-top:1rem;letter-spacing:0.04em;}
+.sample-link{margin-top:1.4rem;font-size:0.8rem;color:var(--ow5);}
+.sample-link a{color:var(--cyan);font-weight:600;text-decoration:none;cursor:pointer;}
+.sample-link a:hover{text-decoration:underline;}
+
+/* RESULTS */
+.results{display:none;margin-top:1rem;}
+.sec-label{font-size:0.68rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--ow3);margin:2rem 0 1rem;display:flex;align-items:center;gap:10px;}
+.sec-label::after{content:'';flex:1;height:1px;background:var(--bw);}
+
+/* file summary bar */
+.file-bar{display:flex;align-items:center;justify-content:space-between;gap:1rem;background:var(--n8);border-radius:var(--r);padding:1rem 1.3rem;flex-wrap:wrap;}
+.file-bar-left{display:flex;align-items:center;gap:0.8rem;min-width:0;}
+.file-ic{width:38px;height:38px;border-radius:9px;background:rgba(0,212,255,0.15);display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0;}
+.file-nm{font-family:var(--fd);font-weight:700;color:var(--t1);font-size:0.95rem;letter-spacing:-0.01em;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.file-meta{font-size:0.76rem;color:var(--t5);margin-top:1px;}
+.file-reset{background:transparent;border:1px solid var(--bn);color:var(--t3);font-size:0.78rem;font-weight:600;padding:0.4rem 0.9rem;border-radius:999px;cursor:pointer;font-family:var(--fb);transition:all 0.15s;}
+.file-reset:hover{border-color:var(--cyan);color:var(--cyan);}
+
+/* stat cards */
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:0.8rem;}
+.kpi{background:var(--card);border:1px solid var(--bw);border-radius:var(--r);padding:1.1rem 1.1rem;}
+.kpi-n{font-family:var(--fd);font-size:1.7rem;font-weight:900;color:var(--ow9);letter-spacing:-0.03em;line-height:1;}
+.kpi-l{font-size:0.72rem;color:var(--ow3);text-transform:uppercase;letter-spacing:0.08em;margin-top:0.4rem;}
+
+/* health */
+.health{background:var(--card);border:1px solid var(--bw);border-radius:var(--r);padding:1.4rem 1.5rem;display:flex;align-items:center;gap:1.5rem;flex-wrap:wrap;}
+.health-ring{--p:0;width:78px;height:78px;border-radius:50%;flex-shrink:0;background:conic-gradient(var(--cyan) calc(var(--p)*1%),var(--off) 0);display:flex;align-items:center;justify-content:center;position:relative;}
+.health-ring::before{content:'';position:absolute;inset:8px;border-radius:50%;background:var(--card);}
+.health-ring span{position:relative;font-family:var(--fd);font-weight:900;font-size:1.2rem;color:var(--ow9);}
+.health-txt{flex:1;min-width:200px;}
+.health-txt h3{font-family:var(--fd);font-size:1.05rem;color:var(--ow9);margin-bottom:0.3rem;}
+.health-txt p{font-size:0.85rem;color:var(--ow5);line-height:1.6;}
+
+/* column table */
+.col-table{background:var(--card);border:1px solid var(--bw);border-radius:var(--r);overflow:hidden;}
+.col-hdr,.col-row{display:grid;grid-template-columns:1.6fr 0.9fr 0.7fr 2fr;gap:1rem;padding:0.8rem 1.3rem;align-items:center;}
+.col-hdr{background:var(--off);font-size:0.66rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--ow3);}
+.col-row{border-top:1px solid var(--bw);font-size:0.84rem;}
+.col-row:hover{background:var(--off);}
+.col-nm{font-weight:600;color:var(--ow9);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.type-pill{font-size:0.68rem;font-weight:700;padding:0.18rem 0.6rem;border-radius:999px;display:inline-flex;letter-spacing:0.03em;}
+.type-num{background:rgba(0,212,255,0.12);color:#0284a8;}
+.type-cat{background:rgba(91,157,255,0.14);color:#3b5fb0;}
+.type-date{background:rgba(245,158,11,0.14);color:#92600b;}
+.type-txt{background:rgba(122,144,184,0.16);color:#475569;}
+.col-miss{font-size:0.8rem;}
+.miss-ok{color:#059669;}.miss-warn{color:#d97706;}.miss-bad{color:#dc2626;}
+.spark{display:flex;align-items:flex-end;gap:2px;height:30px;}
+.spark i{flex:1;background:linear-gradient(to top,var(--cyan),var(--blue));border-radius:1px;min-height:2px;opacity:0.85;}
+.col-stat{font-size:0.75rem;color:var(--ow5);line-height:1.4;}
+
+/* charts */
+.chart-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;}
+.chart-card{background:var(--card);border:1px solid var(--bw);border-radius:var(--r);padding:1.3rem;}
+.chart-card h4{font-family:var(--fd);font-size:0.92rem;color:var(--ow9);margin-bottom:0.2rem;}
+.chart-card .ch-sub{font-size:0.74rem;color:var(--ow3);margin-bottom:1rem;}
+.chart-wrap{position:relative;height:240px;}
+
+/* insights */
+.insight-list{display:flex;flex-direction:column;gap:0.7rem;}
+.insight{background:var(--card);border:1px solid var(--bw);border-radius:var(--r);padding:1rem 1.2rem;display:flex;gap:0.85rem;align-items:flex-start;border-left:3px solid var(--cyan);}
+.insight.warn{border-left-color:var(--amber);}
+.insight.good{border-left-color:var(--em);}
+.insight.info{border-left-color:var(--blue);}
+.insight-ic{font-size:1.1rem;flex-shrink:0;margin-top:1px;}
+.insight-tx{font-size:0.86rem;color:var(--ow7);line-height:1.6;}
+.insight-tx b{color:var(--ow9);font-weight:700;}
+
+/* correlation */
+.corr-wrap{background:var(--card);border:1px solid var(--bw);border-radius:var(--r);padding:1.4rem;overflow-x:auto;}
+.corr-grid{display:grid;gap:3px;margin:0 auto;width:max-content;}
+.corr-cell{width:46px;height:46px;border-radius:5px;display:flex;align-items:center;justify-content:center;font-size:0.66rem;font-weight:700;}
+.corr-lbl{font-size:0.66rem;color:var(--ow5);display:flex;align-items:center;justify-content:center;text-align:center;padding:2px;font-weight:600;}
+.corr-lbl.v{writing-mode:vertical-rl;transform:rotate(180deg);}
+
+/* preview table */
+.prev-wrap{background:var(--card);border:1px solid var(--bw);border-radius:var(--r);overflow:auto;max-height:340px;}
+table.prev{border-collapse:collapse;width:100%;font-size:0.8rem;}
+table.prev th{position:sticky;top:0;background:var(--n8);color:var(--t1);font-weight:700;text-align:left;padding:0.6rem 0.9rem;white-space:nowrap;font-size:0.72rem;letter-spacing:0.04em;}
+table.prev td{padding:0.5rem 0.9rem;border-top:1px solid var(--bw);color:var(--ow7);white-space:nowrap;}
+table.prev tr:hover td{background:var(--off);}
+
+/* CTA */
+.cta{background:var(--n8);border-radius:var(--rxl);padding:2.8rem 2.5rem;text-align:center;position:relative;overflow:hidden;margin-top:2.5rem;}
+.cta::after{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--cyan),var(--blue),var(--cyan));background-size:200% auto;animation:sh 3s linear infinite;}
+@keyframes sh{to{background-position:200% center;}}
+.cta h2{font-family:var(--fd);font-size:clamp(1.4rem,3vw,2rem);font-weight:800;color:var(--t1);letter-spacing:-0.03em;margin-bottom:0.7rem;}
+.cta p{font-size:0.92rem;color:var(--t5);max-width:520px;margin:0 auto 1.8rem;line-height:1.7;}
+.cta-actions{display:flex;gap:0.9rem;justify-content:center;flex-wrap:wrap;}
+.btn-cy{display:inline-flex;align-items:center;gap:6px;background:var(--cyan);color:var(--n9);font-family:var(--fb);font-size:0.88rem;font-weight:700;padding:0.72rem 1.6rem;border-radius:999px;text-decoration:none;border:none;cursor:pointer;box-shadow:0 4px 16px var(--cglow);}
+.btn-ol{display:inline-flex;align-items:center;gap:6px;background:transparent;color:var(--t1);font-size:0.88rem;font-weight:500;padding:0.72rem 1.5rem;border-radius:999px;border:1px solid var(--bn);text-decoration:none;cursor:pointer;}
+
+.err{display:none;background:#fef2f2;border:1px solid #fecaca;color:#b91c1c;border-radius:var(--r);padding:1rem 1.2rem;font-size:0.86rem;margin-top:1rem;}
+.footer{font-size:0.75rem;color:var(--ow3);text-align:center;margin-top:2.5rem;}
+
+/* PROCESSING OVERLAY */
+.anz-proc{position:fixed;inset:0;z-index:500;background:rgba(248,250,255,0.92);backdrop-filter:blur(8px);display:none;align-items:center;justify-content:center;padding:1.5rem;}
+.anz-proc.show{display:flex;animation:anzFade 0.25s ease both;}
+@keyframes anzFade{from{opacity:0;}to{opacity:1;}}
+.anz-proc-inner{display:flex;flex-direction:column;align-items:center;gap:1.5rem;width:100%;max-width:420px;}
+.anz-orb{position:relative;width:118px;height:118px;display:flex;align-items:center;justify-content:center;}
+.anz-orb svg{position:absolute;inset:0;width:100%;height:100%;transform:rotate(-90deg);}
+.anz-ring-bg{fill:none;stroke:rgba(0,212,255,0.12);stroke-width:6;}
+.anz-ring-fg{fill:none;stroke:url(#anzGrad);stroke-width:6;stroke-linecap:round;stroke-dasharray:339.292;stroke-dashoffset:339.292;}
+.anz-pct{font-family:var(--fd);font-size:1.65rem;font-weight:900;color:var(--ow9);letter-spacing:-0.03em;position:relative;z-index:2;}
+/* scanning line motif */
+.anz-scan{position:absolute;width:64px;height:64px;border-radius:12px;overflow:hidden;opacity:0.25;}
+.anz-scan::before{content:'';position:absolute;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--cyan),transparent);animation:anzScan 1.3s linear infinite;}
+@keyframes anzScan{0%{top:-2px;}100%{top:64px;}}
+.anz-head{font-family:var(--fd);font-size:1.35rem;font-weight:800;color:var(--ow9);letter-spacing:-0.02em;}
+.anz-steps{display:flex;flex-direction:column;gap:0.5rem;width:100%;text-align:left;}
+.anz-step{display:flex;align-items:center;gap:0.7rem;font-size:0.86rem;color:var(--ow3);padding:0.5rem 0.85rem;border-radius:var(--rsm);background:var(--card);border:1px solid var(--bw);transition:all 0.3s;opacity:0.5;transform:translateY(4px);}
+.anz-step.active{opacity:1;transform:translateY(0);color:var(--ow9);border-color:rgba(0,212,255,0.4);background:rgba(0,212,255,0.04);}
+.anz-step.done{opacity:1;transform:translateY(0);color:var(--ow7);}
+.anz-tick{width:19px;height:19px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:0.62rem;font-weight:800;background:var(--off);color:var(--ow3);border:1.5px solid var(--bw);transition:all 0.3s;}
+.anz-step.active .anz-tick{background:var(--cyan);border-color:var(--cyan);color:var(--n9);box-shadow:0 0 0 4px var(--cdim);}
+.anz-step.active .anz-tick::after{content:'';width:6px;height:6px;border-radius:50%;background:var(--n9);animation:anzPulse 1s infinite;}
+.anz-step.done .anz-tick{background:#ecfdf5;border-color:#10b981;color:#059669;}
+.anz-step.done .anz-tick::after{content:'✓';}
+@keyframes anzPulse{0%,100%{opacity:1;transform:scale(1);}50%{opacity:0.4;transform:scale(0.7);}}
+.anz-priv{font-size:0.74rem;color:#047857;background:#ecfdf5;border:1px solid #a7f3d0;border-radius:999px;padding:0.35rem 0.9rem;}
+
+@media(max-width:760px){
+  .kpis{grid-template-columns:repeat(2,1fr);}
+  .chart-grid{grid-template-columns:1fr;}
+  .col-hdr,.col-row{grid-template-columns:1.4fr 0.8fr 0.6fr;}
+  .col-spark-cell{display:none;}
+}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <a href="index.html" class="brand"><span class="bmark"><svg viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="nm13" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#00d4ff"/><stop offset="1" stop-color="#5b9dff"/></linearGradient></defs><g stroke="url(#nm13)" stroke-width="9" stroke-linecap="round" fill="none"><path d="M128 70 L186 104 L186 152 L128 186 L70 152 L70 104 Z"/><line x1="128" y1="70" x2="128" y2="128"/><line x1="186" y1="152" x2="128" y2="128"/><line x1="70" y1="152" x2="128" y2="128"/></g><g fill="#00d4ff"><circle cx="128" cy="70" r="11"/><circle cx="186" cy="104" r="9"/><circle cx="186" cy="152" r="9"/><circle cx="128" cy="186" r="11"/><circle cx="70" cy="152" r="9"/><circle cx="70" cy="104" r="9"/></g><circle cx="128" cy="128" r="14" fill="#aef0ff"/></svg></span>Datavoris</a>
+  <a href="index.html#contact" class="hire-btn">Get Better Data →</a>
+</nav>
+
+<main class="main">
+  <div class="fade" id="introBlock">
+    <div class="page-eyebrow">Free Tool · Datavoris</div>
+    <h1 class="page-title">See your data come to life — <em>instantly</em>.</h1>
+    <p class="page-sub">Upload a small spreadsheet and get an automatic analysis — column types, data quality, distributions, correlations, and the first things worth fixing. This is a taste of what a real automated reporting system does for you every single day.</p>
+    <div class="privacy">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+      100% private — your file is processed in your browser and never uploaded anywhere.
+    </div>
+  </div>
+
+  <div class="drop fade" id="drop">
+    <div class="drop-icon">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#00d4ff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+    </div>
+    <div class="drop-title">Drop your dataset here</div>
+    <div class="drop-sub">CSV or Excel · up to ~5,000 rows works best</div>
+    <button class="drop-btn" type="button" id="pickBtn">Choose a file</button>
+    <div class="drop-formats">.csv · .xlsx · .xls · .tsv</div>
+    <div class="sample-link">No file handy? <a id="sampleBtn">Try it with sample sales data →</a></div>
+    <input type="file" id="fileInput" accept=".csv,.tsv,.xlsx,.xls" style="display:none"/>
+  </div>
+
+  <div class="err" id="err"></div>
+
+  <div class="results" id="results"></div>
+
+  <!-- PROCESSING OVERLAY -->
+  <div class="anz-proc" id="anzProc">
+    <div class="anz-proc-inner">
+      <div class="anz-orb">
+        <svg viewBox="0 0 120 120"><defs><linearGradient id="anzGrad" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#00d4ff"/><stop offset="100%" stop-color="#5b9dff"/></linearGradient></defs><circle class="anz-ring-bg" cx="60" cy="60" r="54"/><circle class="anz-ring-fg" id="anzRing" cx="60" cy="60" r="54"/></svg>
+        <div class="anz-scan"></div>
+        <div class="anz-pct" id="anzPct">0%</div>
+      </div>
+      <div class="anz-head" id="anzHead">Reading your data…</div>
+      <div class="anz-steps" id="anzSteps">
+        <div class="anz-step" data-step="0"><span class="anz-tick"></span>Reading the file</div>
+        <div class="anz-step" data-step="1"><span class="anz-tick"></span>Detecting column types</div>
+        <div class="anz-step" data-step="2"><span class="anz-tick"></span>Computing statistics</div>
+        <div class="anz-step" data-step="3"><span class="anz-tick"></span>Finding correlations &amp; patterns</div>
+        <div class="anz-step" data-step="4"><span class="anz-tick"></span>Rendering your charts</div>
+      </div>
+      <div class="anz-priv">🔒 Processing locally — nothing is uploaded</div>
+    </div>
+  </div>
+
+</main>
+
+<div class="footer" style="padding-bottom:2rem">datavoris.com · Instant Data Analyzer · Ankush Gulati</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<script>
+const $=id=>document.getElementById(id);
+const drop=$('drop'),fileInput=$('fileInput'),results=$('results'),errBox=$('err');
+let charts=[];
+
+$('pickBtn').onclick=()=>fileInput.click();
+drop.onclick=e=>{if(e.target.id!=='sampleBtn')fileInput.click();};
+fileInput.onchange=e=>{if(e.target.files[0])handleFile(e.target.files[0]);};
+['dragover','dragenter'].forEach(ev=>drop.addEventListener(ev,e=>{e.preventDefault();drop.classList.add('drag');}));
+['dragleave','drop'].forEach(ev=>drop.addEventListener(ev,e=>{e.preventDefault();drop.classList.remove('drag');}));
+drop.addEventListener('drop',e=>{const f=e.dataTransfer.files[0];if(f)handleFile(f);});
+
+$('sampleBtn').onclick=e=>{e.stopPropagation();loadSample();};
+
+function showErr(m){errBox.textContent=m;errBox.style.display='block';}
+function clearErr(){errBox.style.display='none';}
+
+function handleFile(file){
+  clearErr();
+  const name=file.name.toLowerCase();
+  if(file.size>15*1024*1024){showErr('That file is larger than 15MB. This tool is built for small datasets — try a sample or a smaller export.');return;}
+  if(name.endsWith('.xlsx')||name.endsWith('.xls')){
+    const r=new FileReader();
+    r.onload=ev=>{
+      try{
+        const wb=XLSX.read(ev.target.result,{type:'array'});
+        const ws=wb.Sheets[wb.SheetNames[0]];
+        const rows=XLSX.utils.sheet_to_json(ws,{header:1,defval:null,blankrows:false});
+        const headers=rows[0].map(h=>h==null?'':String(h));
+        const data=rows.slice(1).map(r=>{const o={};headers.forEach((h,i)=>o[h]=r[i]);return o;});
+        runAnzProc(()=>analyze(headers,data,file.name));
+      }catch(err){showErr('Could not read that Excel file. Try saving it as CSV and uploading again.');}
+    };
+    r.readAsArrayBuffer(file);
+  }else{
+    Papa.parse(file,{header:true,dynamicTyping:false,skipEmptyLines:true,
+      complete:res=>{
+        if(!res.data.length){showErr('That file looks empty.');return;}
+        runAnzProc(()=>analyze(res.meta.fields||Object.keys(res.data[0]),res.data,file.name));
+      },
+      error:()=>showErr('Could not parse that file.')});
+  }
+}
+
+function loadSample(){
+  clearErr();
+  const regions=['North','South','East','West'],reps=['Asha','Vikram','Maya','Devon','Priya'],cats=['Software','Hardware','Services'];
+  const headers=['Date','Region','Sales Rep','Category','Units','Unit Price','Revenue','Discount %','Customer Satisfaction'];
+  const data=[];
+  for(let i=0;i<180;i++){
+    const units=Math.round(2+Math.random()*40);
+    const price=+(50+Math.random()*450).toFixed(2);
+    const disc=Math.random()<0.3?+(Math.random()*25).toFixed(1):0;
+    const rev=+(units*price*(1-disc/100)).toFixed(2);
+    const d=new Date(2024,Math.floor(Math.random()*12),1+Math.floor(Math.random()*28));
+    data.push({
+      'Date':d.toISOString().slice(0,10),
+      'Region':regions[Math.floor(Math.random()*regions.length)],
+      'Sales Rep':reps[Math.floor(Math.random()*reps.length)],
+      'Category':cats[Math.floor(Math.random()*cats.length)],
+      'Units':units,'Unit Price':price,'Revenue':rev,'Discount %':disc,
+      'Customer Satisfaction':Math.random()<0.08?null:+(3+Math.random()*2).toFixed(1)
+    });
+  }
+  analyze(headers,data,'sample-sales-data.csv');
+}
+
+// ---------- PROCESSING ANIMATION ----------
+function runAnzProc(done){
+  const overlay=$('anzProc'),ring=$('anzRing'),pctEl=$('anzPct'),headEl=$('anzHead');
+  const steps=[...document.querySelectorAll('.anz-step')];
+  steps.forEach(s=>s.classList.remove('active','done'));
+  const C=2*Math.PI*54;
+  if(ring){ring.style.strokeDasharray=C;ring.style.strokeDashoffset=C;}
+  overlay.classList.add('show');
+  const heads=['Reading your data…','Understanding your columns…','Crunching the numbers…','Spotting the patterns…','Drawing it all up…'];
+  const targets=[20,44,64,84,100];
+  const holds=[360,460,440,500,420];
+  let i=0,prog=0;
+  function setProg(p){prog=p;if(ring)ring.style.strokeDashoffset=C*(1-p/100);if(pctEl)pctEl.textContent=Math.round(p)+'%';}
+  function tick(){
+    if(i>=steps.length){
+      setTimeout(()=>{overlay.classList.remove('show');done();},240);
+      return;
+    }
+    steps[i].classList.add('active');
+    if(headEl)headEl.textContent=heads[i];
+    const start=prog,end=targets[i],dur=holds[i],t0=performance.now();
+    function anim(now){
+      const k=Math.min(1,(now-t0)/dur);
+      setProg(start+(end-start)*(k<0.5?2*k*k:1-Math.pow(-2*k+2,2)/2));
+      if(k<1)requestAnimationFrame(anim);
+      else{steps[i].classList.remove('active');steps[i].classList.add('done');i++;tick();}
+    }
+    requestAnimationFrame(anim);
+  }
+  setProg(0);
+  setTimeout(tick,200);
+}
+
+// ---------- TYPE DETECTION ----------
+function detectType(values){
+  const non=values.filter(v=>v!==null&&v!==undefined&&String(v).trim()!=='');
+  if(!non.length)return'empty';
+  let numC=0,dateC=0;
+  const dateRe=/^\d{4}[-/]\d{1,2}[-/]\d{1,2}|^\d{1,2}[-/]\d{1,2}[-/]\d{2,4}/;
+  for(const v of non){
+    const s=String(v).trim().replace(/[$,%₹€£\s]/g,'');
+    if(s!==''&&!isNaN(s)&&isFinite(s))numC++;
+    if(dateRe.test(String(v).trim())&&!isNaN(Date.parse(v)))dateC++;
+  }
+  if(dateC/non.length>0.7)return'date';
+  if(numC/non.length>0.85)return'number';
+  const uniq=new Set(non.map(v=>String(v))).size;
+  if(uniq<=Math.max(12,non.length*0.25))return'categorical';
+  return'text';
+}
+function toNum(v){if(v===null||v===undefined)return NaN;return parseFloat(String(v).replace(/[$,%₹€£\s]/g,''));}
+
+// ---------- STATS ----------
+function numStats(vals){
+  const n=vals.filter(v=>!isNaN(v)).sort((a,b)=>a-b);
+  if(!n.length)return null;
+  const sum=n.reduce((a,b)=>a+b,0),mean=sum/n.length;
+  const med=n.length%2?n[(n.length-1)/2]:(n[n.length/2-1]+n[n.length/2])/2;
+  const variance=n.reduce((a,b)=>a+(b-mean)**2,0)/n.length;
+  return{min:n[0],max:n[n.length-1],mean,median:med,std:Math.sqrt(variance),count:n.length,
+    q1:n[Math.floor(n.length*0.25)],q3:n[Math.floor(n.length*0.75)]};
+}
+function histogram(vals,bins=10){
+  const n=vals.filter(v=>!isNaN(v));if(!n.length)return[];
+  const mn=Math.min(...n),mx=Math.max(...n),range=mx-mn||1,w=range/bins;
+  const h=new Array(bins).fill(0);
+  n.forEach(v=>{let idx=Math.floor((v-mn)/w);if(idx>=bins)idx=bins-1;if(idx<0)idx=0;h[idx]++;});
+  return h.map((c,i)=>({label:(mn+i*w).toFixed(mn%1||w<1?1:0),count:c}));
+}
+function freq(vals,top=8){
+  const m={};vals.forEach(v=>{const k=(v===null||v===undefined||String(v).trim()==='')?'(blank)':String(v);m[k]=(m[k]||0)+1;});
+  return Object.entries(m).sort((a,b)=>b[1]-a[1]).slice(0,top);
+}
+function pearson(a,b){
+  const pairs=[];for(let i=0;i<a.length;i++){if(!isNaN(a[i])&&!isNaN(b[i]))pairs.push([a[i],b[i]]);}
+  if(pairs.length<3)return null;
+  const n=pairs.length,sx=pairs.reduce((s,p)=>s+p[0],0),sy=pairs.reduce((s,p)=>s+p[1],0);
+  const mx=sx/n,my=sy/n;let num=0,dx=0,dy=0;
+  pairs.forEach(p=>{num+=(p[0]-mx)*(p[1]-my);dx+=(p[0]-mx)**2;dy+=(p[1]-my)**2;});
+  if(dx===0||dy===0)return null;
+  return num/Math.sqrt(dx*dy);
+}
+
+// ---------- MAIN ANALYZE ----------
+function analyze(headers,data,fname){
+  clearErr();
+  headers=headers.filter(h=>h!=='');
+  const rowCount=data.length;
+  const cols=headers.map(h=>{
+    const values=data.map(r=>r[h]);
+    const type=detectType(values);
+    const missing=values.filter(v=>v===null||v===undefined||String(v).trim()==='').length;
+    const uniq=new Set(values.filter(v=>v!==null&&v!==undefined&&String(v).trim()!=='').map(v=>String(v))).size;
+    let stats=null,nums=null;
+    if(type==='number'){nums=values.map(toNum);stats=numStats(nums);}
+    return{name:h,type,missing,missingPct:rowCount?missing/rowCount*100:0,uniq,values,nums,stats};
+  });
+
+  const numCols=cols.filter(c=>c.type==='number');
+  const catCols=cols.filter(c=>c.type==='categorical');
+  const totalCells=rowCount*cols.length;
+  const totalMissing=cols.reduce((s,c)=>s+c.missing,0);
+  const completeness=totalCells?(1-totalMissing/totalCells)*100:100;
+  // duplicate rows
+  const seen=new Set();let dupes=0;
+  data.forEach(r=>{const k=headers.map(h=>r[h]).join('|');if(seen.has(k))dupes++;else seen.add(k);});
+
+  let health=completeness*0.7;
+  health+=(dupes===0?15:dupes/rowCount<0.05?8:0);
+  health+=(cols.some(c=>c.type==='date')?8:4);
+  health+=(numCols.length>=1?7:0);
+  health=Math.max(8,Math.min(99,Math.round(health)));
+
+  charts.forEach(c=>{try{c.destroy();}catch(e){}});charts=[];
+
+  // BUILD HTML
+  let html=`
+  <div class="file-bar fade">
+    <div class="file-bar-left">
+      <div class="file-ic">📄</div>
+      <div style="min-width:0"><div class="file-nm">${esc(fname)}</div>
+      <div class="file-meta">${rowCount.toLocaleString()} rows · ${cols.length} columns</div></div>
+    </div>
+    <button class="file-reset" onclick="resetTool()">↺ Analyze another file</button>
+  </div>
+
+  <div class="sec-label">Overview</div>
+  <div class="kpis">
+    <div class="kpi"><div class="kpi-n">${rowCount.toLocaleString()}</div><div class="kpi-l">Rows</div></div>
+    <div class="kpi"><div class="kpi-n">${cols.length}</div><div class="kpi-l">Columns</div></div>
+    <div class="kpi"><div class="kpi-n">${numCols.length}</div><div class="kpi-l">Numeric fields</div></div>
+    <div class="kpi"><div class="kpi-n">${completeness.toFixed(0)}%</div><div class="kpi-l">Complete</div></div>
+  </div>
+
+  <div class="sec-label">Data health</div>
+  <div class="health">
+    <div class="health-ring" style="--p:${health}"><span>${health}</span></div>
+    <div class="health-txt"><h3>${health>=80?'Strong — ready to automate':health>=55?'Workable — a few fixes needed':'Needs cleanup first'}</h3>
+    <p>${healthMsg(health,totalMissing,dupes,rowCount,cols)}</p></div>
+  </div>`;
+
+  // INSIGHTS
+  const ins=buildInsights(cols,numCols,catCols,dupes,rowCount,completeness);
+  html+=`<div class="sec-label">What stands out</div><div class="insight-list">`;
+  ins.forEach(i=>html+=`<div class="insight ${i.t}"><span class="insight-ic">${i.ic}</span><div class="insight-tx">${i.x}</div></div>`);
+  html+=`</div>`;
+
+  // COLUMN PROFILE
+  html+=`<div class="sec-label">Column profile</div><div class="col-table">
+    <div class="col-hdr"><div>Column</div><div>Type</div><div>Missing</div><div class="col-spark-cell">Distribution</div></div>`;
+  cols.forEach(c=>{
+    const tp={number:['type-num','Number'],categorical:['type-cat','Category'],date:['type-date','Date'],text:['type-txt','Text'],empty:['type-txt','Empty']}[c.type];
+    const mc=c.missingPct===0?'miss-ok':c.missingPct<10?'miss-warn':'miss-bad';
+    let spark='',stat='';
+    if(c.type==='number'&&c.stats){
+      const h=histogram(c.nums,12),mxc=Math.max(...h.map(b=>b.count))||1;
+      spark='<div class="spark">'+h.map(b=>`<i style="height:${b.count/mxc*100}%"></i>`).join('')+'</div>';
+      stat=`<div class="col-stat">avg ${fmt(c.stats.mean)} · range ${fmt(c.stats.min)}–${fmt(c.stats.max)}</div>`;
+    }else{
+      const f=freq(c.values,5),mxc=Math.max(...f.map(x=>x[1]))||1;
+      spark='<div class="spark">'+f.map(x=>`<i style="height:${x[1]/mxc*100}%"></i>`).join('')+'</div>';
+      stat=`<div class="col-stat">${c.uniq} unique${f.length?` · top: ${esc(f[0][0])}`:''}</div>`;
+    }
+    html+=`<div class="col-row"><div class="col-nm" title="${esc(c.name)}">${esc(c.name)}</div>
+      <div><span class="type-pill ${tp[0]}">${tp[1]}</span></div>
+      <div class="col-miss ${mc}">${c.missing===0?'None':c.missingPct.toFixed(0)+'%'}</div>
+      <div class="col-spark-cell">${spark}${stat}</div></div>`;
+  });
+  html+=`</div>`;
+
+  // CHARTS
+  const chartDefs=[];
+  if(numCols.length){const c=numCols.map(c=>({c,spread:c.stats?c.stats.std/(Math.abs(c.stats.mean)||1):0})).sort((a,b)=>b.spread-a.spread)[0].c;chartDefs.push({kind:'hist',col:c});}
+  if(catCols.length){chartDefs.push({kind:'bar',col:catCols.sort((a,b)=>a.uniq-b.uniq)[0]});}
+  const dateCol=cols.find(c=>c.type==='date');
+  if(dateCol&&numCols.length){chartDefs.push({kind:'line',date:dateCol,val:numCols[0]});}
+  if(catCols.length&&numCols.length){chartDefs.push({kind:'group',cat:catCols.sort((a,b)=>a.uniq-b.uniq)[0],val:numCols[0]});}
+
+  if(chartDefs.length){
+    html+=`<div class="sec-label">Visual breakdown</div><div class="chart-grid">`;
+    chartDefs.slice(0,4).forEach((d,i)=>{
+      const titles={hist:[`Distribution of ${d.kind==='hist'?d.col.name:''}`,'How values are spread'],
+        bar:[`${d.col?d.col.name:''} breakdown`,'Count by category'],
+        line:[`${d.val?d.val.name:''} over time`,'Trend by date'],
+        group:[`${d.val?d.val.name:''} by ${d.cat?d.cat.name:''}`,'Totals per group']};
+      const t=titles[d.kind];
+      html+=`<div class="chart-card"><h4>${esc(t[0])}</h4><div class="ch-sub">${t[1]}</div><div class="chart-wrap"><canvas id="ch${i}"></canvas></div></div>`;
+    });
+    html+=`</div>`;
+  }
+
+  // CORRELATION
+  let corrHTML='';
+  if(numCols.length>=2){
+    const nc=numCols.slice(0,6);
+    corrHTML=`<div class="sec-label">Correlations</div><div class="corr-wrap"><div class="corr-grid" style="grid-template-columns:90px repeat(${nc.length},46px)">`;
+    corrHTML+=`<div></div>`+nc.map(c=>`<div class="corr-lbl v">${esc(short(c.name))}</div>`).join('');
+    nc.forEach(rc=>{
+      corrHTML+=`<div class="corr-lbl" style="justify-content:flex-end;text-align:right">${esc(short(rc.name))}</div>`;
+      nc.forEach(cc=>{
+        const r=rc===cc?1:pearson(rc.nums,cc.nums);
+        const v=r===null?null:r;
+        const bg=v===null?'#eef2fa':corrColor(v);
+        const txt=v===null?'–':v.toFixed(1);
+        const tc=v!==null&&Math.abs(v)>0.5?'#fff':'#1a2744';
+        corrHTML+=`<div class="corr-cell" style="background:${bg};color:${tc}" title="${esc(rc.name)} vs ${esc(cc.name)}: ${v===null?'n/a':v.toFixed(2)}">${txt}</div>`;
+      });
+    });
+    corrHTML+=`</div></div>`;
+    // strongest correlation insight handled in insights
+  }
+  html+=corrHTML;
+
+  // PREVIEW
+  html+=`<div class="sec-label">Data preview · first 8 rows</div><div class="prev-wrap"><table class="prev"><thead><tr>`+
+    cols.map(c=>`<th>${esc(c.name)}</th>`).join('')+`</tr></thead><tbody>`+
+    data.slice(0,8).map(r=>`<tr>`+cols.map(c=>`<td>${esc(fmtCell(r[c.name]))}</td>`).join('')+`</tr>`).join('')+
+    `</tbody></table></div>`;
+
+  // CTA
+  html+=`<div class="cta">
+    <h2>This took 2 seconds. Imagine it running every day.</h2>
+    <p>This is a fraction of what an automated reporting system does — refreshing live, flagging issues, and delivering this straight to your inbox or dashboard. That's exactly what I build for businesses.</p>
+    <div class="cta-actions">
+      <a href="index.html#contact" class="btn-cy">Automate this for my business →</a>
+      <a href="dv-assessment.html" class="btn-ol">Take the data maturity assessment</a>
+    </div>
+  </div>`;
+
+  results.innerHTML=html;
+  results.style.display='block';
+  $('introBlock').style.display='none';
+  drop.style.display='none';
+  window.scrollTo({top:0,behavior:'smooth'});
+
+  // RENDER CHARTS
+  requestAnimationFrame(()=>{
+    Chart.defaults.font.family="'DM Sans',sans-serif";
+    chartDefs.slice(0,4).forEach((d,i)=>{
+      const cv=$('ch'+i);if(!cv)return;const ctx=cv.getContext('2d');
+      if(d.kind==='hist'){
+        const h=histogram(d.col.nums,12);
+        charts.push(new Chart(ctx,{type:'bar',data:{labels:h.map(b=>b.label),datasets:[{data:h.map(b=>b.count),backgroundColor:'#00d4ff',borderRadius:4}]},options:baseOpt()}));
+      }else if(d.kind==='bar'){
+        const f=freq(d.col.values,8);
+        charts.push(new Chart(ctx,{type:'bar',data:{labels:f.map(x=>x[0]),datasets:[{data:f.map(x=>x[1]),backgroundColor:'#5b9dff',borderRadius:4}]},options:{...baseOpt(),indexAxis:'y'}}));
+      }else if(d.kind==='line'){
+        const agg={};data.forEach(r=>{const dt=r[d.date.name];const k=String(dt).slice(0,7);const v=toNum(r[d.val.name]);if(!isNaN(v))agg[k]=(agg[k]||0)+v;});
+        const keys=Object.keys(agg).sort();
+        charts.push(new Chart(ctx,{type:'line',data:{labels:keys,datasets:[{data:keys.map(k=>agg[k]),borderColor:'#00d4ff',backgroundColor:'rgba(0,212,255,0.1)',fill:true,tension:0.3,pointRadius:3,pointBackgroundColor:'#00d4ff'}]},options:baseOpt()}));
+      }else if(d.kind==='group'){
+        const agg={};data.forEach(r=>{const k=String(r[d.cat.name]==null?'(blank)':r[d.cat.name]);const v=toNum(r[d.val.name]);if(!isNaN(v))agg[k]=(agg[k]||0)+v;});
+        const ent=Object.entries(agg).sort((a,b)=>b[1]-a[1]).slice(0,8);
+        charts.push(new Chart(ctx,{type:'bar',data:{labels:ent.map(e=>e[0]),datasets:[{data:ent.map(e=>e[1]),backgroundColor:'#10d9a0',borderRadius:4}]},options:baseOpt()}));
+      }
+    });
+  });
+}
+
+function baseOpt(){return{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{backgroundColor:'#0a1628',padding:9,cornerRadius:7}},scales:{x:{grid:{display:false},ticks:{color:'#7a90b8',font:{size:10},maxRotation:45}},y:{grid:{color:'rgba(8,14,30,0.06)'},ticks:{color:'#7a90b8',font:{size:10}}}}};}
+
+function buildInsights(cols,numCols,catCols,dupes,rowCount,completeness){
+  const out=[];
+  // strongest correlation
+  let best=null;
+  for(let i=0;i<numCols.length;i++)for(let j=i+1;j<numCols.length;j++){
+    const r=pearson(numCols[i].nums,numCols[j].nums);
+    if(r!==null&&(!best||Math.abs(r)>Math.abs(best.r)))best={a:numCols[i].name,b:numCols[j].name,r};
+  }
+  if(best&&Math.abs(best.r)>0.5){
+    out.push({t:'info',ic:'🔗',x:`<b>${esc(best.a)}</b> and <b>${esc(best.b)}</b> move ${best.r>0?'together':'inversely'} (correlation ${best.r.toFixed(2)}). ${best.r>0?'As one rises, so does the other.':'As one rises, the other tends to fall.'} Worth investigating as a driver.`});
+  }
+  // biggest category
+  if(catCols.length){
+    const c=catCols[0];const f=freq(c.values,99);const top=f[0];
+    if(top){const pct=(top[1]/rowCount*100).toFixed(0);out.push({t:'info',ic:'📊',x:`In <b>${esc(c.name)}</b>, "<b>${esc(top[0])}</b>" is the most common value at ${pct}% of rows.`});}
+  }
+  // missing data
+  const worst=cols.filter(c=>c.missingPct>0).sort((a,b)=>b.missingPct-a.missingPct)[0];
+  if(worst&&worst.missingPct>=10){
+    out.push({t:'warn',ic:'⚠️',x:`<b>${esc(worst.name)}</b> is missing ${worst.missingPct.toFixed(0)}% of its values. That gap will quietly distort any report built on this column until it's fixed.`});
+  }else if(completeness>=99){
+    out.push({t:'good',ic:'✅',x:`Your data is <b>${completeness.toFixed(0)}% complete</b> — almost no gaps. That's a great foundation for automated reporting.`});
+  }
+  // duplicates
+  if(dupes>0){out.push({t:'warn',ic:'🔁',x:`Found <b>${dupes} duplicate row${dupes>1?'s':''}</b>. Duplicates inflate totals — deduplication should happen before any numbers are trusted.`});}
+  // high-value numeric
+  if(numCols.length){
+    const c=numCols.map(c=>({c,cv:c.stats?c.stats.std/(Math.abs(c.stats.mean)||1):0})).sort((a,b)=>b.cv-a.cv)[0].c;
+    if(c.stats)out.push({t:'info',ic:'📈',x:`<b>${esc(c.name)}</b> ranges from ${fmt(c.stats.min)} to ${fmt(c.stats.max)} (avg ${fmt(c.stats.mean)}). The wide spread suggests this is where the interesting variation lives.`});
+  }
+  if(!out.length)out.push({t:'info',ic:'💡',x:`Upload a richer dataset with numeric and category columns to unlock correlations and trend detection.`});
+  return out.slice(0,5);
+}
+
+function healthMsg(h,miss,dupes,rows,cols){
+  const bits=[];
+  if(miss===0)bits.push('no missing values');else bits.push(`${miss} missing value${miss>1?'s':''}`);
+  if(dupes>0)bits.push(`${dupes} duplicate row${dupes>1?'s':''}`);
+  if(cols.some(c=>c.type==='date'))bits.push('a usable date column for trends');
+  return`Based on completeness, duplicates, and structure: ${bits.join(', ')}. ${h>=80?'This is in good shape to plug into an automated pipeline.':h>=55?'Some cleanup will make automation far more reliable.':'Fixing the foundations here is the highest-value first step.'}`;
+}
+
+function corrColor(v){
+  // v in [-1,1]; positive cyan, negative rose
+  const a=Math.min(1,Math.abs(v));
+  if(v>=0)return`rgba(0,212,255,${0.12+a*0.78})`;
+  return`rgba(251,113,133,${0.12+a*0.78})`;
+}
+function short(s){return s.length>10?s.slice(0,9)+'…':s;}
+function fmt(n){if(n==null||isNaN(n))return'–';const a=Math.abs(n);if(a>=1e6)return(n/1e6).toFixed(1)+'M';if(a>=1e3)return(n/1e3).toFixed(1)+'k';if(a<1&&a>0)return n.toFixed(2);return n.toFixed(a<100?1:0);}
+function fmtCell(v){if(v===null||v===undefined||String(v).trim()==='')return'—';return String(v);}
+function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));}
+
+function resetTool(){
+  results.style.display='none';results.innerHTML='';
+  $('introBlock').style.display='block';drop.style.display='block';
+  fileInput.value='';clearErr();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+</script>
+</body>
+</html>

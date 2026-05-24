@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Client Reviews — Datavoris</title>
+<meta name="description" content="What clients say about working with Datavoris — and leave your own review."/>
+<link rel="icon" type="image/svg+xml" href="favicon.svg"/>
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png"/>
+<link rel="icon" type="image/png" sizes="16x16" href="favicon-16.png"/>
+<link rel="shortcut icon" href="favicon.ico"/>
+<link rel="apple-touch-icon" href="favicon-preview-256.png"/>
+<meta name="theme-color" content="#0a1628"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Cabinet+Grotesk:wght@300;400;500;700;800;900&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="dv-style.css"/>
+<style>
+.rv-hero{background:var(--navy-800);padding:4rem 0 3.5rem;position:relative;overflow:hidden;}
+.rv-hero::before{content:'';position:absolute;top:-80px;right:0;width:480px;height:480px;background:radial-gradient(circle,rgba(0,212,255,0.07),transparent 65%);}
+.rv-hero .inner{position:relative;z-index:1;max-width:680px;}
+.rv-hero h1{color:var(--text-100);font-size:clamp(2rem,4vw,2.8rem);margin:0.8rem 0 0.7rem;}
+.rv-hero p{color:var(--text-500);font-size:1.02rem;line-height:1.75;max-width:560px;}
+.rv-summary{display:flex;align-items:center;gap:1.5rem;margin-top:1.6rem;flex-wrap:wrap;}
+.rv-bigscore{display:flex;align-items:baseline;gap:0.5rem;}
+.rv-bigscore .n{font-family:var(--font-display);font-size:2.6rem;font-weight:900;color:var(--cyan);letter-spacing:-0.03em;line-height:1;}
+.rv-bigscore .of{font-size:0.9rem;color:var(--text-500);}
+.rv-stars-lg{display:flex;gap:3px;}
+.rv-stars-lg svg{width:20px;height:20px;}
+.rv-count{font-size:0.82rem;color:var(--text-500);}
+
+/* layout */
+.rv-layout{display:grid;grid-template-columns:1.5fr 1fr;gap:2.5rem;padding:3.5rem 0 5rem;align-items:start;}
+@media(max-width:880px){.rv-layout{grid-template-columns:1fr;}}
+
+/* review cards */
+.rv-list{display:flex;flex-direction:column;gap:1.1rem;}
+.rv-card{background:var(--surface-card);border:1px solid var(--border-white);border-radius:var(--r-md);padding:1.5rem 1.6rem;position:relative;}
+.rv-card .quote-mark{position:absolute;top:1rem;right:1.4rem;font-family:var(--font-display);font-size:3rem;line-height:1;color:rgba(0,212,255,0.12);font-weight:900;}
+.rv-stars{display:flex;gap:2px;margin-bottom:0.8rem;}
+.rv-stars svg{width:15px;height:15px;}
+.rv-text{font-size:0.96rem;color:var(--on-white-700);line-height:1.7;margin-bottom:1.1rem;position:relative;z-index:1;}
+.rv-author{display:flex;align-items:center;gap:0.8rem;}
+.rv-avatar{width:42px;height:42px;border-radius:50%;background:linear-gradient(135deg,var(--cyan),#5b9dff);display:flex;align-items:center;justify-content:center;font-family:var(--font-display);font-weight:800;color:var(--navy-900);font-size:1rem;flex-shrink:0;}
+.rv-who .nm{font-family:var(--font-display);font-weight:700;color:var(--on-white-900);font-size:0.92rem;}
+.rv-who .ro{font-size:0.78rem;color:var(--on-white-300);}
+.rv-loading{text-align:center;padding:3rem 1rem;color:var(--on-white-300);}
+.rv-spin{width:36px;height:36px;border:3px solid var(--border-white);border-top-color:var(--cyan);border-radius:50%;animation:spin 0.9s linear infinite;margin:0 auto 1rem;}
+@keyframes spin{to{transform:rotate(360deg);}}
+.rv-empty{text-align:center;padding:2.5rem 1.5rem;color:var(--on-white-500);background:var(--surface-off);border-radius:var(--r-md);border:1px dashed var(--border-white);}
+
+/* form */
+.rv-form-card{background:var(--surface-card);border:1px solid var(--border-white);border-radius:var(--r-md);padding:1.8rem;position:sticky;top:80px;}
+.rv-form-card h3{font-family:var(--font-display);font-size:1.2rem;color:var(--on-white-900);margin-bottom:0.4rem;}
+.rv-form-card .sub{font-size:0.84rem;color:var(--on-white-500);line-height:1.6;margin-bottom:1.4rem;}
+.rv-field{margin-bottom:1rem;}
+.rv-field label{display:block;font-size:0.76rem;font-weight:600;color:var(--on-white-700);margin-bottom:0.4rem;letter-spacing:0.02em;}
+.rv-field input,.rv-field textarea{width:100%;background:var(--surface-off);border:1px solid var(--border-white);border-radius:var(--r-sm);padding:0.7rem 0.9rem;font-family:var(--font-body);font-size:0.9rem;color:var(--on-white-900);transition:border-color 0.15s;}
+.rv-field input:focus,.rv-field textarea:focus{outline:none;border-color:var(--cyan);}
+.rv-field textarea{resize:vertical;min-height:96px;}
+.rv-star-pick{display:flex;gap:5px;}
+.rv-star-pick button{background:none;border:none;cursor:pointer;padding:2px;line-height:0;}
+.rv-star-pick svg{width:28px;height:28px;transition:transform 0.1s;}
+.rv-star-pick button:hover svg{transform:scale(1.15);}
+.rv-submit{width:100%;background:var(--cyan);color:var(--navy-900);font-family:var(--font-body);font-weight:700;font-size:0.9rem;padding:0.8rem;border:none;border-radius:999px;cursor:pointer;box-shadow:0 4px 16px rgba(0,212,255,0.25);transition:transform 0.15s;}
+.rv-submit:hover{transform:translateY(-1px);}
+.rv-submit:disabled{opacity:0.6;cursor:default;transform:none;}
+.rv-note{font-size:0.74rem;color:var(--on-white-300);text-align:center;margin-top:0.9rem;line-height:1.5;}
+.rv-success{display:none;text-align:center;padding:1.5rem 0.5rem;}
+.rv-success .ic{width:54px;height:54px;border-radius:50%;background:#ecfdf5;border:2px solid #10b981;color:#059669;display:flex;align-items:center;justify-content:center;font-size:1.5rem;margin:0 auto 1rem;}
+.rv-success h4{font-family:var(--font-display);font-size:1.15rem;color:var(--on-white-900);margin-bottom:0.5rem;}
+.rv-success p{font-size:0.86rem;color:var(--on-white-500);line-height:1.6;}
+.rv-err{display:none;background:#fef2f2;border:1px solid #fecaca;color:#b91c1c;border-radius:var(--r-sm);padding:0.7rem 0.9rem;font-size:0.82rem;margin-top:0.8rem;}
+</style>
+</head>
+<body>
+
+<nav class="site-nav">
+  <div class="container nav-inner">
+    <a href="index.html" class="nav-logo"><span class="nav-logo-mark"><svg viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="rvn1" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#00d4ff"/><stop offset="1" stop-color="#5b9dff"/></linearGradient></defs><g stroke="url(#rvn1)" stroke-width="9" stroke-linecap="round" fill="none"><path d="M128 70 L186 104 L186 152 L128 186 L70 152 L70 104 Z"/><line x1="128" y1="70" x2="128" y2="128"/><line x1="186" y1="152" x2="128" y2="128"/><line x1="70" y1="152" x2="128" y2="128"/></g><g fill="#00d4ff"><circle cx="128" cy="70" r="11"/><circle cx="186" cy="104" r="9"/><circle cx="186" cy="152" r="9"/><circle cx="128" cy="186" r="11"/><circle cx="70" cy="152" r="9"/><circle cx="70" cy="104" r="9"/></g><circle cx="128" cy="128" r="14" fill="#aef0ff"/></svg></span>Datavoris</a>
+    <div class="nav-links">
+      <a href="index.html#services">Services</a>
+      <a href="index.html#tools">Tools</a>
+      <a href="index.html#work">Work</a>
+      <a href="dv-founder.html">Founder</a>
+      <a href="blog.html">Blog</a>
+      <a href="reviews.html" class="active">Reviews</a>
+      <a href="dv-assessment.html">Assessment</a>
+      <a href="index.html#contact">Contact</a>
+    </div>
+    <a href="index.html#contact" class="btn btn-cyan" style="font-size:0.82rem;padding:0.55rem 1.2rem">Hire Me</a>
+  </div>
+</nav>
+
+<div class="rv-hero">
+  <div class="container inner">
+    <span class="eyebrow eyebrow-navy">Client Reviews</span>
+    <h1>Trusted by teams who hate manual work</h1>
+    <p>Real words from people whose data systems I've built and automated. Worked with me? I'd genuinely value your review.</p>
+    <div class="rv-summary" id="rvSummary" style="display:none">
+      <div class="rv-bigscore"><span class="n" id="rvAvg">—</span><span class="of">/ 5</span></div>
+      <div>
+        <div class="rv-stars-lg" id="rvAvgStars"></div>
+        <div class="rv-count" id="rvCount"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+  <div class="rv-layout">
+
+    <!-- LEFT: reviews -->
+    <div>
+      <div class="rv-list" id="rvList">
+        <div class="rv-loading"><div class="rv-spin"></div>Loading reviews…</div>
+      </div>
+    </div>
+
+    <!-- RIGHT: form -->
+    <div>
+      <div class="rv-form-card">
+        <div id="rvFormInner">
+          <h3>Leave a review</h3>
+          <p class="sub">Submitted reviews are checked before they appear here. Thank you for taking the time.</p>
+
+          <div class="rv-field">
+            <label>Your rating</label>
+            <div class="rv-star-pick" id="starPick"></div>
+          </div>
+          <div class="rv-field">
+            <label for="rvName">Your name</label>
+            <input type="text" id="rvName" placeholder="e.g. Sarah Lee" maxlength="60"/>
+          </div>
+          <div class="rv-field">
+            <label for="rvEmail">Your email <span style="color:var(--on-white-300);font-weight:400">(kept private)</span></label>
+            <input type="email" id="rvEmail" placeholder="you@company.com" maxlength="120"/>
+          </div>
+          <div class="rv-field">
+            <label for="rvRole">Role &amp; company <span style="color:var(--on-white-300);font-weight:400">(optional)</span></label>
+            <input type="text" id="rvRole" placeholder="e.g. COO, Brightpath Consulting" maxlength="80"/>
+          </div>
+          <div class="rv-field">
+            <label for="rvText">Your review</label>
+            <textarea id="rvText" placeholder="What did we work on, and how did it go?" maxlength="600"></textarea>
+          </div>
+          <button class="rv-submit" id="rvSubmit">Submit review</button>
+          <div class="rv-err" id="rvErr"></div>
+          <p class="rv-note">🔒 Your email is never shown publicly. Reviews appear after a quick check.</p>
+        </div>
+
+        <div class="rv-success" id="rvSuccess">
+          <div class="ic">✓</div>
+          <h4>Thank you!</h4>
+          <p>Your review has been received and will appear here once it's approved. I really appreciate it.</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<footer class="site-footer">
+  <div class="container footer-inner">
+    <div>
+      <div class="footer-logo"><span class="nav-logo-mark" style="width:26px;height:26px"><svg viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="rvn2" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#00d4ff"/><stop offset="1" stop-color="#5b9dff"/></linearGradient></defs><g stroke="url(#rvn2)" stroke-width="9" stroke-linecap="round" fill="none"><path d="M128 70 L186 104 L186 152 L128 186 L70 152 L70 104 Z"/><line x1="128" y1="70" x2="128" y2="128"/><line x1="186" y1="152" x2="128" y2="128"/><line x1="70" y1="152" x2="128" y2="128"/></g><g fill="#00d4ff"><circle cx="128" cy="70" r="11"/><circle cx="186" cy="104" r="9"/><circle cx="186" cy="152" r="9"/><circle cx="128" cy="186" r="11"/><circle cx="70" cy="152" r="9"/><circle cx="70" cy="104" r="9"/></g><circle cx="128" cy="128" r="14" fill="#aef0ff"/></svg></span>Datavoris</div>
+      <p class="footer-tagline">Automated data solutions for modern teams.</p>
+    </div>
+    <div class="footer-right">
+      <p>© <span id="yr"></span> Datavoris · Ankush Gulati · Agra, India</p>
+      <p class="footer-meta">Power BI · Fabric · Python · OpenAI · Zapier · Google Sheets</p>
+    </div>
+  </div>
+</footer>
+
+<script>
+/* ════════════════════════════════════════════════════════════
+   SETUP: paste your Apps Script Web App URL between the quotes.
+   It's the SAME deployment as your contact/assessment form —
+   see REVIEWS-SETUP.md for the script and step-by-step guide.
+   ════════════════════════════════════════════════════════════ */
+const REVIEWS_ENDPOINT = "https://script.google.com/macros/s/AKfycbzTG5ZbJZgWIFdD7KrD17PDNciOOc3j1tSEdvGP4Ocktp7nSCjk2Esg-BU-GaI8_uWh/exec";
+
+document.getElementById('yr').textContent=new Date().getFullYear();
+
+const star=(f,sz)=>`<svg viewBox="0 0 24 24" width="${sz}" height="${sz}" fill="${f?'#00d4ff':'none'}" stroke="${f?'#00d4ff':'#7a90b8'}" stroke-width="1.6"><polygon points="12 2 15.1 8.6 22 9.3 17 14.1 18.2 21 12 17.6 5.8 21 7 14.1 2 9.3 8.9 8.6"/></svg>`;
+function starsRow(n,sz=15){let h='';for(let i=1;i<=5;i++)h+=star(i<=Math.round(n),sz);return h;}
+function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));}
+
+/* ---- star picker ---- */
+let chosen=5;
+const pick=document.getElementById('starPick');
+function renderPick(){pick.innerHTML='';for(let i=1;i<=5;i++){const b=document.createElement('button');b.type='button';b.innerHTML=star(i<=chosen,28);b.onclick=()=>{chosen=i;renderPick();};pick.appendChild(b);}}
+renderPick();
+
+/* ---- load approved reviews (GET returns JSON) ---- */
+async function loadReviews(){
+  const list=document.getElementById('rvList');
+  if(!REVIEWS_ENDPOINT||REVIEWS_ENDPOINT.startsWith('PASTE_')){
+    list.innerHTML='<div class="rv-empty">Reviews will appear here once the Google Sheet connection is set up. See REVIEWS-SETUP.md.</div>';
+    return;
+  }
+  try{
+    const res=await fetch(REVIEWS_ENDPOINT+'?action=reviews',{method:'GET'});
+    const data=await res.json();
+    const reviews=(data.reviews||data||[]).filter(r=>r&&r.text);
+    if(!reviews.length){list.innerHTML='<div class="rv-empty">No reviews yet — be the first to leave one!</div>';return;}
+    // summary
+    const avg=reviews.reduce((s,r)=>s+(+r.rating||5),0)/reviews.length;
+    document.getElementById('rvSummary').style.display='flex';
+    document.getElementById('rvAvg').textContent=avg.toFixed(1);
+    document.getElementById('rvAvgStars').innerHTML=starsRow(avg,20);
+    document.getElementById('rvCount').textContent=`Based on ${reviews.length} review${reviews.length>1?'s':''}`;
+    // cards (newest first if a date exists)
+    reviews.sort((a,b)=>String(b.date||'').localeCompare(String(a.date||'')));
+    list.innerHTML=reviews.map(r=>{
+      const name=esc(r.name||'Anonymous');
+      const initial=(name.trim()[0]||'?').toUpperCase();
+      return `<div class="rv-card"><span class="quote-mark">”</span>
+        <div class="rv-stars">${starsRow(+r.rating||5)}</div>
+        <div class="rv-text">${esc(r.text)}</div>
+        <div class="rv-author"><div class="rv-avatar">${initial}</div>
+        <div class="rv-who"><div class="nm">${name}</div>${r.role?`<div class="ro">${esc(r.role)}</div>`:''}</div></div></div>`;
+    }).join('');
+  }catch(err){
+    list.innerHTML='<div class="rv-empty">Couldn\'t load reviews right now. Please check back shortly.</div>';
+  }
+}
+
+/* ---- submit a review (no-cors POST, fire-and-forget) ---- */
+document.getElementById('rvSubmit').onclick=async()=>{
+  const name=document.getElementById('rvName').value.trim();
+  const email=document.getElementById('rvEmail').value.trim();
+  const role=document.getElementById('rvRole').value.trim();
+  const text=document.getElementById('rvText').value.trim();
+  const errBox=document.getElementById('rvErr');
+  errBox.style.display='none';
+  if(!name){errBox.textContent='Please add your name.';errBox.style.display='block';return;}
+  if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){errBox.textContent='Please add a valid email so we can verify your review. It stays private.';errBox.style.display='block';return;}
+  if(text.length<10){errBox.textContent='Please write a little more (at least 10 characters).';errBox.style.display='block';return;}
+  const btn=document.getElementById('rvSubmit');
+  btn.textContent='Sending…';btn.disabled=true;
+  if(REVIEWS_ENDPOINT&&!REVIEWS_ENDPOINT.startsWith('PASTE_')){
+    try{
+      await fetch(REVIEWS_ENDPOINT,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({type:'review',action:'review',name,email,role,rating:chosen,text})});
+    }catch(e){/* no-cors always opaque */}
+  }
+  document.getElementById('rvFormInner').style.display='none';
+  document.getElementById('rvSuccess').style.display='block';
+};
+
+loadReviews();
+</script>
+</body>
+</html>
