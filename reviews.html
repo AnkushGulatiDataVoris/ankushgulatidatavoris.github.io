@@ -22,6 +22,35 @@
 .rv-hero h1{color:var(--text-100);font-size:clamp(2rem,4vw,2.8rem);margin:0.8rem 0 0.7rem;}
 .rv-hero p{color:var(--text-500);font-size:1.02rem;line-height:1.75;max-width:560px;}
 .rv-summary{display:flex;align-items:center;gap:1.5rem;margin-top:1.6rem;flex-wrap:wrap;}
+/* ── UPWORK TRUST SECTION ── */
+.uw-band{background:var(--surface-card);border:1px solid var(--border-white);border-radius:var(--r-md);padding:1.6rem 1.8rem;margin:2.5rem 0 0;}
+.uw-head{display:flex;align-items:center;gap:0.7rem;flex-wrap:wrap;margin-bottom:1.3rem;}
+.uw-intro{font-size:0.9rem;color:var(--on-white-500);line-height:1.6;margin-bottom:1.2rem;max-width:560px;}
+.uw-logo{display:inline-flex;align-items:center;gap:0.45rem;font-family:var(--font-display);font-weight:800;font-size:1.05rem;color:#14a800;}
+.uw-logo .dot{width:22px;height:22px;border-radius:50%;background:#14a800;color:#fff;display:flex;align-items:center;justify-content:center;font-size:0.8rem;}
+.uw-badges{display:flex;gap:0.5rem;flex-wrap:wrap;margin-left:auto;}
+.uw-badge{font-size:0.74rem;font-weight:600;padding:0.3rem 0.8rem;border-radius:999px;}
+.uw-badge.jss{background:rgba(20,168,0,0.12);color:#14a800;border:1px solid rgba(20,168,0,0.3);}
+.uw-badge.trp{background:rgba(216,84,204,0.12);color:#c44db0;border:1px solid rgba(216,84,204,0.3);}
+.uw-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:1.2rem;margin-bottom:1.4rem;}
+.uw-stat{text-align:center;}
+.uw-stat .n{font-family:var(--font-display);font-size:1.7rem;font-weight:900;color:var(--on-white-900);letter-spacing:-0.02em;line-height:1;}
+.uw-stat .l{font-size:0.74rem;color:var(--on-white-300);text-transform:uppercase;letter-spacing:0.06em;margin-top:0.3rem;}
+.uw-shot{display:block;width:100%;max-width:560px;border-radius:var(--r-sm);border:1px solid var(--border-white);margin-bottom:1.2rem;}
+.uw-verify{display:inline-flex;align-items:center;gap:0.5rem;background:#14a800;color:#fff;font-weight:700;font-size:0.84rem;padding:0.6rem 1.3rem;border-radius:999px;text-decoration:none;transition:transform 0.15s;}
+.uw-verify:hover{transform:translateY(-1px);}
+.uw-note{font-size:0.74rem;color:var(--on-white-300);margin-top:0.8rem;}
+.uw-reviews{margin-top:1.5rem;}
+.uw-rev-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-top:1rem;}
+.uw-rev{background:var(--surface-card);border:1px solid var(--border-white);border-radius:var(--r-md);padding:1.3rem 1.4rem;border-top:3px solid #14a800;}
+.uw-rev .stars{display:flex;gap:2px;margin-bottom:0.7rem;}
+.uw-rev .stars svg{width:14px;height:14px;}
+.uw-rev .txt{font-size:0.9rem;color:var(--on-white-700);line-height:1.65;margin-bottom:1rem;}
+.uw-rev .who{font-family:var(--font-display);font-weight:700;font-size:0.86rem;color:var(--on-white-900);}
+.uw-rev .proj{font-size:0.74rem;color:var(--on-white-300);margin-top:0.15rem;}
+.uw-rev .src{font-size:0.68rem;color:#14a800;font-weight:600;margin-top:0.6rem;display:inline-flex;align-items:center;gap:4px;}
+@media(max-width:880px){.uw-rev-grid{grid-template-columns:1fr;}}
+@media(max-width:600px){.uw-stats{grid-template-columns:repeat(3,1fr);gap:0.6rem;}.uw-stat .n{font-size:1.25rem;}.uw-badges{margin-left:0;width:100%;}}
 .rv-bigscore{display:flex;align-items:baseline;gap:0.5rem;}
 .rv-bigscore .n{font-family:var(--font-display);font-size:2.6rem;font-weight:900;color:var(--cyan);letter-spacing:-0.03em;line-height:1;}
 .rv-bigscore .of{font-size:0.9rem;color:var(--text-500);}
@@ -82,14 +111,14 @@
       <a href="index.html#services">Services</a>
       <a href="index.html#tools">Tools</a>
       <a href="index.html#work">Work</a>
-      <a href="dv-founder.html">Founder</a>
+      <a href="dv-founder.html">About</a>
       <a href="blog.html">Blog</a>
       <a href="reviews.html" class="active">Reviews</a>
       <a href="dv-assessment.html">Assessment</a>
       <a href="index.html#contact">Contact</a>
     </div>
     <button class="nav-hamburger" id="navToggle" aria-label="Menu" onclick="document.getElementById('navLinks').classList.toggle('open')">☰</button>
-    <a href="index.html#contact" class="btn btn-cyan" style="font-size:0.82rem;padding:0.55rem 1.2rem">Hire Me</a>
+    <a href="index.html#contact" class="btn btn-cyan" style="font-size:0.82rem;padding:0.55rem 1.2rem">Let's talk</a>
   </div>
 </nav>
 
@@ -109,6 +138,20 @@
 </div>
 
 <div class="container">
+
+  <div class="uw-band">
+    <div class="uw-head">
+      <span class="uw-logo">✓ Verified on Upwork</span>
+      <div class="uw-badges">
+        <span class="uw-badge jss">100% Job Success</span>
+        <span class="uw-badge trp">Top Rated Plus</span>
+      </div>
+    </div>
+    <p class="uw-intro">My track record, verified on Upwork — where every review comes from a real, paying client.</p>
+    <img class="uw-shot" src="upwork-profile.png" alt="Ankush Gulati — Upwork profile" onerror="this.style.display='none'"/>
+    <a class="uw-verify" href="https://www.upwork.com/freelancers/~PASTE_YOUR_UPWORK_PROFILE_ID" target="_blank" rel="noopener">View my Upwork profile →</a>
+  </div>
+
   <div class="rv-layout">
 
     <!-- LEFT: reviews -->

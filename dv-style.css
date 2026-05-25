@@ -306,6 +306,18 @@ h3 { font-size: 1.15rem; font-weight: 700; }
 .tile-skills { display: flex; flex-wrap: wrap; gap: 0.3rem; }
 .tile-skill { font-size: 0.68rem; color: var(--navy-800); background: rgba(0,212,255,0.1); border-radius: 4px; padding: 0.15rem 0.5rem; font-weight: 500; }
 .service-arrow { font-size: 0.75rem; color: var(--on-white-300); opacity: 0; transform: translateX(-4px); transition: all 0.2s; display: block; margin-top: 0.8rem; }
+.service-tile.open .service-arrow { opacity: 1; transform: translateX(0); }
+.svc-toggle { background: none; border: none; padding: 0; margin-top: 0.9rem; cursor: pointer; font-family: var(--font-body); font-size: 0.78rem; font-weight: 600; color: var(--cyan); display: inline-flex; align-items: center; gap: 5px; }
+.svc-toggle .chev { transition: transform 0.2s; }
+.service-tile.open .svc-toggle .chev { transform: rotate(180deg); }
+.svc-detail { max-height: 0; overflow: hidden; transition: max-height 0.3s ease; }
+.service-tile.open .svc-detail { max-height: 360px; }
+.svc-detail-inner { padding-top: 1rem; margin-top: 1rem; border-top: 1px solid var(--border-white); }
+.svc-detail-inner ul { list-style: none; padding: 0; margin: 0 0 1rem; }
+.svc-detail-inner li { font-size: 0.78rem; color: var(--on-white-500); line-height: 1.5; padding-left: 1.1rem; position: relative; margin-bottom: 0.4rem; }
+.svc-detail-inner li::before { content: '✓'; position: absolute; left: 0; color: var(--cyan); font-weight: 700; }
+.svc-discuss { display: inline-flex; align-items: center; gap: 5px; font-size: 0.78rem; font-weight: 600; color: var(--navy-900); background: var(--cyan); padding: 0.45rem 0.95rem; border-radius: 999px; text-decoration: none; }
+.svc-discuss:hover { transform: translateY(-1px); }
 
 /* ── TOOLS SECTION ── */
 .tools-section { background: var(--navy-800); padding: 5rem 0; }
@@ -639,3 +651,19 @@ h3 { font-size: 1.15rem; font-weight: 700; }
   .founder-photo-frame .ring img,
   .founder-photo-frame .founder-photo-large { height: 260px; }
 }
+
+/* ── UPWORK CREDIBILITY STRIP (homepage) ── */
+.uw-strip {
+  background: #0c1f14;
+  border-top: 1px solid rgba(20,168,0,0.4);
+  border-bottom: 1px solid rgba(20,168,0,0.4);
+  padding: 0.9rem 0;
+}
+.uw-strip-inner { display:flex; align-items:center; justify-content:center; gap:1.5rem; flex-wrap:wrap; }
+.uw-strip-badge { display:inline-flex; align-items:center; gap:0.5rem; font-weight:600; font-size:0.88rem; color:#4ade80; }
+.uw-strip-dot { width:22px; height:22px; border-radius:50%; background:#14a800; color:#fff; display:inline-flex; align-items:center; justify-content:center; font-size:0.8rem; font-weight:700; }
+.uw-strip-stats { display:flex; gap:1.4rem; font-size:0.88rem; color:#a7c4b5; }
+.uw-strip-stats b { color:#ffffff; font-weight:700; }
+.uw-strip-link { color:#4ade80; font-weight:600; font-size:0.88rem; text-decoration:none; white-space:nowrap; }
+.uw-strip-link:hover { text-decoration:underline; }
+@media(max-width:680px){ .uw-strip-stats { gap:0.9rem; font-size:0.8rem; } .uw-strip-badge { font-size:0.8rem; } }
