@@ -5,16 +5,16 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Datavoris Blog</title>
 <meta name="description" content="Datavoris blog post."/>
-<link rel="icon" type="image/svg+xml" href="favicon.svg"/>
-<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png"/>
-<link rel="icon" type="image/png" sizes="16x16" href="favicon-16.png"/>
-<link rel="shortcut icon" href="favicon.ico"/>
-<link rel="apple-touch-icon" href="favicon-preview-256.png"/>
+<link rel="icon" type="image/svg+xml" href="favicon.svg?v=2"/>
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png?v=2"/>
+<link rel="icon" type="image/png" sizes="16x16" href="favicon-16.png?v=2"/>
+<link rel="shortcut icon" href="favicon.ico?v=2"/>
+<link rel="apple-touch-icon" href="favicon-preview-256.png?v=2"/>
 <meta name="theme-color" content="#0a1628"/>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
 <link href="https://fonts.googleapis.com/css2?family=Cabinet+Grotesk:wght@300;400;500;700;800;900&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet"/>
-<link rel="stylesheet" href="dv-style.css"/>
+<link rel="stylesheet" href="dv-style.css?v=4"/>
 <style>
 .article-head{background:var(--navy-800);padding:3rem 0 2.6rem;position:relative;overflow:hidden;}
 .article-head::before{content:'';position:absolute;top:-80px;right:0;width:420px;height:420px;background:radial-gradient(circle,rgba(0,212,255,0.07),transparent 65%);}
@@ -69,7 +69,7 @@
 <nav class="site-nav">
   <div class="container nav-inner">
     <a href="index.html" class="nav-logo"><span class="nav-logo-mark"><svg viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="nm10" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#00d4ff"/><stop offset="1" stop-color="#5b9dff"/></linearGradient></defs><g stroke="url(#nm10)" stroke-width="9" stroke-linecap="round" fill="none"><path d="M128 70 L186 104 L186 152 L128 186 L70 152 L70 104 Z"/><line x1="128" y1="70" x2="128" y2="128"/><line x1="186" y1="152" x2="128" y2="128"/><line x1="70" y1="152" x2="128" y2="128"/></g><g fill="#00d4ff"><circle cx="128" cy="70" r="11"/><circle cx="186" cy="104" r="9"/><circle cx="186" cy="152" r="9"/><circle cx="128" cy="186" r="11"/><circle cx="70" cy="152" r="9"/><circle cx="70" cy="104" r="9"/></g><circle cx="128" cy="128" r="14" fill="#aef0ff"/></svg></span>Datavoris</a>
-    <div class="nav-links">
+    <div class="nav-links" id="navLinks">
       <a href="index.html#services">Services</a>
       <a href="index.html#tools">Tools</a>
       <a href="index.html#work">Work</a>
@@ -79,6 +79,7 @@
       <a href="dv-assessment.html">Assessment</a>
       <a href="index.html#contact">Contact</a>
     </div>
+    <button class="nav-hamburger" id="navToggle" aria-label="Menu" onclick="document.getElementById('navLinks').classList.toggle('open')">☰</button>
     <a href="index.html#contact" class="btn btn-cyan" style="font-size:0.82rem;padding:0.55rem 1.2rem">Hire Me</a>
   </div>
 </nav>
@@ -227,5 +228,6 @@ function mdToHtml(md){
   }
 })();
 </script>
+<script>(function closeNavOnClick(){var n=document.getElementById("navLinks");if(n)n.querySelectorAll("a").forEach(function(a){a.addEventListener("click",function(){n.classList.remove("open");});});})();</script>
 </body>
 </html>

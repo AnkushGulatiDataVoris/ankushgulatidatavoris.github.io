@@ -5,11 +5,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Instant Data Analyzer — Datavoris</title>
 <meta name="description" content="Upload a small dataset and get instant analytics — entirely in your browser. Your data never leaves your device."/>
-<link rel="icon" type="image/svg+xml" href="favicon.svg"/>
-<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png"/>
-<link rel="icon" type="image/png" sizes="16x16" href="favicon-16.png"/>
-<link rel="shortcut icon" href="favicon.ico"/>
-<link rel="apple-touch-icon" href="favicon-preview-256.png"/>
+<link rel="icon" type="image/svg+xml" href="favicon.svg?v=2"/>
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png?v=2"/>
+<link rel="icon" type="image/png" sizes="16x16" href="favicon-16.png?v=2"/>
+<link rel="shortcut icon" href="favicon.ico?v=2"/>
+<link rel="apple-touch-icon" href="favicon-preview-256.png?v=2"/>
 <meta name="theme-color" content="#0a1628"/>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
@@ -121,6 +121,12 @@ body{font-family:var(--fb);background:var(--wh);color:var(--ow9);min-height:100v
 
 /* insights */
 .insight-list{display:flex;flex-direction:column;gap:0.7rem;}
+.exec-summary{background:linear-gradient(135deg,#0a1628,#0f1e3d);border-radius:var(--r);padding:1.6rem 1.8rem;position:relative;overflow:hidden;border:1px solid rgba(0,212,255,0.2);}
+.exec-summary::before{content:'';position:absolute;top:-40px;right:-30px;width:200px;height:200px;background:radial-gradient(circle,rgba(0,212,255,0.12),transparent 65%);}
+.exec-summary .es-tag{font-size:0.66rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--cyan);margin-bottom:0.7rem;display:flex;align-items:center;gap:7px;position:relative;z-index:1;}
+.exec-summary p{font-size:0.95rem;line-height:1.75;color:#dce8ff;position:relative;z-index:1;margin:0;}
+.exec-summary p b{color:#fff;font-weight:700;}
+.exec-summary .es-cyan{color:var(--cyan);font-weight:600;}
 .insight{background:var(--card);border:1px solid var(--bw);border-radius:var(--r);padding:1rem 1.2rem;display:flex;gap:0.85rem;align-items:flex-start;border-left:3px solid var(--cyan);}
 .insight.warn{border-left-color:var(--amber);}
 .insight.good{border-left-color:var(--em);}
@@ -183,7 +189,61 @@ table.prev tr:hover td{background:var(--off);}
 @keyframes anzPulse{0%,100%{opacity:1;transform:scale(1);}50%{opacity:0.4;transform:scale(0.7);}}
 .anz-priv{font-size:0.74rem;color:#047857;background:#ecfdf5;border:1px solid #a7f3d0;border-radius:999px;padding:0.35rem 0.9rem;}
 
+/* ── POWER BI-STYLE DASHBOARD ── */
+.dash{display:grid;grid-template-columns:210px 1fr;gap:1rem;margin-top:1rem;align-items:start;}
+.dash-filters{background:var(--card);border:1px solid var(--bw);border-radius:var(--r);padding:1.1rem 1rem;position:sticky;top:76px;}
+.dash-filters-head{display:flex;align-items:center;justify-content:space-between;width:100%;background:none;border:none;padding:0;cursor:default;font-family:var(--fd);font-size:0.82rem;font-weight:800;color:var(--ow9);margin-bottom:0.2rem;}
+.dash-filters-head .fh-ic{margin-right:6px;}
+.dash-filters-head .fh-chev{display:none;color:var(--ow5);font-size:0.9rem;}
+.dash-filters .fsub{font-size:0.7rem;color:var(--ow3);margin-bottom:1rem;}
+.filter-group{margin-bottom:1.1rem;}
+.filter-group .fg-label{font-size:0.68rem;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;color:var(--ow5);margin-bottom:0.5rem;}
+.filter-opt{display:flex;align-items:center;gap:7px;font-size:0.8rem;color:var(--ow7);padding:0.28rem 0.4rem;border-radius:6px;cursor:pointer;transition:background 0.12s;}
+.filter-opt:hover{background:var(--off);}
+.filter-opt input{accent-color:var(--cyan);cursor:pointer;width:14px;height:14px;flex-shrink:0;}
+.filter-opt .cnt{margin-left:auto;font-size:0.68rem;color:var(--ow3);}
+.filter-reset{width:100%;background:transparent;border:1px solid var(--bw);color:var(--ow5);font-size:0.75rem;font-weight:600;padding:0.45rem;border-radius:var(--rsm);cursor:pointer;font-family:var(--fb);transition:all 0.15s;}
+.filter-reset:hover{border-color:var(--cyan);color:var(--cyan);}
+.dash-main{min-width:0;}
+.dash-kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:0.7rem;margin-bottom:1rem;}
+.dash-kpi{background:var(--card);border:1px solid var(--bw);border-radius:var(--r);padding:0.9rem 1rem;border-top:3px solid var(--cyan);}
+.dash-kpi:nth-child(2){border-top-color:#5b9dff;}
+.dash-kpi:nth-child(3){border-top-color:#10d9a0;}
+.dash-kpi:nth-child(4){border-top-color:#f59e0b;}
+.dash-kpi .k-n{font-family:var(--fd);font-size:1.4rem;font-weight:900;color:var(--ow9);letter-spacing:-0.02em;line-height:1.1;}
+.dash-kpi .k-l{font-size:0.68rem;color:var(--ow3);text-transform:uppercase;letter-spacing:0.06em;margin-top:0.25rem;}
+.dash-grid{display:grid;grid-template-columns:1fr 1fr;gap:0.8rem;}
+.dash-viz{background:var(--card);border:1px solid var(--bw);border-radius:var(--r);padding:1rem 1.1rem;}
+.dash-viz h5{font-family:var(--fd);font-size:0.86rem;font-weight:700;color:var(--ow9);margin-bottom:0.15rem;}
+.dash-viz .v-sub{font-size:0.7rem;color:var(--ow3);margin-bottom:0.7rem;}
+.dash-viz .v-wrap{position:relative;height:190px;}
+.dash-active-note{font-size:0.72rem;color:var(--cyan);margin-bottom:0.8rem;font-weight:600;min-height:1em;}
+/* ── HOW WE'D BUILD THIS (process roadmap) ── */
+.roadmap{margin-top:1rem;}
+.rm-intro{font-size:0.92rem;color:var(--ow7);line-height:1.7;margin-bottom:1.4rem;max-width:680px;}
+.rm-intro b{color:var(--ow9);}
+.rm-steps{display:grid;grid-template-columns:repeat(5,1fr);gap:0.7rem;margin-bottom:1.4rem;}
+.rm-step{background:var(--card);border:1px solid var(--bw);border-radius:var(--r);padding:1rem 0.9rem;position:relative;}
+.rm-step .rm-num{width:26px;height:26px;border-radius:7px;background:var(--n8);color:var(--cyan);font-family:var(--fd);font-weight:800;font-size:0.8rem;display:flex;align-items:center;justify-content:center;margin-bottom:0.6rem;}
+.rm-step h5{font-family:var(--fd);font-size:0.82rem;font-weight:700;color:var(--ow9);margin-bottom:0.3rem;line-height:1.25;}
+.rm-step p{font-size:0.72rem;color:var(--ow5);line-height:1.5;}
+.rm-meta{display:flex;gap:0.7rem;flex-wrap:wrap;margin-bottom:1.4rem;}
+.rm-pill{display:inline-flex;align-items:center;gap:7px;background:var(--card);border:1px solid var(--bw);border-radius:999px;padding:0.5rem 1rem;font-size:0.8rem;color:var(--ow7);}
+.rm-pill b{color:var(--ow9);font-weight:700;}
+.rm-pill .rm-ic{color:var(--cyan);}
+@media(max-width:760px){.rm-steps{grid-template-columns:1fr 1fr;}}
+
 @media(max-width:760px){
+  .dash{grid-template-columns:1fr;}
+  .dash-filters{position:static;order:2;padding:0.5rem 0.9rem;}
+  .dash-main{order:1;}
+  .dash-filters-head{cursor:pointer;padding:0.5rem 0;}
+  .dash-filters-head .fh-chev{display:inline;transition:transform 0.2s;}
+  .dash-filters.open .fh-chev{transform:rotate(180deg);}
+  .dash-filters-body{display:none;}
+  .dash-filters.open .dash-filters-body{display:block;padding-top:0.4rem;}
+  .dash-kpis{grid-template-columns:repeat(2,1fr);}
+  .dash-grid{grid-template-columns:1fr;}
   .kpis{grid-template-columns:repeat(2,1fr);}
   .chart-grid{grid-template-columns:1fr;}
   .col-hdr,.col-row{grid-template-columns:1.4fr 0.8fr 0.6fr;}
@@ -298,25 +358,61 @@ function handleFile(file){
 
 function loadSample(){
   clearErr();
-  const regions=['North','South','East','West'],reps=['Asha','Vikram','Maya','Devon','Priya'],cats=['Software','Hardware','Services'];
-  const headers=['Date','Region','Sales Rep','Category','Units','Unit Price','Revenue','Discount %','Customer Satisfaction'];
+  // Realistic B2B sales data with deliberate, discoverable patterns:
+  // - upward growth trend across the year + Q4 seasonal bump
+  // - West region outperforms; one rep (Priya) is a top performer
+  // - Enterprise deals are larger but rarer; clear units↔revenue link
+  // - a few missing CSAT values (realistic data-quality gap)
+  const regions=['North','South','East','West'];
+  const regionStrength={North:0.85,South:0.95,East:0.8,West:1.35}; // West strongest
+  const reps=['Asha Rao','Vikram Singh','Maya Iyer','Devon Clarke','Priya Nair'];
+  const repStrength={'Asha Rao':0.95,'Vikram Singh':0.85,'Maya Iyer':1.0,'Devon Clarke':0.8,'Priya Nair':1.4}; // Priya top
+  const segments=['SMB','Mid-Market','Enterprise'];
+  const segMix=[0.5,0.35,0.15]; // Enterprise rarer
+  const products=['Analytics Suite','Automation Platform','Data Warehouse','Support Plan'];
+  const headers=['Date','Region','Sales Rep','Segment','Product','Units','Deal Size','Discount %','Revenue','CSAT'];
   const data=[];
-  for(let i=0;i<180;i++){
-    const units=Math.round(2+Math.random()*40);
-    const price=+(50+Math.random()*450).toFixed(2);
-    const disc=Math.random()<0.3?+(Math.random()*25).toFixed(1):0;
-    const rev=+(units*price*(1-disc/100)).toFixed(2);
-    const d=new Date(2024,Math.floor(Math.random()*12),1+Math.floor(Math.random()*28));
+
+  function pickWeighted(arr,weights){
+    const r=Math.random();let acc=0;
+    for(let i=0;i<arr.length;i++){acc+=weights[i];if(r<=acc)return arr[i];}
+    return arr[arr.length-1];
+  }
+
+  for(let i=0;i<220;i++){
+    const month=Math.floor(Math.random()*12); // 0-11
+    // growth trend: deals get bigger later in the year, plus a Q4 (Oct-Dec) bump
+    const trend=1+(month/11)*0.5;
+    const q4=(month>=9)?1.25:1;
+    const region=regions[Math.floor(Math.random()*regions.length)];
+    const rep=reps[Math.floor(Math.random()*reps.length)];
+    const seg=pickWeighted(segments,segMix);
+    const segMult=seg==='Enterprise'?3.2:seg==='Mid-Market'?1.6:1;
+    const product=products[Math.floor(Math.random()*products.length)];
+
+    const units=Math.max(1,Math.round((seg==='Enterprise'?8:seg==='Mid-Market'?4:2)+Math.random()*6*segMult));
+    const dealSize=+( (400+Math.random()*600) * segMult ).toFixed(2); // price per unit
+    const disc=Math.random()<0.35?+(Math.random()*22).toFixed(1):0;
+    const baseRev=units*dealSize*(1-disc/100);
+    const revenue=+(baseRev*trend*q4*regionStrength[region]*repStrength[rep]).toFixed(2);
+    const d=new Date(2024,month,1+Math.floor(Math.random()*28));
+    // CSAT: generally high, slightly lower when big discounts (haggled deals), ~6% missing
+    const csat=Math.random()<0.06?null:+Math.min(5,Math.max(2.5,(4.4-(disc/100)*1.5+ (Math.random()*0.6-0.3)))).toFixed(1);
+
     data.push({
       'Date':d.toISOString().slice(0,10),
-      'Region':regions[Math.floor(Math.random()*regions.length)],
-      'Sales Rep':reps[Math.floor(Math.random()*reps.length)],
-      'Category':cats[Math.floor(Math.random()*cats.length)],
-      'Units':units,'Unit Price':price,'Revenue':rev,'Discount %':disc,
-      'Customer Satisfaction':Math.random()<0.08?null:+(3+Math.random()*2).toFixed(1)
+      'Region':region,
+      'Sales Rep':rep,
+      'Segment':seg,
+      'Product':product,
+      'Units':units,
+      'Deal Size':dealSize,
+      'Discount %':disc,
+      'Revenue':revenue,
+      'CSAT':csat
     });
   }
-  analyze(headers,data,'sample-sales-data.csv');
+  runAnzProc(()=>analyze(headers,data,'sample-sales-data.csv'));
 }
 
 // ---------- PROCESSING ANIMATION ----------
@@ -329,12 +425,12 @@ function runAnzProc(done){
   overlay.classList.add('show');
   const heads=['Reading your data…','Understanding your columns…','Crunching the numbers…','Spotting the patterns…','Drawing it all up…'];
   const targets=[20,44,64,84,100];
-  const holds=[360,460,440,500,420];
+  const holds=[800,1000,950,1050,800];
   let i=0,prog=0;
   function setProg(p){prog=p;if(ring)ring.style.strokeDashoffset=C*(1-p/100);if(pctEl)pctEl.textContent=Math.round(p)+'%';}
   function tick(){
     if(i>=steps.length){
-      setTimeout(()=>{overlay.classList.remove('show');done();},240);
+      setTimeout(()=>{overlay.classList.remove('show');done();},600);
       return;
     }
     steps[i].classList.add('active');
@@ -349,7 +445,7 @@ function runAnzProc(done){
     requestAnimationFrame(anim);
   }
   setProg(0);
-  setTimeout(tick,200);
+  setTimeout(tick,400);
 }
 
 // ---------- TYPE DETECTION ----------
@@ -445,6 +541,31 @@ function analyze(headers,data,fname){
     <button class="file-reset" onclick="resetTool()">↺ Analyze another file</button>
   </div>
 
+  <div class="exec-summary">
+    <div class="es-tag">📋 Executive Summary</div>
+    <p>${execSummary(cols,numCols,catCols,dateCol0(cols),rowCount,completeness,dupes,health,fname)}</p>
+  </div>
+
+  <div class="sec-label">Interactive dashboard</div>
+  <div class="dash">
+    <aside class="dash-filters" id="dashFilters">
+      <button class="dash-filters-head" type="button" onclick="toggleFilters()" aria-expanded="false">
+        <span><span class="fh-ic">⚙</span> Filters</span>
+        <span class="fh-chev" id="fhChev">▾</span>
+      </button>
+      <div class="dash-filters-body" id="dashFiltersBody">
+        <div class="fsub">Tap a value to slice the report</div>
+        <div id="filterBody"></div>
+        <button class="filter-reset" onclick="clearFilters()">Reset all filters</button>
+      </div>
+    </aside>
+    <div class="dash-main">
+      <div class="dash-active-note" id="activeNote"></div>
+      <div class="dash-kpis" id="dashKpis"></div>
+      <div class="dash-grid" id="dashGrid"></div>
+    </div>
+  </div>
+
   <div class="sec-label">Overview</div>
   <div class="kpis">
     <div class="kpi"><div class="kpi-n">${rowCount.toLocaleString()}</div><div class="kpi-l">Rows</div></div>
@@ -462,7 +583,7 @@ function analyze(headers,data,fname){
 
   // INSIGHTS
   const ins=buildInsights(cols,numCols,catCols,dupes,rowCount,completeness);
-  html+=`<div class="sec-label">What stands out</div><div class="insight-list">`;
+  html+=`<div class="sec-label">Key findings</div><div class="insight-list">`;
   ins.forEach(i=>html+=`<div class="insight ${i.t}"><span class="insight-ic">${i.ic}</span><div class="insight-tx">${i.x}</div></div>`);
   html+=`</div>`;
 
@@ -538,12 +659,30 @@ function analyze(headers,data,fname){
     data.slice(0,8).map(r=>`<tr>`+cols.map(c=>`<td>${esc(fmtCell(r[c.name]))}</td>`).join('')+`</tr>`).join('')+
     `</tbody></table></div>`;
 
+  // HOW WE'D BUILD THIS (process roadmap, no hard pricing)
+  html+=`<div class="sec-label">How we'd turn this into a live system</div>
+  <div class="roadmap">
+    <p class="rm-intro">What you're looking at is a one-off snapshot. The real value is when it runs <b>automatically</b> — refreshing on its own, flagging issues, and landing in your inbox or a live dashboard. Here's exactly how I'd take <b>your ${rowCount.toLocaleString()} rows across ${cols.length} columns</b> from this preview to a system that runs itself.</p>
+    <div class="rm-steps">
+      <div class="rm-step"><div class="rm-num">1</div><h5>Discovery call</h5><p>We talk through your data, your goal, and where the manual pain is. Free, ~30 min.</p></div>
+      <div class="rm-step"><div class="rm-num">2</div><h5>Scope &amp; quote</h5><p>You get a clear, fixed proposal — exact deliverables, timeline, and price. No surprises.</p></div>
+      <div class="rm-step"><div class="rm-num">3</div><h5>Build &amp; automate</h5><p>I build the pipeline, dashboards, and automations that turn this into a living system.</p></div>
+      <div class="rm-step"><div class="rm-num">4</div><h5>Test &amp; launch</h5><p>We validate everything end-to-end, deploy it, and I hand it over with a walkthrough.</p></div>
+      <div class="rm-step"><div class="rm-num">5</div><h5>Support</h5><p>It keeps running quietly in the background — and I'm there if anything needs a tweak.</p></div>
+    </div>
+    <div class="rm-meta">
+      <span class="rm-pill"><span class="rm-ic">⏱</span><b>Typically live in 2–4 weeks</b>, depending on scope</span>
+      <span class="rm-pill"><span class="rm-ic">💬</span>Pricing is <b>tailored to your project</b> — quoted upfront, fixed</span>
+      <span class="rm-pill"><span class="rm-ic">🔒</span>Your data stays yours, handled securely</span>
+    </div>
+  </div>`;
+
   // CTA
   html+=`<div class="cta">
-    <h2>This took 2 seconds. Imagine it running every day.</h2>
-    <p>This is a fraction of what an automated reporting system does — refreshing live, flagging issues, and delivering this straight to your inbox or dashboard. That's exactly what I build for businesses.</p>
+    <h2>Want this running on your real data?</h2>
+    <p>Book a free discovery call and I'll show you exactly what it would take to turn your data into an automated system — with a clear quote, no obligation.</p>
     <div class="cta-actions">
-      <a href="index.html#contact" class="btn-cy">Automate this for my business →</a>
+      <a href="index.html#contact" class="btn-cy">Book a free discovery call →</a>
       <a href="dv-assessment.html" class="btn-ol">Take the data maturity assessment</a>
     </div>
   </div>`;
@@ -554,7 +693,19 @@ function analyze(headers,data,fname){
   drop.style.display='none';
   window.scrollTo({top:0,behavior:'smooth'});
 
-  // RENDER CHARTS
+  // ── DASHBOARD SETUP ──
+  DASH.headers=headers; DASH.data=data; DASH.cols=cols;
+  DASH.numCols=numCols; DASH.catCols=catCols; DASH.dateCol=dateCol0(cols);
+  DASH.health=health; DASH.completeness=completeness;
+  // headline numeric metric = largest-magnitude mean
+  DASH.metric=numCols.slice().sort((a,b)=>(Math.abs(b.stats?b.stats.mean:0))-(Math.abs(a.stats?a.stats.mean:0)))[0]||null;
+  // up to 4 categorical filters (fewest unique values first = most useful as slicers)
+  DASH.filterCols=catCols.slice().sort((a,b)=>a.uniq-b.uniq).filter(c=>c.uniq<=12).slice(0,4);
+  DASH.filters={}; // {colName: Set(selectedValues)}
+  buildFilterPanel();
+  renderDashboard();
+
+  // RENDER CHARTS (legacy detailed section below the dashboard)
   requestAnimationFrame(()=>{
     Chart.defaults.font.family="'DM Sans',sans-serif";
     chartDefs.slice(0,4).forEach((d,i)=>{
@@ -578,7 +729,189 @@ function analyze(headers,data,fname){
   });
 }
 
+const DASH={};
+let dashCharts=[];
+
+function getFilteredRows(){
+  const f=DASH.filters||{};
+  const active=Object.keys(f).filter(k=>f[k]&&f[k].size>0);
+  if(!active.length)return DASH.data;
+  return DASH.data.filter(r=>active.every(col=>f[col].has(String(r[col]==null?'':r[col]))));
+}
+
+function buildFilterPanel(){
+  const body=$('filterBody');
+  if(!DASH.filterCols.length){body.innerHTML='<div style="font-size:0.76rem;color:var(--ow3);line-height:1.5">No categorical columns available to filter on.</div>';return;}
+  let h='';
+  DASH.filterCols.forEach(c=>{
+    const f=freq(c.values,12);
+    h+=`<div class="filter-group"><div class="fg-label">${esc(c.name)}</div>`;
+    f.forEach(([val,cnt])=>{
+      const id='flt_'+Math.random().toString(36).slice(2,8);
+      h+=`<label class="filter-opt"><input type="checkbox" data-col="${esc(c.name)}" data-val="${esc(val)}" onchange="onFilterChange(this)"><span>${esc(val)}</span><span class="cnt">${cnt}</span></label>`;
+    });
+    h+=`</div>`;
+  });
+  body.innerHTML=h;
+}
+
+function onFilterChange(el){
+  const col=el.getAttribute('data-col'), val=el.getAttribute('data-val');
+  if(!DASH.filters[col])DASH.filters[col]=new Set();
+  if(el.checked)DASH.filters[col].add(val); else DASH.filters[col].delete(val);
+  renderDashboard();
+}
+
+function clearFilters(){
+  DASH.filters={};
+  document.querySelectorAll('#filterBody input[type=checkbox]').forEach(c=>c.checked=false);
+  renderDashboard();
+}
+
+function toggleFilters(){
+  const el=document.getElementById('dashFilters');
+  if(!el)return;
+  const head=el.querySelector('.dash-filters-head');
+  const open=el.classList.toggle('open');
+  if(head)head.setAttribute('aria-expanded',open?'true':'false');
+}
+
+function renderDashboard(){
+  const rows=getFilteredRows();
+  const total=DASH.data.length;
+  // active note
+  const f=DASH.filters||{};
+  const activeBits=Object.keys(f).filter(k=>f[k]&&f[k].size).map(k=>`${k}: ${[...f[k]].join(', ')}`);
+  $('activeNote').textContent=activeBits.length?`Filtered → ${activeBits.join('  ·  ')}  (${rows.length.toLocaleString()} of ${total.toLocaleString()} rows)`:'';
+
+  // ── KPIs ──
+  const m=DASH.metric;
+  let kpis='';
+  if(m){
+    const vals=rows.map(r=>toNum(r[m.name])).filter(v=>!isNaN(v));
+    const sum=vals.reduce((a,b)=>a+b,0), avg=vals.length?sum/vals.length:0;
+    kpis+=`<div class="dash-kpi"><div class="k-n">${fmt(sum)}</div><div class="k-l">Total ${esc(short(m.name))}</div></div>`;
+    kpis+=`<div class="dash-kpi"><div class="k-n">${fmt(avg)}</div><div class="k-l">Avg ${esc(short(m.name))}</div></div>`;
+  }else{
+    kpis+=`<div class="dash-kpi"><div class="k-n">${rows.length.toLocaleString()}</div><div class="k-l">Rows</div></div>`;
+    kpis+=`<div class="dash-kpi"><div class="k-n">${DASH.cols.length}</div><div class="k-l">Columns</div></div>`;
+  }
+  kpis+=`<div class="dash-kpi"><div class="k-n">${rows.length.toLocaleString()}</div><div class="k-l">Records</div></div>`;
+  kpis+=`<div class="dash-kpi"><div class="k-n">${DASH.health}</div><div class="k-l">Health score</div></div>`;
+  $('dashKpis').innerHTML=kpis;
+
+  // ── 4 VISUALS ──
+  // decide which 4 to show based on available data
+  const grid=$('dashGrid');
+  const viz=[];
+  if(DASH.dateCol&&m)viz.push({id:'dv0',kind:'trend',title:`${short(m.name)} over time`,sub:'Monthly trend'});
+  if(DASH.catCols.length&&m)viz.push({id:'dv1',kind:'byCat',cat:DASH.catCols.slice().sort((a,b)=>a.uniq-b.uniq)[0],title:`${short(m.name)} by ${short(DASH.catCols.slice().sort((a,b)=>a.uniq-b.uniq)[0].name)}`,sub:'Totals per group'});
+  if(DASH.catCols.length>1&&m)viz.push({id:'dv2',kind:'byCat',cat:DASH.catCols.slice().sort((a,b)=>a.uniq-b.uniq)[1],title:`${short(m.name)} by ${short(DASH.catCols.slice().sort((a,b)=>a.uniq-b.uniq)[1].name)}`,sub:'Totals per group'});
+  if(m)viz.push({id:'dv3',kind:'dist',col:m,title:`${short(m.name)} distribution`,sub:'How values spread'});
+  // fallbacks if not enough numeric/date
+  while(viz.length<4&&DASH.catCols.length>=(viz.filter(v=>v.kind==='count').length+1)){
+    const used=viz.filter(v=>v.cat).map(v=>v.cat.name);
+    const next=DASH.catCols.find(c=>!used.includes(c.name));
+    if(!next)break;
+    viz.push({id:'dv'+viz.length,kind:'count',cat:next,title:`${short(next.name)} breakdown`,sub:'Record count'});
+  }
+  grid.innerHTML=viz.slice(0,4).map(v=>`<div class="dash-viz"><h5>${esc(v.title)}</h5><div class="v-sub">${v.sub}</div><div class="v-wrap"><canvas id="${v.id}"></canvas></div></div>`).join('')
+    || '<div class="dash-viz"><h5>Not enough structured data</h5><div class="v-sub">Upload data with numbers, categories, or dates to see charts.</div></div>';
+
+  // destroy old dashboard charts then draw
+  dashCharts.forEach(c=>{try{c.destroy();}catch(e){}});dashCharts=[];
+  requestAnimationFrame(()=>{
+    viz.slice(0,4).forEach(v=>{
+      const cv=$(v.id);if(!cv)return;const ctx=cv.getContext('2d');
+      if(v.kind==='trend'){
+        const agg={};rows.forEach(r=>{const k=String(r[DASH.dateCol.name]).slice(0,7);const val=toNum(r[m.name]);if(!isNaN(val)&&k.length>=7)agg[k]=(agg[k]||0)+val;});
+        const keys=Object.keys(agg).sort();
+        dashCharts.push(new Chart(ctx,{type:'line',data:{labels:keys,datasets:[{data:keys.map(k=>agg[k]),borderColor:'#00d4ff',backgroundColor:'rgba(0,212,255,0.12)',fill:true,tension:0.3,pointRadius:2,pointBackgroundColor:'#00d4ff'}]},options:baseOpt()}));
+      }else if(v.kind==='byCat'){
+        const agg={};rows.forEach(r=>{const k=String(r[v.cat.name]==null?'(blank)':r[v.cat.name]);const val=toNum(r[m.name]);if(!isNaN(val))agg[k]=(agg[k]||0)+val;});
+        const ent=Object.entries(agg).sort((a,b)=>b[1]-a[1]).slice(0,8);
+        dashCharts.push(new Chart(ctx,{type:'bar',data:{labels:ent.map(e=>e[0]),datasets:[{data:ent.map(e=>e[1]),backgroundColor:'#5b9dff',borderRadius:4}]},options:{...baseOpt(),indexAxis:'y'}}));
+      }else if(v.kind==='dist'){
+        const nums=rows.map(r=>toNum(r[v.col.name])).filter(x=>!isNaN(x));
+        const h=histogram(nums,10);
+        dashCharts.push(new Chart(ctx,{type:'bar',data:{labels:h.map(b=>b.label),datasets:[{data:h.map(b=>b.count),backgroundColor:'#10d9a0',borderRadius:4}]},options:baseOpt()}));
+      }else if(v.kind==='count'){
+        const agg={};rows.forEach(r=>{const k=String(r[v.cat.name]==null?'(blank)':r[v.cat.name]);agg[k]=(agg[k]||0)+1;});
+        const ent=Object.entries(agg).sort((a,b)=>b[1]-a[1]).slice(0,8);
+        dashCharts.push(new Chart(ctx,{type:'bar',data:{labels:ent.map(e=>e[0]),datasets:[{data:ent.map(e=>e[1]),backgroundColor:'#f59e0b',borderRadius:4}]},options:baseOpt()}));
+      }
+    });
+  });
+}
+
 function baseOpt(){return{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{backgroundColor:'#0a1628',padding:9,cornerRadius:7}},scales:{x:{grid:{display:false},ticks:{color:'#7a90b8',font:{size:10},maxRotation:45}},y:{grid:{color:'rgba(8,14,30,0.06)'},ticks:{color:'#7a90b8',font:{size:10}}}}};}
+
+function dateCol0(cols){return cols.find(c=>c.type==='date')||null;}
+
+function execSummary(cols,numCols,catCols,dateCol,rowCount,completeness,dupes,health,fname){
+  const parts=[];
+  // 1. What this dataset is
+  const shape=`This dataset contains <b>${rowCount.toLocaleString()} rows</b> across <b>${cols.length} columns</b>`;
+  const makeup=[];
+  if(numCols.length)makeup.push(`${numCols.length} numeric`);
+  if(catCols.length)makeup.push(`${catCols.length} categorical`);
+  if(dateCol)makeup.push(`1 date`);
+  const textCols=cols.filter(c=>c.type==='text').length;
+  if(textCols)makeup.push(`${textCols} text`);
+  parts.push(`${shape}${makeup.length?` — <span class="es-cyan">${makeup.join(', ')}</span> field${makeup.length>1?'s':''}`:''}.`);
+
+  // 2. Time span (if dated)
+  if(dateCol){
+    const dates=dateCol.values.map(v=>Date.parse(v)).filter(v=>!isNaN(v)).sort((a,b)=>a-b);
+    if(dates.length>1){
+      const span=(dates[dates.length-1]-dates[0])/(1000*60*60*24);
+      const fmt=ms=>new Date(ms).toLocaleDateString('en-US',{month:'short',year:'numeric'});
+      parts.push(`It spans <b>${fmt(dates[0])} to ${fmt(dates[dates.length-1])}</b> (${Math.round(span)} days), so trends over time can be tracked.`);
+    }
+  }
+
+  // 3. The standout numeric field (highest total / most meaningful)
+  if(numCols.length){
+    // pick the numeric col with the largest magnitude mean as the "headline metric"
+    const headline=numCols.slice().sort((a,b)=>(Math.abs(b.stats?b.stats.mean:0))-(Math.abs(a.stats?a.stats.mean:0)))[0];
+    if(headline&&headline.stats){
+      const s=headline.stats;
+      const total=s.mean*s.count;
+      parts.push(`The key metric appears to be <b>${esc(headline.name)}</b>, averaging <span class="es-cyan">${fmt(s.mean)}</span> per row (ranging ${fmt(s.min)}–${fmt(s.max)}${Math.abs(total)>1000?`, totalling ~${fmt(total)}`:''}).`);
+    }
+  }
+
+  // 4. Dominant category
+  if(catCols.length){
+    const c=catCols.slice().sort((a,b)=>a.uniq-b.uniq)[0];
+    const f=freq(c.values,99);
+    if(f.length){
+      const pct=(f[0][1]/rowCount*100).toFixed(0);
+      parts.push(`Within <b>${esc(c.name)}</b>, the data is led by <b>"${esc(f[0][0])}"</b> (${pct}% of rows)${c.uniq>1?` across ${c.uniq} distinct values`:''}.`);
+    }
+  }
+
+  // 5. Strongest relationship
+  let best=null;
+  for(let i=0;i<numCols.length;i++)for(let j=i+1;j<numCols.length;j++){
+    const r=pearson(numCols[i].nums,numCols[j].nums);
+    if(r!==null&&(!best||Math.abs(r)>Math.abs(best.r)))best={a:numCols[i].name,b:numCols[j].name,r};
+  }
+  if(best&&Math.abs(best.r)>0.5){
+    parts.push(`Notably, <b>${esc(best.a)}</b> and <b>${esc(best.b)}</b> are strongly ${best.r>0?'positively':'negatively'} correlated (r=${best.r.toFixed(2)}) — a relationship worth acting on.`);
+  }
+
+  // 6. Data quality verdict
+  if(health>=80){
+    parts.push(`<b>Bottom line:</b> the data is clean and well-structured (${completeness.toFixed(0)}% complete${dupes?`, though ${dupes} duplicate row${dupes>1?'s':''} should be removed`:''}) — it's ready to plug straight into an automated reporting pipeline.`);
+  }else if(health>=55){
+    parts.push(`<b>Bottom line:</b> the data is usable but needs some cleanup first (${completeness.toFixed(0)}% complete${dupes?`, ${dupes} duplicate${dupes>1?'s':''}`:''}) before it's reliable enough to automate.`);
+  }else{
+    parts.push(`<b>Bottom line:</b> the foundations need work (${completeness.toFixed(0)}% complete${dupes?`, ${dupes} duplicate${dupes>1?'s':''}`:''}) — fixing data quality here is the highest-value first step before any automation.`);
+  }
+
+  return parts.join(' ');
+}
 
 function buildInsights(cols,numCols,catCols,dupes,rowCount,completeness){
   const out=[];
@@ -610,8 +943,30 @@ function buildInsights(cols,numCols,catCols,dupes,rowCount,completeness){
     const c=numCols.map(c=>({c,cv:c.stats?c.stats.std/(Math.abs(c.stats.mean)||1):0})).sort((a,b)=>b.cv-a.cv)[0].c;
     if(c.stats)out.push({t:'info',ic:'📈',x:`<b>${esc(c.name)}</b> ranges from ${fmt(c.stats.min)} to ${fmt(c.stats.max)} (avg ${fmt(c.stats.mean)}). The wide spread suggests this is where the interesting variation lives.`});
   }
+  // outliers (values beyond 1.5*IQR — the standard outlier test)
+  for(const c of numCols){
+    if(!c.stats)continue;
+    const iqr=c.stats.q3-c.stats.q1;
+    if(iqr<=0)continue;
+    const lo=c.stats.q1-1.5*iqr, hi=c.stats.q3+1.5*iqr;
+    const outliers=c.nums.filter(v=>!isNaN(v)&&(v<lo||v>hi)).length;
+    if(outliers>0&&outliers/c.stats.count<0.15){
+      out.push({t:'warn',ic:'🎯',x:`<b>${esc(c.name)}</b> has <b>${outliers} outlier${outliers>1?'s':''}</b> — value${outliers>1?'s':''} far outside the typical range. These can skew averages and are worth checking (real extremes, or data-entry errors?).`});
+      break; // only report the first/most relevant
+    }
+  }
+  // near-constant column (almost no variation = often useless or an entry problem)
+  for(const c of cols){
+    if(c.type==='number'||c.type==='categorical'){
+      const f=freq(c.values,1);
+      if(f.length&&f[0][1]/rowCount>=0.97&&c.uniq<=2){
+        out.push({t:'info',ic:'📌',x:`<b>${esc(c.name)}</b> is almost entirely one value ("${esc(f[0][0])}"). A column with no variation rarely adds insight — consider dropping it or checking why it's not being captured.`});
+        break;
+      }
+    }
+  }
   if(!out.length)out.push({t:'info',ic:'💡',x:`Upload a richer dataset with numeric and category columns to unlock correlations and trend detection.`});
-  return out.slice(0,5);
+  return out.slice(0,6);
 }
 
 function healthMsg(h,miss,dupes,rows,cols){
@@ -634,6 +989,8 @@ function fmtCell(v){if(v===null||v===undefined||String(v).trim()==='')return'—
 function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));}
 
 function resetTool(){
+  dashCharts.forEach(c=>{try{c.destroy();}catch(e){}});dashCharts=[];
+  if(DASH)DASH.filters={};
   results.style.display='none';results.innerHTML='';
   $('introBlock').style.display='block';drop.style.display='block';
   fileInput.value='';clearErr();

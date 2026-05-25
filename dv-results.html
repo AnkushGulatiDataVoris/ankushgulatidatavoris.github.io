@@ -313,14 +313,14 @@ function buildReport(){
     </div>
 
     <div class="fade3">
-      <div class="sec-label" style="margin-top:2rem">Radar — you vs. the 2026 benchmark</div>
+      <div class="sec-label" style="margin-top:2rem">Radar — you vs. the recommended target</div>
       <div class="radar-card">
         <div class="radar-wrap"><canvas id="radarChart"></canvas></div>
         <div style="display:flex;gap:1.5rem;justify-content:center;flex-wrap:wrap;margin-top:1.2rem">
           <span style="display:inline-flex;align-items:center;gap:0.5rem;font-size:0.78rem;color:var(--ow7);font-weight:600"><span style="width:22px;height:3px;border-radius:2px;background:#00d4ff"></span>Your scores</span>
-          <span style="display:inline-flex;align-items:center;gap:0.5rem;font-size:0.78rem;color:var(--ow7);font-weight:600"><span style="width:22px;height:0;border-top:2px dashed rgba(122,144,184,0.9)"></span>2026 benchmark</span>
+          <span style="display:inline-flex;align-items:center;gap:0.5rem;font-size:0.78rem;color:var(--ow7);font-weight:600"><span style="width:22px;height:0;border-top:2px dashed rgba(122,144,184,0.9)"></span>Recommended target</span>
         </div>
-        <p style="font-size:0.72rem;color:var(--ow3);text-align:center;margin-top:0.8rem;line-height:1.5;max-width:440px;margin-left:auto;margin-right:auto">The dashed line is a recommended target for a modern, automated data setup in 2026 — where the gap is widest is where there's most to gain.</p>
+        <p style="font-size:0.72rem;color:var(--ow3);text-align:center;margin-top:0.8rem;line-height:1.5;max-width:440px;margin-left:auto;margin-right:auto">The dashed line is our recommended target for a modern, automated data setup — wherever the gap is widest is where there's most to gain.</p>
       </div>
     </div>
 
@@ -408,7 +408,7 @@ function buildReport(){
         pointHoverRadius:7,
         order:1,
       },{
-        label:'2026 benchmark',
+        label:'Recommended target',
         data:benchData,
         borderColor:'rgba(122,144,184,0.85)',
         backgroundColor:'rgba(122,144,184,0.04)',
