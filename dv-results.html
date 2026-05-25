@@ -3,11 +3,11 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<link rel="icon" type="image/svg+xml" href="favicon.svg"/>
-<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png"/>
-<link rel="icon" type="image/png" sizes="16x16" href="favicon-16.png"/>
-<link rel="shortcut icon" href="favicon.ico"/>
-<link rel="apple-touch-icon" href="favicon-preview-256.png"/>
+<link rel="icon" type="image/svg+xml" href="favicon.svg?v=2"/>
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png?v=2"/>
+<link rel="icon" type="image/png" sizes="16x16" href="favicon-16.png?v=2"/>
+<link rel="shortcut icon" href="favicon.ico?v=2"/>
+<link rel="apple-touch-icon" href="favicon-preview-256.png?v=2"/>
 <meta name="theme-color" content="#0a1628"/>
 
 <title>Your Data Maturity Report — Datavoris</title>
@@ -441,13 +441,13 @@ function runLoader(){
   if(ring)ring.style.strokeDasharray=C;
   let prog=0;
   const targets=[18,42,62,82,100];   // progress checkpoint after each step
-  const holds=[420,520,460,480,420]; // ms each step is "active"
+  const holds=[850,1050,950,1000,800]; // ms each step is "active" (slowed so users can follow)
   let i=0;
   function setProg(p){prog=p;if(ring)ring.style.strokeDashoffset=C*(1-p/100);if(pctEl)pctEl.textContent=Math.round(p)+'%';}
   function tick(){
     if(i>=steps.length){
       // brief beat at 100%, then reveal
-      setTimeout(()=>{buildReport();},260);
+      setTimeout(()=>{buildReport();},650);
       return;
     }
     steps[i].classList.add('active');
@@ -467,7 +467,7 @@ function runLoader(){
     requestAnimationFrame(anim);
   }
   setProg(0);
-  setTimeout(tick,260);
+  setTimeout(tick,450);
 }
 runLoader();
 </script>
