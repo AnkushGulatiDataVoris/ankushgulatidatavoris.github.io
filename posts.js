@@ -20,6 +20,14 @@
 
 window.DV_POSTS = [
   {
+    slug: "claude-prototype-to-production",
+    title: "Claude built your prototype. Now what?",
+    date: "2026-05-27",
+    excerpt: "Claude can give you a beautiful working HTML prototype in an afternoon. The day you try to turn it into something your business actually runs on is when the real work begins. Here's the gap — and how to bridge it.",
+    tags: ["AI", "Engineering"],
+    readMins: 5
+  },
+  {
     slug: "automate-weekly-report",
     title: "The weekly report that should take zero minutes",
     date: "2026-05-20",

@@ -30,11 +30,41 @@
 }
 html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased;}
 body{font-family:var(--fb);background:var(--wh);color:var(--ow9);min-height:100vh;display:flex;flex-direction:column;align-items:center;}
-.nav{width:100%;background:var(--n8);border-bottom:1px solid var(--bn);height:60px;display:flex;align-items:center;justify-content:space-between;padding:0 1.5rem;position:sticky;top:0;z-index:200;}
-.brand{font-family:var(--fd);font-size:1.1rem;font-weight:800;color:var(--t1);letter-spacing:-0.02em;display:flex;align-items:center;gap:0.5rem;text-decoration:none;}
-.bmark{width:30px;height:30px;border-radius:8px;background:var(--n9);display:flex;align-items:center;justify-content:center;box-shadow:0 4px 14px rgba(0,212,255,0.3);}
-.bmark svg{width:64%;height:64%;display:block;}
-.hire-btn{background:var(--cyan);color:var(--n9);font-family:var(--fb);font-size:0.8rem;font-weight:700;padding:0.45rem 1rem;border-radius:999px;text-decoration:none;border:none;cursor:pointer;}
+/* NAV — matches dv-style.css .site-nav exactly */
+.nav{width:100%;background:var(--n8);border-bottom:1px solid var(--bn);position:sticky;top:0;z-index:200;backdrop-filter:blur(20px);}
+.nav-container{width:100%;max-width:1180px;margin:0 auto;padding:0 2rem;display:flex;align-items:center;justify-content:space-between;height:62px;gap:2rem;}
+.brand{font-family:var(--fd);font-size:1.15rem;font-weight:800;color:var(--t1);letter-spacing:-0.03em;display:inline-flex;align-items:center;gap:0.6rem;text-decoration:none;flex-shrink:0;}
+.bmark{width:34px;height:34px;border-radius:9px;background:var(--n9);display:flex;align-items:center;justify-content:center;box-shadow:0 4px 16px rgba(0,212,255,0.3);}
+.bmark svg{width:72%;height:72%;display:block;}
+.nav-links{display:flex;align-items:center;gap:0.2rem;}
+.nav-links a{font-family:var(--fb);font-size:0.85rem;color:var(--t5);text-decoration:none;padding:0.4rem 0.85rem;border-radius:7px;transition:color 0.15s,background 0.15s;display:inline-flex;align-items:center;justify-content:space-between;gap:0.5rem;}
+.nav-links a:hover{color:var(--t1);background:rgba(255,255,255,0.06);}
+.nav-links a.active{color:var(--cyan);}
+.nav-cta-mobile{display:none;}
+.hire-btn{display:inline-flex;align-items:center;gap:6px;line-height:1.7;background:var(--cyan);color:var(--n9);font-family:var(--fb);font-size:0.82rem;font-weight:700;padding:0.55rem 1.2rem;border-radius:999px;text-decoration:none;border:none;cursor:pointer;flex-shrink:0;box-shadow:0 6px 20px rgba(0,212,255,0.25);transition:transform 0.15s var(--ease),box-shadow 0.25s,opacity 0.15s;letter-spacing:0.01em;white-space:nowrap;}
+.hire-btn:hover{transform:translateY(-2px);box-shadow:0 10px 28px rgba(0,212,255,0.4);}
+.nav-burger{display:none;width:42px;height:42px;border-radius:10px;background:transparent;border:1px solid rgba(255,255,255,0.12);color:var(--t1);align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;padding:0;transition:background 0.15s,border-color 0.15s;}
+.nav-burger:hover{background:rgba(255,255,255,0.06);border-color:rgba(0,212,255,0.3);}
+.nav-burger svg{width:18px;height:18px;}
+.nav-burger .x-icon{display:none;}
+.nav-burger.open .menu-icon{display:none;}
+.nav-burger.open .x-icon{display:block;}
+.nav-backdrop{position:fixed;inset:62px 0 0 0;background:rgba(5,14,31,0.55);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);opacity:0;pointer-events:none;transition:opacity 0.25s var(--ease);z-index:198;}
+.nav-backdrop.open{opacity:1;pointer-events:auto;}
+@media(max-width:768px){
+  .nav-container{gap:0.6rem;padding:0 1.25rem;}
+  .hire-btn{display:none;}
+  .nav-burger{display:inline-flex;margin-left:auto;}
+  .nav-links{position:fixed;top:62px;right:0;left:0;flex-direction:column;align-items:stretch;gap:0;background:var(--n9);border-bottom:1px solid rgba(255,255,255,0.08);padding:0 1.25rem;margin-left:0;max-height:0;overflow:hidden;transition:max-height 0.3s var(--ease),padding 0.3s var(--ease);z-index:199;box-shadow:0 16px 32px rgba(0,0,0,0.4);}
+  .nav-links.open{max-height:640px;padding:0.5rem 1.25rem 1.2rem;}
+  .nav-links a{padding:0.9rem 0.6rem;border-radius:8px;font-size:0.95rem;color:#e8eefc;justify-content:space-between;}
+  .nav-links a:not(:last-of-type){border-bottom:1px solid rgba(255,255,255,0.05);}
+  .nav-links a::after{content:"→";color:var(--t7);font-size:0.95rem;transition:color 0.15s,transform 0.15s;}
+  .nav-links a:hover::after,.nav-links a.active::after{color:var(--cyan);transform:translateX(3px);}
+  .nav-cta-mobile{display:block;margin-top:0.5rem;padding-top:0.85rem;border-top:1px solid rgba(255,255,255,0.1);}
+  .nav-cta-mobile a{display:flex;align-items:center;justify-content:center;background:var(--cyan);color:var(--n9);font-weight:700;border-radius:999px;padding:0.8rem 1rem;text-decoration:none;font-size:0.92rem;}
+  .nav-cta-mobile a::after{display:none;}
+}
 .main{width:100%;max-width:820px;padding:2.5rem 1.5rem 8rem;}
 .fade{animation:fu 0.5s var(--ease) both;}
 .fade2{animation:fu 0.5s 0.1s var(--ease) both;}
@@ -160,6 +190,51 @@ body{font-family:var(--fb);background:var(--wh);color:var(--ow9);min-height:100v
 .proc-step.done .proc-tick::after{content:'✓';}
 @keyframes pulse{0%,100%{opacity:1;transform:scale(1);}50%{opacity:0.4;transform:scale(0.7);}}
 
+/* INDUSTRY BENCHMARK */
+.bench-card{background:var(--card);border:1px solid var(--bw);border-radius:var(--r);padding:1.6rem 1.5rem;margin-bottom:1.25rem;}
+.bench-head{display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:0.6rem;margin-bottom:1.3rem;}
+.bench-title{font-family:var(--fd);font-size:1.05rem;font-weight:800;color:var(--ow9);letter-spacing:-0.02em;}
+.bench-sub{font-size:0.78rem;color:var(--ow5);line-height:1.55;margin-top:0.2rem;}
+.bench-pill{font-size:0.66rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--cyan);background:var(--cdim);border:1px solid rgba(0,212,255,0.2);border-radius:999px;padding:0.2rem 0.7rem;align-self:flex-start;}
+.bench-row{display:grid;grid-template-columns:120px 1fr 80px;gap:0.85rem;align-items:center;padding:0.5rem 0;border-bottom:1px dashed var(--bw);}
+.bench-row:last-child{border-bottom:none;}
+.bench-name{font-size:0.82rem;color:var(--ow7);font-weight:600;}
+.bench-tracks{position:relative;height:18px;}
+.bench-track{position:absolute;inset:0;background:var(--off);border-radius:9px;overflow:hidden;}
+.bench-fill-bench{position:absolute;top:50%;transform:translateY(-50%);height:2px;background:rgba(122,144,184,0.65);border-radius:1px;}
+.bench-fill-you{position:absolute;top:3px;bottom:3px;border-radius:6px;}
+.bench-pin-bench{position:absolute;top:50%;transform:translate(-50%,-50%);width:10px;height:10px;border-radius:50%;border:2px solid #7a90b8;background:#fff;}
+.bench-delta{font-size:0.78rem;font-weight:700;text-align:right;font-family:var(--fd);}
+.bench-delta.up{color:#059669;}
+.bench-delta.down{color:#dc2626;}
+.bench-delta.flat{color:var(--ow3);}
+.bench-legend{display:flex;gap:1.2rem;font-size:0.72rem;color:var(--ow5);margin-top:1rem;flex-wrap:wrap;}
+.bench-legend span{display:inline-flex;align-items:center;gap:0.45rem;}
+.bench-legend .sw{width:22px;height:5px;border-radius:3px;background:var(--cyan);}
+.bench-legend .sw-b{width:10px;height:10px;border-radius:50%;border:2px solid #7a90b8;background:#fff;}
+
+/* COST OF INACTION */
+.cost-card{background:linear-gradient(135deg,#fff8f1,#fff);border:1px solid #fed7aa;border-radius:var(--r);padding:1.8rem 1.6rem;margin-bottom:1.25rem;position:relative;overflow:hidden;}
+.cost-card::before{content:'';position:absolute;top:-40px;right:-40px;width:200px;height:200px;background:radial-gradient(circle,rgba(245,158,11,0.13),transparent 65%);}
+.cost-eyebrow{font-size:0.68rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:#b45309;margin-bottom:0.6rem;position:relative;z-index:1;}
+.cost-title{font-family:var(--fd);font-size:1.15rem;font-weight:800;color:var(--ow9);letter-spacing:-0.02em;margin-bottom:0.9rem;position:relative;z-index:1;}
+.cost-figure{font-family:var(--fd);font-size:2.4rem;font-weight:900;color:#b45309;letter-spacing:-0.04em;line-height:1;margin-bottom:0.5rem;position:relative;z-index:1;}
+.cost-figure sub{font-size:0.85rem;color:#b45309;opacity:0.6;font-family:var(--fb);font-weight:500;vertical-align:baseline;}
+.cost-body{font-size:0.87rem;color:var(--ow7);line-height:1.7;position:relative;z-index:1;margin-bottom:1rem;}
+.cost-breakdown{display:flex;flex-wrap:wrap;gap:0.5rem;position:relative;z-index:1;}
+.cost-tag{font-size:0.74rem;color:#92400e;background:rgba(245,158,11,0.1);border:1px solid rgba(245,158,11,0.25);border-radius:999px;padding:0.25rem 0.75rem;font-weight:500;}
+.cost-note{font-size:0.7rem;color:var(--ow3);margin-top:0.9rem;line-height:1.5;font-style:italic;position:relative;z-index:1;}
+
+/* DEEP DIVE */
+.dim-row{cursor:pointer;}
+.dim-row .dim-name{display:flex;align-items:center;gap:0.5rem;}
+.dim-row .dim-chev{width:14px;height:14px;flex-shrink:0;color:var(--ow3);transition:transform 0.2s;display:inline-block;opacity:0.6;}
+.dim-row .dim-chev svg{width:100%;height:100%;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
+.dim-row.open .dim-chev{transform:rotate(180deg);opacity:1;color:var(--cyan);}
+.dim-deep{display:none;grid-column:1 / -1;padding:0.9rem 0 0.2rem;font-size:0.82rem;color:var(--ow5);line-height:1.7;border-top:1px dashed var(--bw);margin-top:0.6rem;}
+.dim-deep b{color:var(--ow7);font-weight:600;}
+.dim-row.open .dim-deep{display:block;}
+
 .footer{font-size:0.75rem;color:var(--ow3);text-align:center;margin-top:2.5rem;padding-bottom:1.5rem;}
 @media(max-width:700px){.pillars-grid{grid-template-columns:repeat(3,1fr);}.insights-grid{grid-template-columns:1fr;}.score-hero{flex-direction:column;align-items:flex-start;gap:1rem;}.score-num{font-size:4rem;}.dim-hdr,.dim-row{grid-template-columns:1fr 44px 80px;padding:0.75rem 1rem;}.main{padding:2rem 1rem 6rem;}.hire-cta{padding:2.5rem 1.5rem;}}
 @media(max-width:500px){.pillars-grid{grid-template-columns:repeat(2,1fr);}}</style>
@@ -167,9 +242,28 @@ body{font-family:var(--fb);background:var(--wh);color:var(--ow9);min-height:100v
 <body>
 
 <nav class="nav">
-  <a href="index.html" class="brand"><span class="bmark"><svg viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="nm14" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#00d4ff"/><stop offset="1" stop-color="#5b9dff"/></linearGradient></defs><g stroke="url(#nm14)" stroke-width="9" stroke-linecap="round" fill="none"><path d="M128 70 L186 104 L186 152 L128 186 L70 152 L70 104 Z"/><line x1="128" y1="70" x2="128" y2="128"/><line x1="186" y1="152" x2="128" y2="128"/><line x1="70" y1="152" x2="128" y2="128"/></g><g fill="#00d4ff"><circle cx="128" cy="70" r="11"/><circle cx="186" cy="104" r="9"/><circle cx="186" cy="152" r="9"/><circle cx="128" cy="186" r="11"/><circle cx="70" cy="152" r="9"/><circle cx="70" cy="104" r="9"/></g><circle cx="128" cy="128" r="14" fill="#aef0ff"/></svg></span>Datavoris</a>
-  <a href="index.html#contact" class="hire-btn">Get Better Data →</a>
+  <div class="nav-container">
+    <a href="index.html" class="brand"><span class="bmark"><svg viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="nm14" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#00d4ff"/><stop offset="1" stop-color="#5b9dff"/></linearGradient></defs><g stroke="url(#nm14)" stroke-width="9" stroke-linecap="round" fill="none"><path d="M128 70 L186 104 L186 152 L128 186 L70 152 L70 104 Z"/><line x1="128" y1="70" x2="128" y2="128"/><line x1="186" y1="152" x2="128" y2="128"/><line x1="70" y1="152" x2="128" y2="128"/></g><g fill="#00d4ff"><circle cx="128" cy="70" r="11"/><circle cx="186" cy="104" r="9"/><circle cx="186" cy="152" r="9"/><circle cx="128" cy="186" r="11"/><circle cx="70" cy="152" r="9"/><circle cx="70" cy="104" r="9"/></g><circle cx="128" cy="128" r="14" fill="#aef0ff"/></svg></span>Datavoris</a>
+    <div class="nav-links" id="navLinks">
+      <a href="index.html#services">Services</a>
+      <a href="index.html#tools">Tools</a>
+      <a href="index.html#work">Work</a>
+      <a href="dv-founder.html">About</a>
+      <a href="blog.html">Blog</a>
+      <a href="reviews.html">Reviews</a>
+      <a href="dv-assessment.html">Assessment</a>
+      <a href="dv-analyzer.html">Analyzer</a>
+      <a href="index.html#contact">Contact</a>
+      <div class="nav-cta-mobile"><a href="index.html#contact">Let's talk</a></div>
+    </div>
+    <button class="nav-burger" id="navBurger" aria-label="Menu" aria-expanded="false" onclick="(function(b){var l=document.getElementById('navLinks');var d=document.getElementById('navBackdrop');var o=!l.classList.contains('open');l.classList.toggle('open',o);b.classList.toggle('open',o);if(d)d.classList.toggle('open',o);b.setAttribute('aria-expanded',o?'true':'false');})(this)">
+      <svg class="menu-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="4" y1="7" x2="20" y2="7"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="17" x2="20" y2="17"/></svg>
+      <svg class="x-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="6" y1="6" x2="18" y2="18"/><line x1="18" y1="6" x2="6" y2="18"/></svg>
+    </button>
+    <a href="index.html#contact" class="hire-btn">Get Better Data →</a>
+  </div>
 </nav>
+<div class="nav-backdrop" id="navBackdrop" onclick="document.getElementById('navBurger').click()"></div>
 
 <main class="main" id="main">
   <div class="loading-wrap" id="loadingState">
@@ -191,7 +285,7 @@ body{font-family:var(--fb);background:var(--wh);color:var(--ow9);min-height:100v
   </div>
 </main>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js" integrity="sha512-CQBWl4fJHWbryGE+Pc7UAxWMUMNMWzWxF4SQo9CgkJIN1kx6djDQZjh3Y8SZ1d+6I+1zze6Z7kHXO7q3UyZAWw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script>
 const PILLAR_META={
   infrastructure:{label:'Data Infrastructure',short:'Infra',color:'#00d4ff',keys:['q1','q2','q3','q4']},
@@ -224,6 +318,42 @@ const INSIGHTS={
   ai:{s:"Your organisation is already leveraging AI effectively and your data is in good enough shape to power intelligent workflows. You're ahead of most businesses at your stage.",g:"AI readiness is low — but that's often a data infrastructure problem more than an AI problem. Getting your data foundations right is the prerequisite to meaningful AI adoption."},
   decisions:{s:"Data-driven decision making is embedded in your culture. Your team trusts the numbers and can get answers quickly — this gives you a clear speed advantage over less informed competitors.",g:"Decisions are too often based on assumptions rather than data. This limits your ability to move quickly, identify opportunities, and manage risk. Better dashboards and clearer KPIs are the starting point."},
 };
+const INDUSTRY_BENCH={
+  'Consulting / Professional Services':{infrastructure:5.5,reporting:5.8,automation:4.5,ai:4.2,decisions:6.2},
+  'E-commerce / Retail':            {infrastructure:6.2,reporting:6.5,automation:6.0,ai:5.0,decisions:5.8},
+  'Finance / Accounting':           {infrastructure:6.8,reporting:7.0,automation:5.5,ai:4.0,decisions:6.5},
+  'Healthcare':                     {infrastructure:5.0,reporting:5.2,automation:4.0,ai:3.5,decisions:5.5},
+  'Manufacturing / Operations':     {infrastructure:5.8,reporting:6.0,automation:5.5,ai:3.8,decisions:5.5},
+  'Marketing / Agency':             {infrastructure:5.0,reporting:5.5,automation:5.2,ai:5.5,decisions:5.5},
+  'Real Estate':                    {infrastructure:4.5,reporting:4.8,automation:3.8,ai:3.5,decisions:5.0},
+  'Technology / SaaS':              {infrastructure:7.0,reporting:7.0,automation:6.8,ai:6.0,decisions:6.5},
+  'Education':                      {infrastructure:4.5,reporting:4.8,automation:3.8,ai:3.8,decisions:5.2},
+  'Other':                          {infrastructure:5.5,reporting:5.7,automation:5.0,ai:4.5,decisions:5.7},
+};
+const SIZE_HEADCOUNT={
+  'Just me / Solo':1,'2–10 people':6,'11–50 people':25,'51–200 people':100,'200+ people':350,
+};
+const Q_DEEP={
+  q1:"<b>What this measures:</b> Whether your business operates from one source of truth or many. <b>Why your score matters:</b> Below 5 means most of your data lives in someone's personal spreadsheet — you can't automate what you can't centralise. <b>What 'fixed' looks like:</b> A single warehouse or governed lakehouse (Fabric, Snowflake, Postgres) where every system writes and every report reads from.",
+  q2:"<b>What this measures:</b> Confidence that the numbers you see are correct. <b>Why your score matters:</b> Data-quality debt compounds — every dashboard built on bad data inherits the error. <b>What 'fixed' looks like:</b> Automated validation rules, dedupe routines, and a small set of golden datasets the rest of the org reads from.",
+  q3:"<b>What this measures:</b> How easily non-technical staff can self-serve. <b>Why your score matters:</b> If one person owns access, everyone else's questions queue behind them — that's a productivity tax. <b>What 'fixed' looks like:</b> Role-based dashboards and clear data ownership, so each team has the slice it needs without IT in the loop.",
+  q4:"<b>What this measures:</b> Whether your tools talk to each other. <b>Why your score matters:</b> Manual copy between systems is where most data errors and hours-wasted hide. <b>What 'fixed' looks like:</b> Zapier/Make/Power Automate or direct API integrations carrying data between CRM, finance, ops with zero human steps.",
+  q5:"<b>What this measures:</b> Whether reports refresh automatically vs. someone rebuilding them. <b>Why your score matters:</b> Manual refresh is the most common reason teams say 'we have reporting' but still feel blind. <b>What 'fixed' looks like:</b> Live or scheduled refreshes; reports are always up-to-date by the time anyone opens them.",
+  q6:"<b>What this measures:</b> Whether dashboards drive action or just display metrics. <b>Why your score matters:</b> A pretty dashboard that nobody acts on is theatre. <b>What 'fixed' looks like:</b> Every chart maps to a decision someone is supposed to make — and ideally, includes a benchmark or threshold for what 'good' looks like.",
+  q7:"<b>What this measures:</b> Manual data-prep load across your team. <b>Why your score matters:</b> Hours spent copying and reformatting are hours not spent on actual work. <b>What 'fixed' looks like:</b> Under 2 team-hours per week, total. Reports build themselves; people focus on interpreting them.",
+  q8:"<b>What this measures:</b> Whether leadership has live access to the numbers that matter. <b>Why your score matters:</b> If leaders rely on requested reports, they're always running on stale data. <b>What 'fixed' looks like:</b> A live executive dashboard with the 5–10 KPIs that drive the business, refreshed automatically.",
+  q9:"<b>What this measures:</b> How much of your operational work is on autopilot. <b>Why your score matters:</b> Repetitive tasks are the lowest-hanging fruit in any automation engagement. <b>What 'fixed' looks like:</b> Notifications, data transfers, report sending, file routing — all scheduled or triggered automatically.",
+  q10:"<b>What this measures:</b> Whether information flows between systems without humans. <b>Why your score matters:</b> Disconnected tools force your team to be the integration layer, which is slow and error-prone. <b>What 'fixed' looks like:</b> Form submissions land in your CRM and warehouse automatically; sales data appears in finance without anyone re-entering it.",
+  q11:"<b>What this measures:</b> Frequency of data-quality issues caused by manual handling. <b>Why your score matters:</b> Silent copy-paste errors don't get caught until they cause an expensive bad decision. <b>What 'fixed' looks like:</b> The human is no longer in the data-handling loop — automation removes the failure mode entirely.",
+  q12:"<b>What this measures:</b> How embedded AI is in your operational workflows. <b>Why your score matters:</b> Using AI to draft emails is table stakes; using it to classify, summarise, and decide is leverage. <b>What 'fixed' looks like:</b> AI is wired into your data pipelines — auto-tagging, summarising customer feedback, generating reports from raw inputs.",
+  q13:"<b>What this measures:</b> Whether your data is in a state where AI can use it. <b>Why your score matters:</b> 'We tried AI and it didn't work' usually means 'our data wasn't ready, but we blamed the model.' <b>What 'fixed' looks like:</b> Clean, structured, accessible core datasets with consistent identifiers — any LLM pipeline can plug in.",
+  q14:"<b>What this measures:</b> Whether you've identified specific AI ROI opportunities. <b>Why your score matters:</b> Without specific use cases, AI investment becomes a science fair. <b>What 'fixed' looks like:</b> A shortlist of 2–5 workflows where AI would save real hours, with rough estimates of value.",
+  q15:"<b>What this measures:</b> Whether decisions are made with data on the table. <b>Why your score matters:</b> Gut-feel decisions aren't wrong, but they're unverifiable — you can't learn from them at scale. <b>What 'fixed' looks like:</b> Every major decision references the relevant dashboard or analysis; outcomes are reviewed against the data later.",
+  q16:"<b>What this measures:</b> Whether the team trusts the numbers in front of them. <b>Why your score matters:</b> If meetings debate the data itself, you're auditing instead of deciding. <b>What 'fixed' looks like:</b> One source of truth, agreed metric definitions, and meetings that start from the dashboard — not arguments about whose numbers are right.",
+  q17:"<b>What this measures:</b> Speed from question to reliable answer. <b>Why your score matters:</b> Companies that answer in hours run circles around companies that answer in weeks. <b>What 'fixed' looks like:</b> Most business questions can be answered the same day from existing dashboards; the rest take a brief ad-hoc query.",
+  q18:"<b>What this measures:</b> Whether data literacy lives across the team or in one person. <b>Why your score matters:</b> Single-point-of-failure analysts become bottlenecks and burnout cases. <b>What 'fixed' looks like:</b> Most team members can read and act on their dashboard without help; basic SQL/Excel literacy is widespread.",
+  q19:"<b>What this measures:</b> Whether you have a real 12-month plan for data improvement. <b>Why your score matters:</b> Businesses without concrete plans stay in the same data state year after year. <b>What 'fixed' looks like:</b> A documented roadmap with owners, milestones, and budget — even a one-page version beats a wish list.",
+};
 const PRIORITY_COPY={
   infrastructure:["Fix your data foundation first","Your scores suggest data is scattered across tools and spreadsheets. The first step is consolidating into a single source of truth — whether that's a simple integrated Google Sheet system, a Notion database, or a proper data warehouse. Until this is fixed, everything downstream is unreliable."],
   reporting:["Automate your most painful reports","Identify the report that takes the most time to produce every week or month. That's the one to automate first. A well-built automated report pays for itself within weeks — and frees your team to do actual work instead of data formatting."],
@@ -253,7 +383,9 @@ function buildReport(){
   }
   const {scores,ctx,pillars,overall}=JSON.parse(raw);
   const tier=getTier(overall);
-  const firstName=ctx.fname||'there';
+  const esc=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  const firstName=esc(ctx.fname)||'there';
+  const safeIndustry=esc(ctx.industry);
 
   // Sort pillars for strengths and gaps
   const pillarArr=Object.entries(pillars).map(([k,v])=>({key:k,score:v,...PILLAR_META[k]}));
@@ -262,17 +394,51 @@ function buildReport(){
   const topGaps=sorted.slice(-2).reverse();
   const topPriority=sorted[sorted.length-1];
 
-  // Build Q rows
+  // Build Q rows with deep-dive
   const qRows=Object.entries(Q_META).map(([k,m])=>{
     const sc=scores[k]||5;
     const st=getStatus(sc);
     const pm=PILLAR_META[m.pillar];
-    return `<div class="dim-row">
-      <div><div class="dim-name">${m.label}</div><div class="dim-pillar">${pm.label}</div></div>
+    const deep=Q_DEEP[k]||'';
+    return `<div class="dim-row" data-qid="${k}">
+      <div><div class="dim-name"><span class="dim-chev"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></span>${m.label}</div><div class="dim-pillar">${pm.label}</div></div>
       <div class="dim-score-val">${sc}<span style="font-size:0.7rem;color:var(--ow3)">/10</span></div>
       <div style="text-align:right"><span class="dim-status ${st.cls}">${st.label}</span></div>
+      ${deep?`<div class="dim-deep">${deep}</div>`:''}
     </div>`;
   }).join('');
+
+  // Build industry benchmark rows (only if industry was selected and we have data for it)
+  const bench=INDUSTRY_BENCH[ctx.industry]||null;
+  const benchHTML=bench?pillarArr.map(p=>{
+    const you=p.score, target=bench[p.key]||5;
+    const youPct=((you-1)/9*100).toFixed(1);
+    const targetPct=((target-1)/9*100).toFixed(1);
+    const diff=+(you-target).toFixed(1);
+    const cls=diff>0.3?'up':diff<-0.3?'down':'flat';
+    const sign=diff>0?'+':'';
+    return `<div class="bench-row">
+      <div class="bench-name">${p.short}</div>
+      <div class="bench-tracks">
+        <div class="bench-track"></div>
+        <div class="bench-fill-you" style="left:0;width:${youPct}%;background:${p.color};opacity:0.85"></div>
+        <div class="bench-pin-bench" style="left:${targetPct}%"></div>
+      </div>
+      <div class="bench-delta ${cls}">${diff===0?'on par':sign+diff}</div>
+    </div>`;
+  }).join(''):'';
+
+  // Cost-of-inaction calc — based on weakest reporting + automation gap × team size
+  const headcount=SIZE_HEADCOUNT[ctx.size]||10;
+  const autoGap=Math.max(0,7-pillars.automation); // 7 = healthy target
+  const repGap=Math.max(0,7-pillars.reporting);
+  const infraGap=Math.max(0,7-pillars.infrastructure);
+  // Each gap point ≈ 0.5 hrs/week/person of manual work; weighted toward reporting/automation
+  const weeklyHrs=Math.round(headcount*(autoGap*0.6+repGap*0.5+infraGap*0.3)*0.5);
+  const annualHrs=weeklyHrs*48;
+  const annualCost=Math.round(annualHrs*45); // $45/hr blended rate
+  const fmt$=n=>'$'+n.toLocaleString();
+  const showCost=weeklyHrs>0;
 
   // Priority actions — bottom 3 pillars
   const bottom3=sorted.slice(-3).reverse();
@@ -285,7 +451,7 @@ function buildReport(){
     <div class="fade">
       <div class="page-eyebrow">Data Maturity Report · Datavoris</div>
       <h1 class="page-title">Here's where your data setup <em>actually stands</em>, ${firstName}.</h1>
-      <p class="page-sub">Scored across 5 pillars of data maturity — infrastructure, reporting, automation, AI readiness, and decision culture. ${ctx.industry?'Benchmarked for the '+ctx.industry+' sector.':''}</p>
+      <p class="page-sub">Scored across 5 pillars of data maturity — infrastructure, reporting, automation, AI readiness, and decision culture. ${safeIndustry?'Benchmarked for the '+safeIndustry+' sector.':''}</p>
     </div>
 
     <div class="score-hero fade2">
@@ -324,6 +490,25 @@ function buildReport(){
       </div>
     </div>
 
+    ${bench?`<div class="fade3">
+      <div class="sec-label" style="margin-top:2rem">How you compare to other ${esc(ctx.industry)} teams</div>
+      <div class="bench-card">
+        <div class="bench-head">
+          <div>
+            <div class="bench-title">Industry benchmark — ${esc(ctx.industry)}</div>
+            <div class="bench-sub">Typical maturity per pillar in your sector, based on Datavoris client data and public industry surveys (2024–2026). Treat these as directional, not survey-precise.</div>
+          </div>
+          <span class="bench-pill">Your sector</span>
+        </div>
+        ${benchHTML}
+        <div class="bench-legend">
+          <span><span class="sw"></span>Your score</span>
+          <span><span class="sw-b"></span>Industry typical</span>
+          <span style="color:var(--ow3);font-style:italic">+/− shown is gap to industry typical</span>
+        </div>
+      </div>
+    </div>`:''}
+
     <div class="fade4">
       <div class="sec-label" style="margin-top:2rem">Where you stand out — and where to focus</div>
       <div class="insights-grid">
@@ -355,6 +540,22 @@ function buildReport(){
       <div class="priority-list">${priorityHTML}</div>
     </div>
 
+    ${showCost?`<div class="fade5">
+      <div class="sec-label" style="margin-top:2rem">The cost of doing nothing</div>
+      <div class="cost-card">
+        <div class="cost-eyebrow">Estimated annual cost of inaction</div>
+        <div class="cost-title">Manual work is quietly costing you${ctx.size?' (team size: '+esc(ctx.size)+')':''}</div>
+        <div class="cost-figure">${fmt$(annualCost)}<sub> / year</sub></div>
+        <p class="cost-body">Based on your pillar scores, roughly <b>${weeklyHrs} hours per week</b> across your team are spent on manual data work that healthy automation would eliminate. Over a year that's <b>~${annualHrs.toLocaleString()} hours</b> — about <b>${fmt$(annualCost)}</b> at a blended $45/hr cost. That figure ignores the slower, harder-to-measure cost of bad decisions made on stale data.</p>
+        <div class="cost-breakdown">
+          ${autoGap>0?`<span class="cost-tag">Automation gap: ${autoGap.toFixed(1)} pts</span>`:''}
+          ${repGap>0?`<span class="cost-tag">Reporting gap: ${repGap.toFixed(1)} pts</span>`:''}
+          ${infraGap>0?`<span class="cost-tag">Infrastructure gap: ${infraGap.toFixed(1)} pts</span>`:''}
+        </div>
+        <p class="cost-note">Heuristic estimate. Real numbers depend on your team's roles, hourly cost, and how broken the current workflow is — usually under-estimates white-collar businesses and over-estimates hands-on operational teams. Useful as a rough order-of-magnitude only.</p>
+      </div>
+    </div>`:''}
+
     <div class="fade5">
       <div class="sec-label" style="margin-top:2rem">Try it on your own data — free</div>
       <a href="dv-analyzer.html" style="display:block;text-decoration:none;background:linear-gradient(135deg,#0a1628,#0f1e3d);border-radius:var(--rxl);padding:2rem 2.2rem;position:relative;overflow:hidden;border:1px solid rgba(0,212,255,0.2)">
@@ -374,17 +575,22 @@ function buildReport(){
 
     <div class="hire-cta fade5">
       <div class="hire-eyebrow">Connect with Ankush</div>
-      <h2>Ready to get better data in your organisation?</h2>
-      <p>I've helped 120+ businesses move from spreadsheet chaos to automated clarity. Based on your results, I can tell you exactly what to fix first — and build it for you.</p>
+      <h2>Your weakest pillar is <em>${esc(topPriority.label)}</em>. I've fixed exactly this before.</h2>
+      <p>Based on your scores, ${esc(topPriority.label.toLowerCase())} is the single area where focused work will move your overall maturity the most. I've helped 120+ teams rebuild this layer — usually inside 1–3 weeks. Tell me your context and I'll outline what it would take to fix it for you.</p>
       <div class="hire-actions">
-        <a href="index.html#contact" class="btn-cy">Work with me on this →</a>
+        <a href="index.html#contact" class="btn-cy">Talk to me about fixing this →</a>
         <a href="https://www.upwork.com/freelancers/~01a6376af8de9ca070" target="_blank" rel="noopener" class="btn-ol">Hire on Upwork ↗</a>
         <a href="dv-assessment.html" class="btn-ol">Retake assessment</a>
       </div>
     </div>
 
-    <div class="footer">datavoris.com · Data Maturity Assessment · Ankush Gulati</div>
+    <div class="footer">datavoris.com · Data Maturity Assessment</div>
   `;
+
+  // Wire up click-to-expand on dim rows
+  document.querySelectorAll('.dim-row[data-qid]').forEach(row=>{
+    row.addEventListener('click',()=>{row.classList.toggle('open');});
+  });
 
   // Draw radar
   const ctx2=document.getElementById('radarChart').getContext('2d');

@@ -32,15 +32,44 @@
 html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased;}
 body{font-family:var(--font-b);background:var(--white);color:var(--ow900);min-height:100vh;display:flex;flex-direction:column;align-items:center;}
 
-/* NAV */
-.nav{width:100%;background:var(--navy-800);border-bottom:1px solid var(--bn);height:60px;display:flex;align-items:center;justify-content:space-between;padding:0 1.5rem;position:sticky;top:0;z-index:200;}
-.brand{font-family:var(--font-d);font-size:1.1rem;font-weight:800;color:var(--t100);letter-spacing:-0.02em;display:flex;align-items:center;gap:0.5rem;text-decoration:none;}
-.brand-mark{width:30px;height:30px;border-radius:8px;background:var(--navy-900);display:flex;align-items:center;justify-content:center;box-shadow:0 4px 14px rgba(0,212,255,0.3);}
-.brand-mark svg{width:64%;height:64%;display:block;}
-.nav-cta{background:var(--cyan);color:var(--navy-900);font-family:var(--font-b);font-size:0.8rem;font-weight:700;padding:0.45rem 1rem;border-radius:999px;text-decoration:none;border:none;cursor:pointer;}
+/* NAV — matches dv-style.css .site-nav exactly */
+.nav{width:100%;background:var(--navy-800);border-bottom:1px solid var(--bn);position:sticky;top:0;z-index:200;backdrop-filter:blur(20px);}
+.nav-container{width:100%;max-width:1180px;margin:0 auto;padding:0 2rem;display:flex;align-items:center;justify-content:space-between;height:62px;gap:2rem;}
+.brand{font-family:var(--font-d);font-size:1.15rem;font-weight:800;color:var(--t100);letter-spacing:-0.03em;display:inline-flex;align-items:center;gap:0.6rem;text-decoration:none;flex-shrink:0;}
+.brand-mark{width:34px;height:34px;border-radius:9px;background:var(--navy-900);display:flex;align-items:center;justify-content:center;box-shadow:0 4px 16px rgba(0,212,255,0.3);}
+.brand-mark svg{width:72%;height:72%;display:block;}
+.nav-links{display:flex;align-items:center;gap:0.2rem;}
+.nav-links a{font-family:var(--font-b);font-size:0.85rem;color:var(--t500);text-decoration:none;padding:0.4rem 0.85rem;border-radius:7px;transition:color 0.15s,background 0.15s;display:inline-flex;align-items:center;justify-content:space-between;gap:0.5rem;}
+.nav-links a:hover{color:var(--t100);background:rgba(255,255,255,0.06);}
+.nav-links a.active{color:var(--cyan);}
+.nav-cta-mobile{display:none;}
+.nav-cta{display:inline-flex;align-items:center;gap:6px;line-height:1.7;background:var(--cyan);color:var(--navy-900);font-family:var(--font-b);font-size:0.82rem;font-weight:700;padding:0.55rem 1.2rem;border-radius:999px;text-decoration:none;border:none;cursor:pointer;flex-shrink:0;box-shadow:0 6px 20px rgba(0,212,255,0.25);transition:transform 0.15s var(--ease),box-shadow 0.25s,opacity 0.15s;letter-spacing:0.01em;white-space:nowrap;}
+.nav-cta:hover{transform:translateY(-2px);box-shadow:0 10px 28px rgba(0,212,255,0.4);}
+.nav-burger{display:none;width:42px;height:42px;border-radius:10px;background:transparent;border:1px solid rgba(255,255,255,0.12);color:var(--t100);align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;padding:0;transition:background 0.15s,border-color 0.15s;}
+.nav-burger:hover{background:rgba(255,255,255,0.06);border-color:rgba(0,212,255,0.3);}
+.nav-burger svg{width:18px;height:18px;}
+.nav-burger .x-icon{display:none;}
+.nav-burger.open .menu-icon{display:none;}
+.nav-burger.open .x-icon{display:block;}
+.nav-backdrop{position:fixed;inset:62px 0 0 0;background:rgba(5,14,31,0.55);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);opacity:0;pointer-events:none;transition:opacity 0.25s var(--ease);z-index:198;}
+.nav-backdrop.open{opacity:1;pointer-events:auto;}
+@media(max-width:768px){
+  .nav-container{gap:0.6rem;padding:0 1.25rem;}
+  .nav-cta{display:none;}
+  .nav-burger{display:inline-flex;margin-left:auto;}
+  .nav-links{position:fixed;top:62px;right:0;left:0;flex-direction:column;align-items:stretch;gap:0;background:var(--navy-900);border-bottom:1px solid rgba(255,255,255,0.08);padding:0 1.25rem;margin-left:0;max-height:0;overflow:hidden;transition:max-height 0.3s var(--ease),padding 0.3s var(--ease);z-index:199;box-shadow:0 16px 32px rgba(0,0,0,0.4);}
+  .nav-links.open{max-height:640px;padding:0.5rem 1.25rem 1.2rem;}
+  .nav-links a{padding:0.9rem 0.6rem;border-radius:8px;font-size:0.95rem;color:#e8eefc;justify-content:space-between;}
+  .nav-links a:not(:last-of-type){border-bottom:1px solid rgba(255,255,255,0.05);}
+  .nav-links a::after{content:"→";color:var(--t700);font-size:0.95rem;transition:color 0.15s,transform 0.15s;}
+  .nav-links a:hover::after,.nav-links a.active::after{color:var(--cyan);transform:translateX(3px);}
+  .nav-cta-mobile{display:block;margin-top:0.5rem;padding-top:0.85rem;border-top:1px solid rgba(255,255,255,0.1);}
+  .nav-cta-mobile a{display:flex;align-items:center;justify-content:center;background:var(--cyan);color:var(--navy-900);font-weight:700;border-radius:999px;padding:0.8rem 1rem;text-decoration:none;font-size:0.92rem;}
+  .nav-cta-mobile a::after{display:none;}
+}
 
 /* PROGRESS */
-.prog-bar{width:100%;height:3px;background:var(--bn);position:sticky;top:60px;z-index:199;}
+.prog-bar{width:100%;height:3px;background:var(--bn);position:sticky;top:62px;z-index:199;}
 .prog-fill{height:100%;background:var(--cyan);border-radius:0 2px 2px 0;transition:width 0.5s var(--ease);width:0%;}
 
 /* STEP TRACK */
@@ -136,6 +165,24 @@ body{font-family:var(--font-b);background:var(--white);color:var(--ow900);min-he
 .loading-title{font-family:var(--font-d);font-size:1.5rem;font-weight:800;color:var(--ow900);letter-spacing:-0.02em;}
 .loading-sub{font-size:0.88rem;color:var(--ow500);max-width:300px;line-height:1.65;}
 
+/* PILLAR RUNNING SCORE */
+.pillar-meter{position:sticky;top:92px;z-index:50;background:#fff;border:1px solid var(--bw);border-radius:var(--rsm);padding:0.7rem 1rem;margin:0 0 1.25rem;display:flex;align-items:center;gap:0.8rem;box-shadow:0 4px 16px rgba(8,14,30,0.04);}
+.pillar-meter-bar{flex:1;height:6px;background:var(--off);border-radius:3px;overflow:hidden;position:relative;}
+.pillar-meter-fill{height:100%;background:linear-gradient(90deg,var(--cyan),#5b9dff);border-radius:3px;width:50%;transition:width 0.35s var(--ease);}
+.pillar-meter-label{font-size:0.7rem;color:var(--ow5);font-weight:600;letter-spacing:0.08em;text-transform:uppercase;}
+.pillar-meter-val{font-family:var(--font-d);font-size:1.05rem;font-weight:800;color:var(--ow9);letter-spacing:-0.02em;}
+.pillar-meter-val sub{font-size:0.7rem;color:var(--ow3);font-weight:500;}
+
+/* WHY THIS MATTERS */
+.q-why-btn{margin-top:0.6rem;background:none;border:none;font-family:var(--font-b);font-size:0.74rem;font-weight:600;color:var(--cyan);cursor:pointer;display:inline-flex;align-items:center;gap:5px;padding:0;letter-spacing:0.02em;}
+.q-why-btn svg{width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;}
+.q-why-btn .why-chev{transition:transform 0.2s;width:10px;height:10px;}
+.q-why.open .why-chev{transform:rotate(180deg);}
+.q-why-body{max-height:0;overflow:hidden;transition:max-height 0.25s ease;}
+.q-why.open .q-why-body{max-height:240px;}
+.q-why-inner{padding-top:0.7rem;margin-top:0.7rem;border-top:1px dashed var(--bw);font-size:0.8rem;color:var(--ow5);line-height:1.6;}
+.q-why-inner b{color:var(--ow7);font-weight:600;}
+
 /* TOAST */
 .toast{position:fixed;bottom:2rem;left:50%;transform:translateX(-50%) translateY(130%);background:var(--navy-900);color:var(--t100);font-size:0.82rem;padding:0.7rem 1.2rem;border-radius:var(--rsm);border:1px solid var(--bn);box-shadow:0 8px 32px rgba(0,0,0,0.4);transition:transform 0.3s var(--ease);z-index:999;white-space:nowrap;max-width:90vw;}
 .toast.show{transform:translateX(-50%) translateY(0);}
@@ -146,9 +193,28 @@ body{font-family:var(--font-b);background:var(--white);color:var(--ow900);min-he
 <body>
 
 <nav class="nav">
-  <a href="index.html" class="brand"><span class="brand-mark"><svg viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="nm15" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#00d4ff"/><stop offset="1" stop-color="#5b9dff"/></linearGradient></defs><g stroke="url(#nm15)" stroke-width="9" stroke-linecap="round" fill="none"><path d="M128 70 L186 104 L186 152 L128 186 L70 152 L70 104 Z"/><line x1="128" y1="70" x2="128" y2="128"/><line x1="186" y1="152" x2="128" y2="128"/><line x1="70" y1="152" x2="128" y2="128"/></g><g fill="#00d4ff"><circle cx="128" cy="70" r="11"/><circle cx="186" cy="104" r="9"/><circle cx="186" cy="152" r="9"/><circle cx="128" cy="186" r="11"/><circle cx="70" cy="152" r="9"/><circle cx="70" cy="104" r="9"/></g><circle cx="128" cy="128" r="14" fill="#aef0ff"/></svg></span>Datavoris</a>
-  <a href="index.html#contact" class="nav-cta">Let's talk</a>
+  <div class="nav-container">
+    <a href="index.html" class="brand"><span class="brand-mark"><svg viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="nm15" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#00d4ff"/><stop offset="1" stop-color="#5b9dff"/></linearGradient></defs><g stroke="url(#nm15)" stroke-width="9" stroke-linecap="round" fill="none"><path d="M128 70 L186 104 L186 152 L128 186 L70 152 L70 104 Z"/><line x1="128" y1="70" x2="128" y2="128"/><line x1="186" y1="152" x2="128" y2="128"/><line x1="70" y1="152" x2="128" y2="128"/></g><g fill="#00d4ff"><circle cx="128" cy="70" r="11"/><circle cx="186" cy="104" r="9"/><circle cx="186" cy="152" r="9"/><circle cx="128" cy="186" r="11"/><circle cx="70" cy="152" r="9"/><circle cx="70" cy="104" r="9"/></g><circle cx="128" cy="128" r="14" fill="#aef0ff"/></svg></span>Datavoris</a>
+    <div class="nav-links" id="navLinks">
+      <a href="index.html#services">Services</a>
+      <a href="index.html#tools">Tools</a>
+      <a href="index.html#work">Work</a>
+      <a href="dv-founder.html">About</a>
+      <a href="blog.html">Blog</a>
+      <a href="reviews.html">Reviews</a>
+      <a href="dv-assessment.html" class="active">Assessment</a>
+      <a href="dv-analyzer.html">Analyzer</a>
+      <a href="index.html#contact">Contact</a>
+      <div class="nav-cta-mobile"><a href="index.html#contact">Let's talk</a></div>
+    </div>
+    <button class="nav-burger" id="navBurger" aria-label="Menu" aria-expanded="false" onclick="(function(b){var l=document.getElementById('navLinks');var d=document.getElementById('navBackdrop');var o=!l.classList.contains('open');l.classList.toggle('open',o);b.classList.toggle('open',o);if(d)d.classList.toggle('open',o);b.setAttribute('aria-expanded',o?'true':'false');})(this)">
+      <svg class="menu-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="4" y1="7" x2="20" y2="7"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="17" x2="20" y2="17"/></svg>
+      <svg class="x-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="6" y1="6" x2="18" y2="18"/><line x1="18" y1="6" x2="6" y2="18"/></svg>
+    </button>
+    <a href="index.html#contact" class="nav-cta">Let's talk</a>
+  </div>
 </nav>
+<div class="nav-backdrop" id="navBackdrop" onclick="document.getElementById('navBurger').click()"></div>
 <div class="prog-bar"><div class="prog-fill" id="progFill"></div></div>
 
 <div class="step-track" id="stepTrack" style="opacity:0.4">
@@ -195,6 +261,7 @@ body{font-family:var(--font-b);background:var(--white);color:var(--ow900);min-he
   <div class="fg full">
     <div class="field"><label>Industry</label><div class="sel-wrap"><select id="industry"><option value="" disabled selected>Select…</option><option>Consulting / Professional Services</option><option>E-commerce / Retail</option><option>Finance / Accounting</option><option>Healthcare</option><option>Manufacturing / Operations</option><option>Marketing / Agency</option><option>Real Estate</option><option>Technology / SaaS</option><option>Education</option><option>Other</option></select></div></div>
   </div>
+  <div aria-hidden="true" style="position:absolute;left:-10000px;width:1px;height:1px;overflow:hidden"><label for="dv_hp_website2">Website (leave blank)</label><input type="text" id="dv_hp_website2" name="website" tabindex="-1" autocomplete="off"/></div>
   <div class="nav-row">
     <button class="btn btn-ghost" onclick="showIntro()">← Back</button>
     <span class="nav-hint">1 / 6</span>
@@ -207,6 +274,12 @@ body{font-family:var(--font-b);background:var(--white);color:var(--ow900);min-he
   <div class="sec-pill sec-pill-white">Step 2 of 6 — Data Infrastructure</div>
   <div class="sec-title">Your data infrastructure</div>
   <p class="sec-sub">Rate each statement 1 (strongly disagree) to 10 (strongly agree) based on how things actually are today.</p>
+
+  <div class="pillar-meter" data-pillar="infrastructure">
+    <span class="pillar-meter-label">Live score</span>
+    <div class="pillar-meter-bar"><div class="pillar-meter-fill" data-fill="infrastructure" style="width:44%"></div></div>
+    <span class="pillar-meter-val"><span data-val="infrastructure">5.0</span><sub>/10</sub></span>
+  </div>
 
   <div class="q-card">
     <div class="q-num">Q1 · Data Storage</div>
@@ -249,6 +322,12 @@ body{font-family:var(--font-b);background:var(--white);color:var(--ow900);min-he
   <div class="sec-title">Reporting &amp; dashboards</div>
   <p class="sec-sub">Rate each statement 1 (strongly disagree) to 10 (strongly agree).</p>
 
+  <div class="pillar-meter" data-pillar="reporting">
+    <span class="pillar-meter-label">Live score</span>
+    <div class="pillar-meter-bar"><div class="pillar-meter-fill" data-fill="reporting" style="width:44%"></div></div>
+    <span class="pillar-meter-val"><span data-val="reporting">5.0</span><sub>/10</sub></span>
+  </div>
+
   <div class="q-card">
     <div class="q-num">Q5 · Report Freshness</div>
     <div class="q-chip">Reporting</div>
@@ -266,7 +345,7 @@ body{font-family:var(--font-b);background:var(--white);color:var(--ow900);min-he
   <div class="q-card">
     <div class="q-num">Q7 · Manual Effort</div>
     <div class="q-chip">Reporting</div>
-    <div class="q-text">Our team doesn't spend more than 1–2 hours per week on manual data preparation or report building tasks.</div>
+    <div class="q-text">Across our whole team, total time spent each week on manual data preparation, copy-paste, or report building is under 2 hours.</div>
     <div class="s-wrap"><div class="s-track"><input type="range" min="1" max="10" value="5" step="1" id="q7" oninput="syncS(this,'dq7')"/><span class="s-val" id="dq7">5</span></div><div class="s-labels"><span>Strongly disagree</span><span>Strongly agree</span></div></div>
   </div>
 
@@ -290,6 +369,12 @@ body{font-family:var(--font-b);background:var(--white);color:var(--ow900);min-he
   <div class="sec-title">Automation &amp; workflows</div>
   <p class="sec-sub">Rate each statement 1 (strongly disagree) to 10 (strongly agree).</p>
 
+  <div class="pillar-meter" data-pillar="automation">
+    <span class="pillar-meter-label">Live score</span>
+    <div class="pillar-meter-bar"><div class="pillar-meter-fill" data-fill="automation" style="width:44%"></div></div>
+    <span class="pillar-meter-val"><span data-val="automation">5.0</span><sub>/10</sub></span>
+  </div>
+
   <div class="q-card">
     <div class="q-num">Q9 · Repetitive Tasks</div>
     <div class="q-chip">Automation</div>
@@ -300,7 +385,7 @@ body{font-family:var(--font-b);background:var(--white);color:var(--ow900);min-he
   <div class="q-card">
     <div class="q-num">Q10 · Tool Connections</div>
     <div class="q-chip">Automation</div>
-    <div class="q-text">Our key business tools (email, CRM, spreadsheets, forms, accounting) are connected and share data without manual intervention.</div>
+    <div class="q-text">Information flows automatically between our key tools — we rarely re-type, re-export, or upload-then-download data to move it between systems.</div>
     <div class="s-wrap"><div class="s-track"><input type="range" min="1" max="10" value="5" step="1" id="q10" oninput="syncS(this,'dq10')"/><span class="s-val" id="dq10">5</span></div><div class="s-labels"><span>Strongly disagree</span><span>Strongly agree</span></div></div>
   </div>
 
@@ -324,10 +409,16 @@ body{font-family:var(--font-b);background:var(--white);color:var(--ow900);min-he
   <div class="sec-title">AI &amp; intelligent systems</div>
   <p class="sec-sub">Rate each statement 1 (strongly disagree) to 10 (strongly agree).</p>
 
+  <div class="pillar-meter" data-pillar="ai">
+    <span class="pillar-meter-label">Live score</span>
+    <div class="pillar-meter-bar"><div class="pillar-meter-fill" data-fill="ai" style="width:44%"></div></div>
+    <span class="pillar-meter-val"><span data-val="ai">5.0</span><sub>/10</sub></span>
+  </div>
+
   <div class="q-card">
     <div class="q-num">Q12 · AI Adoption</div>
     <div class="q-chip">AI Readiness</div>
-    <div class="q-text">We're actively using AI tools (beyond ChatGPT for writing) in our workflows — such as for analysis, classification, or automated insights.</div>
+    <div class="q-text">AI is wired into the work itself — analysing data, classifying records, summarising inputs — not just used as a drafting tool on the side.</div>
     <div class="s-wrap"><div class="s-track"><input type="range" min="1" max="10" value="5" step="1" id="q12" oninput="syncS(this,'dq12')"/><span class="s-val" id="dq12">5</span></div><div class="s-labels"><span>Strongly disagree</span><span>Strongly agree</span></div></div>
   </div>
 
@@ -358,10 +449,16 @@ body{font-family:var(--font-b);background:var(--white);color:var(--ow900);min-he
   <div class="sec-title">Data-driven decision making</div>
   <p class="sec-sub">Rate each statement 1 (strongly disagree) to 10 (strongly agree).</p>
 
+  <div class="pillar-meter" data-pillar="decisions">
+    <span class="pillar-meter-label">Live score</span>
+    <div class="pillar-meter-bar"><div class="pillar-meter-fill" data-fill="decisions" style="width:44%"></div></div>
+    <span class="pillar-meter-val"><span data-val="decisions">5.0</span><sub>/10</sub></span>
+  </div>
+
   <div class="q-card">
     <div class="q-num">Q15 · Decision Quality</div>
     <div class="q-chip">Decision Culture</div>
-    <div class="q-text">Major business decisions in our company are based on actual data rather than gut feel or assumptions.</div>
+    <div class="q-text">When we make a major business decision, the underlying numbers are on the table — not just opinions and gut feel.</div>
     <div class="s-wrap"><div class="s-track"><input type="range" min="1" max="10" value="5" step="1" id="q15" oninput="syncS(this,'dq15')"/><span class="s-val" id="dq15">5</span></div><div class="s-labels"><span>Strongly disagree</span><span>Strongly agree</span></div></div>
   </div>
 
@@ -389,7 +486,7 @@ body{font-family:var(--font-b);background:var(--white);color:var(--ow900);min-he
   <div class="q-card">
     <div class="q-num">Q19 · Future Readiness</div>
     <div class="q-chip">Decision Culture</div>
-    <div class="q-text">We have a clear idea of the data improvements we want to make in the next 12 months and a rough plan to achieve them.</div>
+    <div class="q-text">We have a concrete plan for how our data and reporting will improve over the next 12 months — owners, milestones, budget — not just a wish list.</div>
     <div class="s-wrap"><div class="s-track"><input type="range" min="1" max="10" value="5" step="1" id="q19" oninput="syncS(this,'dq19')"/><span class="s-val" id="dq19">5</span></div><div class="s-labels"><span>Strongly disagree</span><span>Strongly agree</span></div></div>
   </div>
 
@@ -431,8 +528,73 @@ function syncS(inp,dispId){
   document.getElementById(dispId).textContent=inp.value;
   const pct=((+inp.value-1)/9*100).toFixed(1)+'%';
   inp.style.setProperty('--pct',pct);
+  updatePillarMeters();
+}
+const PILLAR_QS={
+  infrastructure:['q1','q2','q3','q4'],
+  reporting:['q5','q6','q7','q8'],
+  automation:['q9','q10','q11'],
+  ai:['q12','q13','q14'],
+  decisions:['q15','q16','q17','q18','q19'],
+};
+const WHY={
+  q1:"<b>Why this matters:</b> Fragmented storage is the #1 root cause of bad reporting. If the same number lives in three places, at least two of them are wrong by Friday. Low score → expect manual reconciliation work everywhere downstream.",
+  q2:"<b>Why this matters:</b> If you can't trust the numbers, every report becomes a debate instead of a decision. Quality issues compound — one bad column corrupts every downstream dashboard built on it.",
+  q3:"<b>Why this matters:</b> Bottlenecks form when one person owns the data. Self-serve access turns a 2-week 'can someone pull this?' loop into a 30-second lookup.",
+  q4:"<b>Why this matters:</b> Every manual copy between systems is a tax on your team's hours and an opportunity for human error. Integration is what turns a stack of tools into an actual system.",
+  q5:"<b>Why this matters:</b> Manual refresh = stale numbers + a person who could be doing higher-value work. Automated refresh is one of the highest-ROI changes available.",
+  q6:"<b>Why this matters:</b> A dashboard nobody acts on is just decoration. The test isn't 'does it show metrics?' — it's 'do people change what they do because of it?'",
+  q7:"<b>Why this matters:</b> Two hours of manual data prep per week per person is ~100 hours a year per person. At consultant rates that's $5k–$15k of effort — usually well above the cost of automating it.",
+  q8:"<b>Why this matters:</b> Leadership without real-time KPIs is steering with month-old maps. Speed of insight directly correlates with speed of course-correction.",
+  q9:"<b>Why this matters:</b> Repetitive tasks are where automation pays back fastest — typically inside the first month. Every one you eliminate compounds in time saved.",
+  q10:"<b>Why this matters:</b> Disconnected tools force humans to be the integration layer. That's expensive, slow, and error-prone. Connected tools mean data moves while your team sleeps.",
+  q11:"<b>Why this matters:</b> Copy-paste errors are silent — they don't show up until a decision based on the wrong number costs you. Automation removes the failure mode entirely.",
+  q12:"<b>Why this matters:</b> Most teams use AI to write — few use it inside operational workflows where the real leverage lives (auto-classification, summarisation, anomaly detection).",
+  q13:"<b>Why this matters:</b> The bottleneck to useful AI is almost never the model. It's whether your data is clean and structured enough to feed it. Fix the data first, AI second.",
+  q14:"<b>Why this matters:</b> Knowing where AI would actually save time means you can prioritise. Vague AI ambition without specific workflows = no ROI.",
+  q15:"<b>Why this matters:</b> 'Gut feel' decisions aren't wrong — they're just unverifiable. Data-led decisions are reviewable, defensible, and improvable over time.",
+  q16:"<b>Why this matters:</b> If the team debates the numbers themselves, you're not actually making decisions — you're auditing your own data in real time. Trust is the unlock.",
+  q17:"<b>Why this matters:</b> Speed of insight = speed of business response. A team that answers questions in hours runs circles around one that answers in weeks.",
+  q18:"<b>Why this matters:</b> One analyst doing all the data work is a single point of failure. Embedded data literacy across the team is what scales.",
+  q19:"<b>Why this matters:</b> A concrete 12-month plan (owners, milestones, budget) separates the businesses that actually improve from the ones that stay stuck for another year.",
+};
+function buildWhys(){
+  document.querySelectorAll('.q-card').forEach(card=>{
+    const range=card.querySelector('input[type=range]');
+    if(!range)return;
+    const id=range.id;
+    if(!WHY[id])return;
+    if(card.querySelector('.q-why'))return;
+    const wrap=document.createElement('div');
+    wrap.className='q-why';
+    wrap.innerHTML='<button class="q-why-btn" type="button" aria-expanded="false">'+
+      '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 8v0.5M11.5 11h0.5v5"/></svg>'+
+      'Why this matters'+
+      '<svg class="why-chev" viewBox="0 0 24 24" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>'+
+      '</button>'+
+      '<div class="q-why-body"><div class="q-why-inner">'+WHY[id]+'</div></div>';
+    card.appendChild(wrap);
+    wrap.querySelector('.q-why-btn').addEventListener('click',()=>{
+      wrap.classList.toggle('open');
+      wrap.querySelector('.q-why-btn').setAttribute('aria-expanded',wrap.classList.contains('open')?'true':'false');
+    });
+  });
+}
+buildWhys();
+function updatePillarMeters(){
+  for(const key in PILLAR_QS){
+    const qs=PILLAR_QS[key];
+    let sum=0,n=0;
+    qs.forEach(q=>{const el=document.getElementById(q);if(el){sum+=+el.value;n++;}});
+    if(!n)continue;
+    const avg=sum/n;
+    const pct=((avg-1)/9*100).toFixed(1);
+    document.querySelectorAll('[data-fill="'+key+'"]').forEach(el=>{el.style.width=pct+'%';});
+    document.querySelectorAll('[data-val="'+key+'"]').forEach(el=>{el.textContent=avg.toFixed(1);});
+  }
 }
 document.querySelectorAll('input[type=range]').forEach(inp=>syncS(inp,'d'+inp.id));
+updatePillarMeters();
 
 let _t;
 function showToast(msg){const e=document.getElementById('toast');e.textContent=msg;e.classList.add('show');clearTimeout(_t);_t=setTimeout(()=>e.classList.remove('show'),3200);}
@@ -447,6 +609,7 @@ function validateStep0(){
   goTo(1);
 }
 
+window._dvAsmStart=Date.now();
 function submitAssessment(){
   const scores={};
   for(let i=1;i<=19;i++){const el=document.getElementById('q'+i);if(el)scores['q'+i]=+el.value;}
@@ -458,6 +621,9 @@ function submitAssessment(){
     size:document.getElementById('size').value,
     industry:document.getElementById('industry').value,
   };
+  const hp=(document.getElementById('dv_hp_website2')||{}).value||'';
+  const elapsed=Date.now()-(window._dvAsmStart||0);
+  const isBot=!!hp||elapsed<4000;
   const pillars={
     infrastructure:Math.round((scores.q1+scores.q2+scores.q3+scores.q4)/4*10)/10,
     reporting:Math.round((scores.q5+scores.q6+scores.q7+scores.q8)/4*10)/10,
@@ -470,7 +636,7 @@ function submitAssessment(){
 
   // ── NEW: Send to Google Sheet ──────────────────────────
   const tier=overall>=8.5?'Advanced':overall>=6.5?'Proficient':overall>=4.5?'Developing':'Reactive';
-  fetch('https://script.google.com/macros/s/AKfycbzTG5ZbJZgWIFdD7KrD17PDNciOOc3j1tSEdvGP4Ocktp7nSCjk2Esg-BU-GaI8_uWh/exec', {
+  if(!isBot)fetch('https://script.google.com/macros/s/AKfycbzTG5ZbJZgWIFdD7KrD17PDNciOOc3j1tSEdvGP4Ocktp7nSCjk2Esg-BU-GaI8_uWh/exec', {
     method:'POST', mode:'no-cors',
     headers:{'Content-Type':'application/json'},
     body:JSON.stringify({

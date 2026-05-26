@@ -115,18 +115,24 @@
       <a href="blog.html">Blog</a>
       <a href="reviews.html" class="active">Reviews</a>
       <a href="dv-assessment.html">Assessment</a>
+      <a href="dv-analyzer.html">Analyzer</a>
       <a href="index.html#contact">Contact</a>
+      <div class="nav-cta-mobile"><a href="index.html#contact">Let's talk</a></div>
     </div>
-    <button class="nav-hamburger" id="navToggle" aria-label="Menu" onclick="document.getElementById('navLinks').classList.toggle('open')">☰</button>
-    <a href="index.html#contact" class="btn btn-cyan" style="font-size:0.82rem;padding:0.55rem 1.2rem">Let's talk</a>
+    <button class="nav-hamburger" id="navToggle" aria-label="Menu" aria-expanded="false" onclick="(function(b){var l=document.getElementById('navLinks');var d=document.getElementById('navBackdrop');var o=!l.classList.contains('open');l.classList.toggle('open',o);b.classList.toggle('open',o);if(d)d.classList.toggle('open',o);b.setAttribute('aria-expanded',o?'true':'false');})(this)">
+      <svg class="menu-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="4" y1="7" x2="20" y2="7"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="17" x2="20" y2="17"/></svg>
+      <svg class="x-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="6" y1="6" x2="18" y2="18"/><line x1="18" y1="6" x2="6" y2="18"/></svg>
+    </button>
+    <a href="index.html#contact" class="btn btn-cyan btn-sm">Let's talk</a>
   </div>
 </nav>
+<div class="nav-backdrop" id="navBackdrop" onclick="document.getElementById('navToggle').click()"></div>
 
 <div class="rv-hero">
   <div class="container inner">
     <span class="eyebrow eyebrow-navy">Client Reviews</span>
-    <h1>Trusted by teams who hate manual work</h1>
-    <p>Real words from people whose data systems I've built and automated. Worked with me? I'd genuinely value your review.</p>
+    <h1>Verified work, in clients' own words</h1>
+    <p>The reviews below come from real, paying clients — verified on Upwork, where every engagement is logged and every review is tied to a completed contract. If we've worked together, your honest feedback helps the next operator decide.</p>
     <div class="rv-summary" id="rvSummary" style="display:none">
       <div class="rv-bigscore"><span class="n" id="rvAvg">—</span><span class="of">/ 5</span></div>
       <div>
@@ -188,9 +194,10 @@
             <label for="rvText">Your review</label>
             <textarea id="rvText" placeholder="What did we work on, and how did it go?" maxlength="600"></textarea>
           </div>
+          <div aria-hidden="true" style="position:absolute;left:-10000px;width:1px;height:1px;overflow:hidden"><label for="dv_hp_website3">Website (leave blank)</label><input type="text" id="dv_hp_website3" name="website" tabindex="-1" autocomplete="off"/></div>
           <button class="rv-submit" id="rvSubmit">Submit review</button>
           <div class="rv-err" id="rvErr"></div>
-          <p class="rv-note">🔒 Your email is never shown publicly. Reviews appear after a quick check.</p>
+          <p class="rv-note"><svg class="rv-note-ic" viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>Your email is never shown publicly. Reviews appear after a quick check.</p>
         </div>
 
         <div class="rv-success" id="rvSuccess">
@@ -211,7 +218,7 @@
       <p class="footer-tagline">Automated data solutions for modern teams.</p>
     </div>
     <div class="footer-right">
-      <p>© <span id="yr"></span> Datavoris · Ankush Gulati · Agra, India</p>
+      <p>© <span id="yr"></span> Datavoris · Agra, India · Remote worldwide</p>
       <p class="footer-meta">Power BI · Fabric · Python · OpenAI · Zapier · Google Sheets</p>
     </div>
   </div>
@@ -271,12 +278,15 @@ async function loadReviews(){
   }
 }
 
+window._dvRvStart=Date.now();
 /* ---- submit a review (no-cors POST, fire-and-forget) ---- */
 document.getElementById('rvSubmit').onclick=async()=>{
   const name=document.getElementById('rvName').value.trim();
   const email=document.getElementById('rvEmail').value.trim();
   const role=document.getElementById('rvRole').value.trim();
   const text=document.getElementById('rvText').value.trim();
+  const hp=(document.getElementById('dv_hp_website3')||{}).value||'';
+  const elapsed=Date.now()-(window._dvRvStart||0);
   const errBox=document.getElementById('rvErr');
   errBox.style.display='none';
   if(!name){errBox.textContent='Please add your name.';errBox.style.display='block';return;}
@@ -284,7 +294,8 @@ document.getElementById('rvSubmit').onclick=async()=>{
   if(text.length<10){errBox.textContent='Please write a little more (at least 10 characters).';errBox.style.display='block';return;}
   const btn=document.getElementById('rvSubmit');
   btn.textContent='Sending…';btn.disabled=true;
-  if(REVIEWS_ENDPOINT&&!REVIEWS_ENDPOINT.startsWith('PASTE_')){
+  const isBot=!!hp||elapsed<3000;
+  if(!isBot&&REVIEWS_ENDPOINT&&!REVIEWS_ENDPOINT.startsWith('PASTE_')){
     try{
       await fetch(REVIEWS_ENDPOINT,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/json'},
         body:JSON.stringify({type:'review',action:'review',name,email,role,rating:chosen,text})});

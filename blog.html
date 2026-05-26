@@ -48,12 +48,18 @@
       <a href="blog.html" class="active">Blog</a>
       <a href="reviews.html">Reviews</a>
       <a href="dv-assessment.html">Assessment</a>
+      <a href="dv-analyzer.html">Analyzer</a>
       <a href="index.html#contact">Contact</a>
+      <div class="nav-cta-mobile"><a href="index.html#contact">Let's talk</a></div>
     </div>
-    <button class="nav-hamburger" id="navToggle" aria-label="Menu" onclick="document.getElementById('navLinks').classList.toggle('open')">☰</button>
-    <a href="index.html#contact" class="btn btn-cyan" style="font-size:0.82rem;padding:0.55rem 1.2rem">Let's talk</a>
+    <button class="nav-hamburger" id="navToggle" aria-label="Menu" aria-expanded="false" onclick="(function(b){var l=document.getElementById('navLinks');var d=document.getElementById('navBackdrop');var o=!l.classList.contains('open');l.classList.toggle('open',o);b.classList.toggle('open',o);if(d)d.classList.toggle('open',o);b.setAttribute('aria-expanded',o?'true':'false');})(this)">
+      <svg class="menu-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="4" y1="7" x2="20" y2="7"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="17" x2="20" y2="17"/></svg>
+      <svg class="x-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="6" y1="6" x2="18" y2="18"/><line x1="18" y1="6" x2="6" y2="18"/></svg>
+    </button>
+    <a href="index.html#contact" class="btn btn-cyan btn-sm">Let's talk</a>
   </div>
 </nav>
+<div class="nav-backdrop" id="navBackdrop" onclick="document.getElementById('navToggle').click()"></div>
 
 <div class="blog-hero">
   <div class="container inner">
@@ -74,7 +80,7 @@
       <p class="footer-tagline">Automated data solutions for modern teams.</p>
     </div>
     <div class="footer-right">
-      <p>© <span id="yr"></span> Datavoris · Ankush Gulati · Agra, India</p>
+      <p>© <span id="yr"></span> Datavoris · Agra, India · Remote worldwide</p>
       <p class="footer-meta">Power BI · Fabric · Python · OpenAI · Zapier · Google Sheets</p>
     </div>
   </div>
