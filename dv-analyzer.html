@@ -240,7 +240,7 @@ table.prev tr:hover td{background:var(--off);}
 .footer{font-size:0.75rem;color:var(--ow3);text-align:center;margin-top:2.5rem;}
 
 /* PROCESSING OVERLAY */
-.anz-proc{position:fixed;inset:0;z-index:500;background:rgba(248,250,255,0.94);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);display:none;align-items:center;justify-content:center;padding:1.5rem;overflow:hidden;}
+.anz-proc{position:fixed;inset:62px 0 0 0;z-index:150;background:rgba(248,250,255,0.97);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);display:none;align-items:center;justify-content:center;padding:1.5rem;overflow:hidden;}
 .anz-proc.show{display:flex;animation:anzFade 0.35s ease both;}
 @keyframes anzFade{from{opacity:0;}to{opacity:1;}}
 .anz-proc::before{content:'';position:absolute;inset:0;background-image:radial-gradient(rgba(0,212,255,0.08) 1px,transparent 1px);background-size:32px 32px;opacity:0.5;pointer-events:none;}
@@ -589,7 +589,7 @@ function runAnzProc(headers,data,done){
   counters.forEach(c=>{c.classList.remove('live');const n=c.querySelector('.anz-counter-n');if(n)n.textContent='—';});
   const C=2*Math.PI*64;
   if(ring){ring.style.strokeDasharray=C;ring.style.strokeDashoffset=C;}
-  overlay.classList.add('show');document.documentElement.style.overflow='hidden';
+  window.scrollTo(0,0);overlay.classList.add('show');document.documentElement.style.overflow='hidden';
   // Compute the real stats up-front; reveal progressively during animation
   let peek=null;try{peek=_quickPeek(headers,data);}catch(e){peek={rowCount:data.length,colCount:headers.length,typeCount:0,completeness:0};}
   const heads=[

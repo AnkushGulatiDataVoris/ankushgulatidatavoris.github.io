@@ -91,7 +91,7 @@ body{font-family:var(--font-b);background:var(--white);color:var(--ow900);min-he
 .pg{display:none;}
 .pg.active{display:block;animation:up 0.35s var(--ease) both;}
 /* loading state becomes a clean full-screen overlay (no nav/step-track behind, no scroll) */
-#pg-loading.active{position:fixed;inset:0;z-index:600;background:var(--white);display:flex;align-items:center;justify-content:center;padding:1.5rem;animation:none;}
+#pg-loading.active{position:fixed;inset:62px 0 0 0;z-index:150;background:var(--white);display:flex;align-items:center;justify-content:center;padding:1.5rem;animation:none;}
 @keyframes up{from{opacity:0;transform:translateY(18px);}to{opacity:1;transform:translateY(0);}}
 
 /* INTRO */
@@ -452,7 +452,7 @@ function submitAssessment(){
   const tier=overall>=8.5?'Advanced':overall>=6.5?'Proficient':overall>=4.5?'Developing':'Reactive';
   if(!isBot)fetch('https://script.google.com/macros/s/AKfycbzTG5ZbJZgWIFdD7KrD17PDNciOOc3j1tSEdvGP4Ocktp7nSCjk2Esg-BU-GaI8_uWh/exec',{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/json'},body:JSON.stringify({type:'assessment',fname:ctx.fname,email:ctx.email,role:ctx.role,size:ctx.size,industry:ctx.industry,overall:overall,tier:tier,infrastructure:pillars.infrastructure,reporting:pillars.reporting,automation:pillars.automation,ai:pillars.ai,decisions:pillars.decisions,q1:scores.q1,q2:scores.q2,q3:scores.q3,q4:scores.q4,q5:scores.q5,q6:scores.q6,q7:scores.q7,q8:scores.q8,q9:scores.q9,q10:scores.q10,q11:scores.q11,q12:scores.q12,q13:scores.q13,q14:scores.q14,q15:scores.q15,q16:scores.q16,q17:scores.q17,q18:scores.q18,q19:scores.q19})});
   hideAll();document.getElementById('pg-loading').classList.add('active');document.getElementById('progFill').style.width='99%';
-  document.documentElement.style.overflow='hidden';window.scrollTo(0,0);
+  window.scrollTo(0,0);document.documentElement.style.overflow='hidden';
   sessionStorage.setItem('dv_assessment',JSON.stringify({scores,ctx,pillars,overall}));
   setTimeout(function(){window.location.href='dv-results.html';},1200);
 }
