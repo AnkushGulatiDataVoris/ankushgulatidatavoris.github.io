@@ -30,7 +30,7 @@
   --ease:cubic-bezier(0.16,1,0.3,1);
 }
 html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased;}
-body{font-family:var(--font-b);background:var(--white);color:var(--ow900);min-height:100vh;display:flex;flex-direction:column;align-items:center;}
+body{font-family:var(--font-b);background:var(--white);color:var(--ow900);min-height:100vh;display:flex;flex-direction:column;align-items:center;overflow-x:hidden;}
 
 /* NAV — matches dv-style.css .site-nav exactly */
 .nav{width:100%;background:var(--navy-800);border-bottom:1px solid var(--bn);position:sticky;top:0;z-index:200;backdrop-filter:blur(20px);}
@@ -90,6 +90,8 @@ body{font-family:var(--font-b);background:var(--white);color:var(--ow900);min-he
 /* PAGES */
 .pg{display:none;}
 .pg.active{display:block;animation:up 0.35s var(--ease) both;}
+/* loading state becomes a clean full-screen overlay (no nav/step-track behind, no scroll) */
+#pg-loading.active{position:fixed;inset:0;z-index:600;background:var(--white);display:flex;align-items:center;justify-content:center;padding:1.5rem;animation:none;}
 @keyframes up{from{opacity:0;transform:translateY(18px);}to{opacity:1;transform:translateY(0);}}
 
 /* INTRO */
@@ -184,8 +186,8 @@ body{font-family:var(--font-b);background:var(--white);color:var(--ow900);min-he
 .q-why-inner b{color:var(--ow7);font-weight:600;}
 
 /* TOAST */
-.toast{position:fixed;bottom:2rem;left:50%;transform:translateX(-50%) translateY(130%);background:var(--navy-900);color:var(--t100);font-size:0.82rem;padding:0.7rem 1.2rem;border-radius:var(--rsm);border:1px solid var(--bn);box-shadow:0 8px 32px rgba(0,0,0,0.4);transition:transform 0.3s var(--ease);z-index:999;white-space:nowrap;max-width:90vw;}
-.toast.show{transform:translateX(-50%) translateY(0);}
+.toast{position:fixed;bottom:2rem;left:50%;transform:translateX(-50%) translateY(160%);opacity:0;visibility:hidden;background:var(--navy-900);color:var(--t100);font-size:0.82rem;padding:0.7rem 1.2rem;border-radius:var(--rsm);border:1px solid var(--bn);box-shadow:0 8px 32px rgba(0,0,0,0.4);transition:transform 0.3s var(--ease),opacity 0.3s,visibility 0s linear 0.3s;z-index:999;white-space:nowrap;max-width:90vw;}
+.toast.show{transform:translateX(-50%) translateY(0);opacity:1;visibility:visible;transition:transform 0.3s var(--ease),opacity 0.3s,visibility 0s;}
 
 @media(max-width:560px){.fg{grid-template-columns:1fr;}.intro-tiles{grid-template-columns:1fr 1fr;}.nav{padding:0 1rem;}.main{padding:1.5rem 1rem 5rem;}}
 </style>
@@ -200,9 +202,7 @@ body{font-family:var(--font-b);background:var(--white);color:var(--ow900);min-he
       <a href="index.html#tools">Tools</a>
       <a href="index.html#work">Work</a>
       <a href="dv-founder.html">About</a>
-      <a href="blog.html">Blog</a>
-      <a href="reviews.html">Reviews</a>
-      <a href="dv-assessment.html" class="active">Assessment</a>
+      <a href="blog.html">Blog</a>      <a href="dv-assessment.html" class="active">Assessment</a>
       <a href="dv-analyzer.html">Analyzer</a>
       <a href="index.html#contact">Contact</a>
       <div class="nav-cta-mobile"><a href="index.html#contact">Let's talk</a></div>
@@ -661,6 +661,8 @@ function submitAssessment(){
   // ── END NEW ────────────────────────────────────────────
 
   hideAll();document.getElementById('pg-loading').classList.add('active');document.getElementById('progFill').style.width='97%';
+  document.documentElement.style.overflow='hidden';
+  window.scrollTo(0,0);
   sessionStorage.setItem('dv_assessment',JSON.stringify({scores,ctx,pillars,overall}));
   setTimeout(()=>{window.location.href='dv-results.html';},1200);
 }

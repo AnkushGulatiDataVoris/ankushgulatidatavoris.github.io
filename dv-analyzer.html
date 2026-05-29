@@ -29,7 +29,7 @@
   --ease:cubic-bezier(0.16,1,0.3,1);
 }
 html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased;}
-body{font-family:var(--fb);background:var(--wh);color:var(--ow9);min-height:100vh;display:flex;flex-direction:column;align-items:center;}
+body{font-family:var(--fb);background:var(--wh);color:var(--ow9);min-height:100vh;display:flex;flex-direction:column;align-items:center;overflow-x:hidden;}
 
 /* NAV — matches dv-style.css .site-nav exactly */
 .nav{width:100%;background:var(--n8);border-bottom:1px solid var(--bn);position:sticky;top:0;z-index:200;backdrop-filter:blur(20px);}
@@ -240,7 +240,7 @@ table.prev tr:hover td{background:var(--off);}
 .footer{font-size:0.75rem;color:var(--ow3);text-align:center;margin-top:2.5rem;}
 
 /* PROCESSING OVERLAY */
-.anz-proc{position:fixed;inset:0;z-index:500;background:rgba(248,250,255,0.94);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);display:none;align-items:flex-start;justify-content:center;padding:2.5rem 1.5rem;overflow-y:auto;overscroll-behavior:contain;}
+.anz-proc{position:fixed;inset:0;z-index:500;background:rgba(248,250,255,0.94);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);display:none;align-items:center;justify-content:center;padding:1.5rem;overflow:hidden;}
 .anz-proc.show{display:flex;animation:anzFade 0.35s ease both;}
 @keyframes anzFade{from{opacity:0;}to{opacity:1;}}
 .anz-proc::before{content:'';position:absolute;inset:0;background-image:radial-gradient(rgba(0,212,255,0.08) 1px,transparent 1px);background-size:32px 32px;opacity:0.5;pointer-events:none;}
@@ -369,9 +369,7 @@ table.prev tr:hover td{background:var(--off);}
       <a href="index.html#tools">Tools</a>
       <a href="index.html#work">Work</a>
       <a href="dv-founder.html">About</a>
-      <a href="blog.html">Blog</a>
-      <a href="reviews.html">Reviews</a>
-      <a href="dv-assessment.html">Assessment</a>
+      <a href="blog.html">Blog</a>      <a href="dv-assessment.html">Assessment</a>
       <a href="dv-analyzer.html" class="active">Analyzer</a>
       <a href="index.html#contact">Contact</a>
       <div class="nav-cta-mobile"><a href="index.html#contact">Let's talk</a></div>
@@ -591,7 +589,7 @@ function runAnzProc(headers,data,done){
   counters.forEach(c=>{c.classList.remove('live');const n=c.querySelector('.anz-counter-n');if(n)n.textContent='—';});
   const C=2*Math.PI*64;
   if(ring){ring.style.strokeDasharray=C;ring.style.strokeDashoffset=C;}
-  overlay.classList.add('show');
+  overlay.classList.add('show');document.documentElement.style.overflow='hidden';
   // Compute the real stats up-front; reveal progressively during animation
   let peek=null;try{peek=_quickPeek(headers,data);}catch(e){peek={rowCount:data.length,colCount:headers.length,typeCount:0,completeness:0};}
   const heads=[
@@ -614,7 +612,7 @@ function runAnzProc(headers,data,done){
   function setProg(p){prog=p;if(ring)ring.style.strokeDashoffset=C*(1-p/100);if(pctEl)pctEl.textContent=Math.round(p)+'%';}
   function tick(){
     if(i>=steps.length){
-      setTimeout(()=>{overlay.classList.remove('show');done();},700);
+      setTimeout(()=>{overlay.classList.remove('show');document.documentElement.style.overflow='';done();},700);
       return;
     }
     steps[i].classList.add('active');
