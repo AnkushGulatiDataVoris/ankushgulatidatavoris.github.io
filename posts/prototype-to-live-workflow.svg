@@ -1,0 +1,106 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 980 430" font-family="'DM Sans', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" role="img" aria-label="Workflow: a Claude prototype becomes a live product in three stages over seven days.">
+  <defs>
+    <linearGradient id="accent" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#00d4ff"/>
+      <stop offset="1" stop-color="#5b9dff"/>
+    </linearGradient>
+    <linearGradient id="badge" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#10d9a0"/>
+      <stop offset="1" stop-color="#00d4ff"/>
+    </linearGradient>
+    <filter id="soft" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="6" stdDeviation="10" flood-color="#0a1628" flood-opacity="0.10"/>
+    </filter>
+  </defs>
+
+  <!-- background -->
+  <rect x="0" y="0" width="980" height="430" rx="18" fill="#f8faff"/>
+
+  <!-- header row -->
+  <text x="40" y="50" font-size="13" font-weight="700" letter-spacing="2.5" fill="#4a607e">FROM PROTOTYPE TO PRODUCTION</text>
+  <g transform="translate(760,30)">
+    <rect x="0" y="0" width="180" height="34" rx="17" fill="url(#badge)"/>
+    <text x="90" y="22" text-anchor="middle" font-size="14" font-weight="800" fill="#062f1d">LIVE IN 7 DAYS</text>
+  </g>
+
+  <!-- ===== CARD 1 ===== -->
+  <g transform="translate(40,90)">
+    <rect x="0" y="0" width="270" height="250" rx="16" fill="#ffffff" stroke="#e4eaf4" stroke-width="1.5" filter="url(#soft)"/>
+    <rect x="0" y="0" width="270" height="5" rx="2.5" fill="#00d4ff"/>
+    <!-- step number -->
+    <circle cx="34" cy="44" r="16" fill="#0a1628"/>
+    <text x="34" y="49" text-anchor="middle" font-size="15" font-weight="800" fill="#00d4ff">1</text>
+    <!-- icon: browser window -->
+    <g transform="translate(210,28)" stroke="#00d4ff" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="0" y="0" width="34" height="28" rx="4"/>
+      <line x1="0" y1="9" x2="34" y2="9"/>
+      <circle cx="5" cy="4.5" r="0.8" fill="#00d4ff" stroke="none"/>
+      <circle cx="9" cy="4.5" r="0.8" fill="#00d4ff" stroke="none"/>
+    </g>
+    <text x="22" y="100" font-size="18" font-weight="800" fill="#0a1628">Your Claude prototype</text>
+    <text font-size="13.5" fill="#4a607e">
+      <tspan x="22" y="130">A working frontend — buttons</tspan>
+      <tspan x="22" y="152">click, screens flow, it looks</tspan>
+      <tspan x="22" y="174">real. But refresh the page and</tspan>
+      <tspan x="22" y="196">the data is gone.</tspan>
+    </text>
+    <text x="22" y="228" font-size="12" font-weight="700" letter-spacing="0.5" fill="#7a90b8">WHAT YOU HAVE TODAY</text>
+  </g>
+
+  <!-- arrow 1 -->
+  <g transform="translate(312,215)">
+    <line x1="0" y1="0" x2="40" y2="0" stroke="#00d4ff" stroke-width="2.5" stroke-linecap="round"/>
+    <path d="M34 -6 L44 0 L34 6" fill="none" stroke="#00d4ff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+    <text x="22" y="-14" text-anchor="middle" font-size="11.5" font-weight="700" fill="#7a90b8">~2 days</text>
+  </g>
+
+  <!-- ===== CARD 2 ===== -->
+  <g transform="translate(365,90)">
+    <rect x="0" y="0" width="270" height="250" rx="16" fill="#ffffff" stroke="#e4eaf4" stroke-width="1.5" filter="url(#soft)"/>
+    <rect x="0" y="0" width="270" height="5" rx="2.5" fill="#5b9dff"/>
+    <circle cx="34" cy="44" r="16" fill="#0a1628"/>
+    <text x="34" y="49" text-anchor="middle" font-size="15" font-weight="800" fill="#5b9dff">2</text>
+    <!-- icon: database -->
+    <g transform="translate(212,26)" stroke="#5b9dff" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+      <ellipse cx="16" cy="5" rx="14" ry="4.5"/>
+      <path d="M2 5 v20 c0 2.5 6.3 4.5 14 4.5 s14 -2 14 -4.5 v-20"/>
+      <path d="M2 15 c0 2.5 6.3 4.5 14 4.5 s14 -2 14 -4.5"/>
+    </g>
+    <text x="22" y="100" font-size="18" font-weight="800" fill="#0a1628">Wire up the backend</text>
+    <text font-size="13.5" fill="#4a607e">
+      <tspan x="22" y="130">Supabase database &amp; auth, API</tspan>
+      <tspan x="22" y="152">routes, secure storage. Data</tspan>
+      <tspan x="22" y="174">now persists, logins are real,</tspan>
+      <tspan x="22" y="196">nothing resets.</tspan>
+    </text>
+    <text x="22" y="228" font-size="12" font-weight="700" letter-spacing="0.5" fill="#7a90b8">SUPABASE · API · AUTH</text>
+  </g>
+
+  <!-- arrow 2 -->
+  <g transform="translate(637,215)">
+    <line x1="0" y1="0" x2="40" y2="0" stroke="#5b9dff" stroke-width="2.5" stroke-linecap="round"/>
+    <path d="M34 -6 L44 0 L34 6" fill="none" stroke="#5b9dff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+    <text x="22" y="-14" text-anchor="middle" font-size="11.5" font-weight="700" fill="#7a90b8">~3 days</text>
+  </g>
+
+  <!-- ===== CARD 3 ===== -->
+  <g transform="translate(690,90)">
+    <rect x="0" y="0" width="270" height="250" rx="16" fill="#ffffff" stroke="#e4eaf4" stroke-width="1.5" filter="url(#soft)"/>
+    <rect x="0" y="0" width="270" height="5" rx="2.5" fill="#10d9a0"/>
+    <circle cx="34" cy="44" r="16" fill="#0a1628"/>
+    <text x="34" y="49" text-anchor="middle" font-size="15" font-weight="800" fill="#10d9a0">3</text>
+    <!-- icon: globe -->
+    <g transform="translate(210,26)" stroke="#10d9a0" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="16" cy="15" r="14"/>
+      <path d="M2 15 h28 M16 1 a20 20 0 0 1 0 28 M16 1 a20 20 0 0 0 0 28"/>
+    </g>
+    <text x="22" y="100" font-size="18" font-weight="800" fill="#0a1628">Deploy &amp; go live</text>
+    <text font-size="13.5" fill="#4a607e">
+      <tspan x="22" y="130">Shipped to Vercel or Netlify</tspan>
+      <tspan x="22" y="152">with a domain, SSL and</tspan>
+      <tspan x="22" y="174">monitoring. Real users, real</tspan>
+      <tspan x="22" y="196">data, always on.</tspan>
+    </text>
+    <text x="22" y="228" font-size="12" font-weight="700" letter-spacing="0.5" fill="#7a90b8">VERCEL / NETLIFY · LIVE</text>
+  </g>
+</svg>
