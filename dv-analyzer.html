@@ -13,7 +13,7 @@
 <meta name="theme-color" content="#0a1628"/>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-<link href="https://fonts.googleapis.com/css2?family=Cabinet+Grotesk:wght@300;400;500;700;800;900&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet"/>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 :root{
@@ -25,7 +25,7 @@
   --ow9:#080e1e;--ow7:#1a2744;--ow5:#4a607e;--ow3:#7a90b8;
   --bn:rgba(255,255,255,0.07);--bw:rgba(8,14,30,0.1);
   --r:14px;--rsm:9px;--rxl:24px;
-  --fd:'Cabinet Grotesk',sans-serif;--fb:'DM Sans',sans-serif;
+  --fd:'Space Grotesk',sans-serif;--fb:'Inter',sans-serif;
   --ease:cubic-bezier(0.16,1,0.3,1);
 }
 html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased;}
@@ -938,7 +938,7 @@ function analyze(headers,data,fname){
 
   // RENDER CHARTS (legacy detailed section below the dashboard)
   requestAnimationFrame(()=>{
-    Chart.defaults.font.family="'DM Sans',sans-serif";
+    Chart.defaults.font.family="'Inter',sans-serif";
     chartDefs.slice(0,4).forEach((d,i)=>{
       const cv=$('ch'+i);if(!cv)return;const ctx=cv.getContext('2d');
       if(d.kind==='hist'){
