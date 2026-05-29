@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 210" role="img" aria-label="Automated diagnostic engine mockup: a form feeds a scored, AI-generated PDF report.">
+  <defs>
+    <linearGradient id="d-ring" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#00d4ff"/><stop offset="1" stop-color="#5b9dff"/>
+    </linearGradient>
+  </defs>
+  <rect width="400" height="210" fill="#0a1628"/>
+  <text x="16" y="22" font-family="sans-serif" font-size="9" font-weight="700" letter-spacing="1.5" fill="#5b9dff">DIAGNOSTIC ENGINE</text>
+
+  <!-- left: form/input -->
+  <rect x="16" y="40" width="86" height="154" rx="8" fill="#0f1e3d" stroke="#1d2f54"/>
+  <text x="26" y="58" font-family="sans-serif" font-size="7.5" font-weight="700" fill="#c8d8f0">INPUTS</text>
+  <rect x="26" y="68" width="66" height="8" rx="4" fill="#1d2f54"/>
+  <rect x="26" y="84" width="66" height="8" rx="4" fill="#1d2f54"/>
+  <rect x="26" y="100" width="48" height="8" rx="4" fill="#1d2f54"/>
+  <rect x="26" y="116" width="66" height="8" rx="4" fill="#1d2f54"/>
+  <rect x="26" y="132" width="40" height="8" rx="4" fill="#1d2f54"/>
+  <rect x="26" y="170" width="66" height="14" rx="7" fill="#00d4ff"/>
+  <text x="59" y="180" font-family="sans-serif" font-size="7" font-weight="800" fill="#0a1628" text-anchor="middle">SUBMIT</text>
+
+  <!-- arrow -->
+  <path d="M106 117 L122 117" stroke="#00d4ff" stroke-width="2" stroke-linecap="round"/>
+  <path d="M117 112 L123 117 L117 122" fill="none" stroke="#00d4ff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+
+  <!-- center: score ring -->
+  <g transform="translate(128,60)">
+    <circle cx="44" cy="44" r="34" fill="none" stroke="#1d2f54" stroke-width="9"/>
+    <circle cx="44" cy="44" r="34" fill="none" stroke="url(#d-ring)" stroke-width="9" stroke-linecap="round" stroke-dasharray="160 214" transform="rotate(-90 44 44)"/>
+    <text x="44" y="42" font-family="sans-serif" font-size="20" font-weight="800" fill="#f0f6ff" text-anchor="middle">7.4</text>
+    <text x="44" y="56" font-family="sans-serif" font-size="7.5" fill="#7a90b8" text-anchor="middle">SCORE</text>
+  </g>
+  <text x="128" y="170" font-family="sans-serif" font-size="7.5" font-weight="700" fill="#c8d8f0">AI SUMMARY</text>
+  <rect x="128" y="178" width="84" height="6" rx="3" fill="#2a3f6b"/>
+  <rect x="128" y="188" width="64" height="6" rx="3" fill="#2a3f6b"/>
+
+  <!-- arrow 2 -->
+  <path d="M226 117 L242 117" stroke="#10d9a0" stroke-width="2" stroke-linecap="round"/>
+  <path d="M237 112 L243 117 L237 122" fill="none" stroke="#10d9a0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+
+  <!-- right: branded PDF -->
+  <rect x="248" y="40" width="136" height="154" rx="8" fill="#0f1e3d" stroke="#1d2f54"/>
+  <rect x="262" y="54" width="108" height="126" rx="6" fill="#0a1628" stroke="#2a3f6b"/>
+  <rect x="262" y="54" width="108" height="20" rx="6" fill="#10d9a0"/>
+  <text x="272" y="68" font-family="sans-serif" font-size="8" font-weight="800" fill="#062f1d">Your Report.pdf</text>
+  <rect x="274" y="86" width="84" height="6" rx="3" fill="#2a3f6b"/>
+  <rect x="274" y="98" width="84" height="6" rx="3" fill="#1d2f54"/>
+  <rect x="274" y="110" width="60" height="6" rx="3" fill="#1d2f54"/>
+  <rect x="274" y="128" width="38" height="26" rx="4" fill="#162444"/>
+  <rect x="318" y="128" width="40" height="26" rx="4" fill="#162444"/>
+  <rect x="274" y="162" width="84" height="6" rx="3" fill="#1d2f54"/>
+</svg>
