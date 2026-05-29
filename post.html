@@ -44,6 +44,9 @@
 .article-body code{background:var(--surface-off);border:1px solid var(--border-white);border-radius:5px;padding:0.1rem 0.4rem;font-size:0.9em;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;color:#0284a8;}
 .article-body hr{border:none;border-top:1px solid var(--border-white);margin:2.5rem 0;}
 .article-body em{font-style:italic;}
+.article-figure{margin:2rem 0;text-align:center;}
+.article-figure img,.article-body img.md-img{max-width:100%;height:auto;border:1px solid var(--border-white);border-radius:var(--r-md);background:#fff;box-shadow:0 10px 30px rgba(8,14,30,0.08);display:block;margin:0 auto;}
+.article-figure figcaption{font-size:0.82rem;color:var(--on-white-500);margin-top:0.8rem;line-height:1.5;font-style:italic;}
 .article-body>p:last-child{font-size:0.95rem;color:var(--on-white-500);}
 
 .article-cta{background:var(--navy-800);border-radius:var(--r-xl);padding:2.4rem;text-align:center;margin:3rem auto 0;max-width:740px;position:relative;overflow:hidden;}
@@ -139,11 +142,14 @@ function qp(n){return new URLSearchParams(location.search).get(n);}
 function mdToHtml(md){
   const esc=s=>s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
   const safeUrl=u=>{
-    const t=String(u).trim();
-    if(/^(https?:|mailto:|tel:|\/|#|\?|\.\/|\.\.\/)/i.test(t))return t.replace(/"/g,'&quot;');
-    return '#';
+    // strip control chars (defeats java\0script: style bypasses), then block
+    // dangerous schemes. Relative links and images (page.html, posts/x.svg) pass.
+    const t=String(u).trim().replace(/[\x00-\x1F]/g,'');
+    if(/^(javascript|data|vbscript|file):/i.test(t))return '#';
+    return t.replace(/"/g,'&quot;');
   };
   const inline=t=>esc(t)
+    .replace(/!\[([^\]]*)\]\(([^)]+)\)/g,(_,alt,src)=>'<img class="md-img" src="'+safeUrl(src)+'" alt="'+alt+'" loading="lazy"/>')
     .replace(/\*\*([^*]+)\*\*/g,'<strong>$1</strong>')
     .replace(/(^|[^*])\*([^*]+)\*/g,'$1<em>$2</em>')
     .replace(/`([^`]+)`/g,'<code>$1</code>')
@@ -155,6 +161,8 @@ function mdToHtml(md){
     if(/^###\s+/.test(l)){html+='<h3>'+inline(l.replace(/^###\s+/,''))+'</h3>';i++;continue;}
     if(/^##\s+/.test(l)){html+='<h2>'+inline(l.replace(/^##\s+/,''))+'</h2>';i++;continue;}
     if(/^#\s+/.test(l)){html+='<h1>'+inline(l.replace(/^#\s+/,''))+'</h1>';i++;continue;}
+    const imgM=l.match(/^!\[([^\]]*)\]\(([^)]+)\)\s*$/);
+    if(imgM){const alt=esc(imgM[1]);html+='<figure class="article-figure"><img src="'+safeUrl(imgM[2])+'" alt="'+alt+'" loading="lazy"/>'+(alt?'<figcaption>'+alt+'</figcaption>':'')+'</figure>';i++;continue;}
     if(/^---\s*$/.test(l)){html+='<hr>';i++;continue;}
     if(/^>\s?/.test(l)){
       let buf=[];

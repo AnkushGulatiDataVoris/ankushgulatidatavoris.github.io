@@ -20,6 +20,14 @@
 
 window.DV_POSTS = [
   {
+    slug: "prototype-to-live-7-days",
+    title: "Your Claude prototype works. Let's make it live in 7 days.",
+    date: "2026-05-29",
+    excerpt: "You built a working app with Claude, but data resets on refresh and there's no login. Here's the exact path from prototype to a live product — real backend, real database, deployed — usually inside a week.",
+    tags: ["AI", "Backend", "Launch"],
+    readMins: 5
+  },
+  {
     slug: "claude-prototype-to-production",
     title: "Claude built your prototype. Now what?",
     date: "2026-05-27",
