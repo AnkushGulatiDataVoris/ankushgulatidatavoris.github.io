@@ -1,0 +1,251 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 880" font-family="'Inter', 'Space Grotesk', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" role="img" aria-label="Premium analyzer dashboard preview: hero metric with delta, four KPI cards, three charts, and an insights panel.">
+  <defs>
+    <linearGradient id="heroGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0a1628"/><stop offset="0.6" stop-color="#0f1e3d"/><stop offset="1" stop-color="#0a1628"/>
+    </linearGradient>
+    <linearGradient id="trendArea" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#00d4ff" stop-opacity="0.55"/><stop offset="1" stop-color="#00d4ff" stop-opacity="0"/>
+    </linearGradient>
+    <radialGradient id="heroGlow" cx="80%" cy="30%" r="55%">
+      <stop offset="0" stop-color="#00d4ff" stop-opacity="0.22"/><stop offset="1" stop-color="#00d4ff" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="heroGlow2" cx="10%" cy="80%" r="40%">
+      <stop offset="0" stop-color="#5b9dff" stop-opacity="0.18"/><stop offset="1" stop-color="#5b9dff" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="soft" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="10" stdDeviation="14" flood-color="#0a1628" flood-opacity="0.10"/>
+    </filter>
+  </defs>
+
+  <!-- page background -->
+  <rect width="1400" height="880" fill="#eef2fa"/>
+
+  <!-- top bar -->
+  <rect x="0" y="0" width="1400" height="52" fill="#0a1628"/>
+  <g transform="translate(28,14)">
+    <rect width="24" height="24" rx="6" fill="#050e1f"/>
+    <g stroke="url(#trendArea)" stroke-width="1.6" fill="none" stroke-linecap="round" transform="translate(2,2) scale(0.083)">
+      <path d="M128 70 L186 104 L186 152 L128 186 L70 152 L70 104 Z"/>
+    </g>
+    <circle cx="12" cy="9" r="2.2" fill="#00d4ff"/>
+    <text x="32" y="17" font-size="13" font-weight="800" fill="#f0f6ff" letter-spacing="-0.01em">Datavoris</text>
+    <text x="106" y="17" font-size="13" font-weight="500" fill="#7a90b8" letter-spacing="0.06em">· ANALYZER</text>
+  </g>
+  <!-- filter chips -->
+  <g transform="translate(420,12)" font-size="11.5">
+    <g><rect width="98" height="28" rx="14" fill="#0f1e3d" stroke="#1d2f54"/><text x="14" y="18" fill="#c8d8f0">Region: <tspan font-weight="700" fill="#f0f6ff">All</tspan></text><text x="86" y="18" fill="#7a90b8">▾</text></g>
+    <g transform="translate(108,0)"><rect width="106" height="28" rx="14" fill="#0f1e3d" stroke="#1d2f54"/><text x="14" y="18" fill="#c8d8f0">Period: <tspan font-weight="700" fill="#f0f6ff">YTD 2024</tspan></text><text x="94" y="18" fill="#7a90b8">▾</text></g>
+    <g transform="translate(224,0)"><rect width="92" height="28" rx="14" fill="rgba(0,212,255,0.1)" stroke="#00d4ff" stroke-width="1.2"/><text x="14" y="18" fill="#00d4ff">Segment: <tspan font-weight="700">Ent</tspan></text></g>
+    <g transform="translate(326,0)"><rect width="76" height="28" rx="14" fill="#0f1e3d" stroke="#1d2f54"/><text x="14" y="18" fill="#c8d8f0">Reps: <tspan font-weight="700" fill="#f0f6ff">All</tspan></text></g>
+  </g>
+  <!-- right side actions -->
+  <g transform="translate(1240,12)" font-size="11.5">
+    <circle cx="14" cy="14" r="3.5" fill="#10d9a0"/><text x="24" y="18" fill="#c8d8f0">Live</text>
+    <g transform="translate(72,0)"><rect width="86" height="28" rx="14" fill="#0f1e3d" stroke="#1d2f54"/><text x="14" y="18" fill="#c8d8f0">↓ Export</text></g>
+  </g>
+
+  <!-- ===== HERO ZONE ===== -->
+  <g transform="translate(24,72)">
+    <rect width="1352" height="220" rx="16" fill="url(#heroGrad)" stroke="rgba(0,212,255,0.18)" filter="url(#soft)"/>
+    <rect width="1352" height="220" rx="16" fill="url(#heroGlow)"/>
+    <rect width="1352" height="220" rx="16" fill="url(#heroGlow2)"/>
+
+    <!-- left: metric block -->
+    <g transform="translate(36,30)">
+      <g><rect width="172" height="22" rx="11" fill="rgba(0,212,255,0.1)" stroke="rgba(0,212,255,0.2)"/><text x="14" y="15" font-size="10" font-weight="700" letter-spacing="0.14em" fill="#00d4ff">SALES OVERVIEW · 2024</text></g>
+      <text x="0" y="100" font-size="68" font-weight="900" fill="#ffffff" letter-spacing="-0.04em">$2.42M</text>
+      <g transform="translate(248,60)">
+        <rect width="148" height="32" rx="16" fill="rgba(16,217,160,0.18)" stroke="rgba(16,217,160,0.32)"/>
+        <text x="14" y="21" font-size="14" font-weight="800" fill="#34e8b3">↑ 23.6% vs H1</text>
+      </g>
+      <text x="0" y="128" font-size="13" font-weight="600" letter-spacing="0.04em" fill="rgba(220,232,255,0.55)">TOTAL REVENUE</text>
+      <text x="0" y="156" font-size="13.5" fill="rgba(220,232,255,0.75)">
+        <tspan>Sales data — </tspan>
+        <tspan font-weight="700" fill="#ffffff">1,247 records</tspan>
+        <tspan> spanning </tspan>
+        <tspan font-weight="700" fill="#ffffff">Jan – Dec 2024</tspan>
+        <tspan>, sliceable by region, product, segment.</tspan>
+      </text>
+    </g>
+
+    <!-- right: hero trend chart -->
+    <g transform="translate(700,42)">
+      <text x="0" y="-6" font-size="11" font-weight="700" letter-spacing="0.08em" fill="rgba(220,232,255,0.55)">REVENUE TREND · 12 MONTHS</text>
+      <!-- axes -->
+      <g stroke="rgba(255,255,255,0.06)" stroke-width="1">
+        <line x1="0" y1="20" x2="616" y2="20"/>
+        <line x1="0" y1="70" x2="616" y2="70"/>
+        <line x1="0" y1="120" x2="616" y2="120"/>
+      </g>
+      <!-- area path -->
+      <path d="M0 110 L52 102 L104 96 L156 84 L208 78 L260 70 L312 62 L364 56 L416 44 L468 36 L520 28 L572 20 L616 16 L616 140 L0 140 Z" fill="url(#trendArea)"/>
+      <path d="M0 110 L52 102 L104 96 L156 84 L208 78 L260 70 L312 62 L364 56 L416 44 L468 36 L520 28 L572 20 L616 16" fill="none" stroke="#00d4ff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+      <!-- highlight dot -->
+      <circle cx="616" cy="16" r="5.5" fill="#aef0ff" stroke="#00d4ff" stroke-width="2"/>
+      <!-- month labels -->
+      <g font-size="10" fill="rgba(220,232,255,0.4)" font-weight="500">
+        <text x="0"   y="156">Jan</text><text x="100" y="156">Mar</text><text x="200" y="156">May</text>
+        <text x="306" y="156">Jul</text><text x="412" y="156">Sep</text><text x="514" y="156">Nov</text><text x="600" y="156">Dec</text>
+      </g>
+      <!-- y axis labels -->
+      <g font-size="9.5" fill="rgba(220,232,255,0.4)" font-weight="500" text-anchor="end">
+        <text x="-6" y="24">$250k</text><text x="-6" y="74">$150k</text><text x="-6" y="124">$50k</text>
+      </g>
+    </g>
+  </g>
+
+  <!-- ===== KPI STRIP ===== -->
+  <g transform="translate(24,308)">
+    <!-- 4 KPI cards, 326 wide each, 16 gap -->
+    <g>
+      <rect width="326" height="86" rx="12" fill="#ffffff" stroke="#e4eaf4" filter="url(#soft)"/>
+      <rect width="326" height="3" rx="1.5" fill="#00d4ff"/>
+      <text x="20" y="32" font-size="11" font-weight="700" letter-spacing="0.1em" fill="#7a90b8">AVG DEAL SIZE</text>
+      <text x="20" y="62" font-size="26" font-weight="800" fill="#0a1628" letter-spacing="-0.03em">$4,820</text>
+      <g transform="translate(20,70)"><polyline points="0,8 12,6 24,7 36,4 48,5 60,2 72,3 84,0" fill="none" stroke="#10d9a0" stroke-width="1.6"/></g>
+      <g transform="translate(170,46)"><rect width="68" height="20" rx="10" fill="#ecfdf5"/><text x="34" y="14" text-anchor="middle" font-size="11" font-weight="800" fill="#10b981">↑ 12%</text></g>
+    </g>
+    <g transform="translate(342,0)">
+      <rect width="326" height="86" rx="12" fill="#ffffff" stroke="#e4eaf4" filter="url(#soft)"/>
+      <rect width="326" height="3" rx="1.5" fill="#5b9dff"/>
+      <text x="20" y="32" font-size="11" font-weight="700" letter-spacing="0.1em" fill="#7a90b8">WIN RATE</text>
+      <text x="20" y="62" font-size="26" font-weight="800" fill="#0a1628" letter-spacing="-0.03em">68.2%</text>
+      <g transform="translate(20,70)"><polyline points="0,5 12,7 24,4 36,5 48,3 60,4 72,2 84,3" fill="none" stroke="#5b9dff" stroke-width="1.6"/></g>
+      <g transform="translate(170,46)"><rect width="68" height="20" rx="10" fill="#eff6ff"/><text x="34" y="14" text-anchor="middle" font-size="11" font-weight="800" fill="#2563eb">↑ 4%</text></g>
+    </g>
+    <g transform="translate(684,0)">
+      <rect width="326" height="86" rx="12" fill="#ffffff" stroke="#e4eaf4" filter="url(#soft)"/>
+      <rect width="326" height="3" rx="1.5" fill="#10d9a0"/>
+      <text x="20" y="32" font-size="11" font-weight="700" letter-spacing="0.1em" fill="#7a90b8">PIPELINE</text>
+      <text x="20" y="62" font-size="26" font-weight="800" fill="#0a1628" letter-spacing="-0.03em">$1.18M</text>
+      <g transform="translate(20,70)"><polyline points="0,7 12,5 24,6 36,3 48,4 60,2 72,1 84,0" fill="none" stroke="#10d9a0" stroke-width="1.6"/></g>
+      <g transform="translate(170,46)"><rect width="68" height="20" rx="10" fill="#ecfdf5"/><text x="34" y="14" text-anchor="middle" font-size="11" font-weight="800" fill="#10b981">↑ 31%</text></g>
+    </g>
+    <g transform="translate(1026,0)">
+      <rect width="326" height="86" rx="12" fill="#ffffff" stroke="#e4eaf4" filter="url(#soft)"/>
+      <rect width="326" height="3" rx="1.5" fill="#f59e0b"/>
+      <text x="20" y="32" font-size="11" font-weight="700" letter-spacing="0.1em" fill="#7a90b8">DATA HEALTH</text>
+      <text x="20" y="62" font-size="26" font-weight="800" fill="#0a1628" letter-spacing="-0.03em">94<tspan font-size="16" fill="#7a90b8">/100</tspan></text>
+      <g transform="translate(20,70)"><rect width="84" height="3" rx="1.5" fill="#fef3c7"/><rect width="79" height="3" rx="1.5" fill="#f59e0b"/></g>
+      <g transform="translate(170,46)"><rect width="80" height="20" rx="10" fill="#fffbeb"/><text x="40" y="14" text-anchor="middle" font-size="11" font-weight="800" fill="#92400e">94% complete</text></g>
+    </g>
+  </g>
+
+  <!-- ===== MAIN CHARTS ROW ===== -->
+  <!-- 1) Revenue by region (horizontal bars) -->
+  <g transform="translate(24,410)">
+    <rect width="440" height="240" rx="12" fill="#ffffff" stroke="#e4eaf4" filter="url(#soft)"/>
+    <text x="20" y="30" font-size="14" font-weight="800" fill="#0a1628" letter-spacing="-0.01em">Revenue by region</text>
+    <text x="20" y="48" font-size="11" fill="#7a90b8">North driving 42% — concentration risk worth a look</text>
+    <g transform="translate(96,72)" font-size="11" fill="#1a2744">
+      <g><text x="-12" y="14" text-anchor="end" font-weight="600">North</text><rect x="0" y="4" width="290" height="14" rx="3" fill="#00d4ff"/><text x="298" y="14" font-weight="700">$1.01M</text></g>
+      <g transform="translate(0,30)"><text x="-12" y="14" text-anchor="end" font-weight="600">South</text><rect x="0" y="4" width="160" height="14" rx="3" fill="#5b9dff"/><text x="168" y="14" font-weight="700">$558k</text></g>
+      <g transform="translate(0,60)"><text x="-12" y="14" text-anchor="end" font-weight="600">East</text><rect x="0" y="4" width="130" height="14" rx="3" fill="#5b9dff"/><text x="138" y="14" font-weight="700">$461k</text></g>
+      <g transform="translate(0,90)"><text x="-12" y="14" text-anchor="end" font-weight="600">West</text><rect x="0" y="4" width="108" height="14" rx="3" fill="#5b9dff"/><text x="116" y="14" font-weight="700">$386k</text></g>
+      <g transform="translate(0,120)"><text x="-12" y="14" text-anchor="end" font-weight="600">Intl.</text><rect x="0" y="4" width="6" height="14" rx="3" fill="#fb7185"/><text x="14" y="14" font-weight="700" fill="#dc2626">$5.2k</text></g>
+    </g>
+  </g>
+
+  <!-- 2) Segment donut -->
+  <g transform="translate(480,410)">
+    <rect width="440" height="240" rx="12" fill="#ffffff" stroke="#e4eaf4" filter="url(#soft)"/>
+    <text x="20" y="30" font-size="14" font-weight="800" fill="#0a1628" letter-spacing="-0.01em">Revenue by segment</text>
+    <text x="20" y="48" font-size="11" fill="#7a90b8">Enterprise = half of revenue from 17% of deals</text>
+    <!-- donut -->
+    <g transform="translate(140,148)">
+      <circle r="62" fill="none" stroke="#eef2fa" stroke-width="20"/>
+      <!-- Enterprise 51% -->
+      <circle r="62" fill="none" stroke="#00d4ff" stroke-width="20" stroke-dasharray="198.5 389.6" transform="rotate(-90)"/>
+      <!-- Mid-market 32% (starts at 51% = offset 198.5) -->
+      <circle r="62" fill="none" stroke="#5b9dff" stroke-width="20" stroke-dasharray="124.5 389.6" stroke-dashoffset="-198.5" transform="rotate(-90)"/>
+      <!-- SMB 17% -->
+      <circle r="62" fill="none" stroke="#10d9a0" stroke-width="20" stroke-dasharray="66.2 389.6" stroke-dashoffset="-323" transform="rotate(-90)"/>
+      <text y="-2" text-anchor="middle" font-size="22" font-weight="800" fill="#0a1628" letter-spacing="-0.02em">$2.42M</text>
+      <text y="14" text-anchor="middle" font-size="10" font-weight="600" fill="#7a90b8" letter-spacing="0.1em">TOTAL</text>
+    </g>
+    <!-- legend -->
+    <g transform="translate(248,84)" font-size="12">
+      <g><rect width="10" height="10" rx="2" fill="#00d4ff"/><text x="18" y="9" fill="#0a1628" font-weight="600">Enterprise</text><text x="160" y="9" fill="#7a90b8" text-anchor="end" font-weight="700">51%</text></g>
+      <g transform="translate(0,28)"><rect width="10" height="10" rx="2" fill="#5b9dff"/><text x="18" y="9" fill="#0a1628" font-weight="600">Mid-market</text><text x="160" y="9" fill="#7a90b8" text-anchor="end" font-weight="700">32%</text></g>
+      <g transform="translate(0,56)"><rect width="10" height="10" rx="2" fill="#10d9a0"/><text x="18" y="9" fill="#0a1628" font-weight="600">SMB</text><text x="160" y="9" fill="#7a90b8" text-anchor="end" font-weight="700">17%</text></g>
+      <g transform="translate(0,92)" font-size="10.5" fill="#4a607e"><text>Avg deal · Ent: <tspan font-weight="700" fill="#0a1628">$12.8k</tspan></text></g>
+      <g transform="translate(0,108)" font-size="10.5" fill="#4a607e"><text>Avg deal · SMB: <tspan font-weight="700" fill="#0a1628">$1.9k</tspan></text></g>
+    </g>
+  </g>
+
+  <!-- 3) Quarter performance -->
+  <g transform="translate(936,410)">
+    <rect width="440" height="240" rx="12" fill="#ffffff" stroke="#e4eaf4" filter="url(#soft)"/>
+    <text x="20" y="30" font-size="14" font-weight="800" fill="#0a1628" letter-spacing="-0.01em">Revenue by quarter</text>
+    <text x="20" y="48" font-size="11" fill="#7a90b8">Q4 +47% vs Q3 — three enterprise deals closed</text>
+    <g transform="translate(36,182)">
+      <g stroke="#eef2fa" stroke-width="1"><line x1="0" y1="-110" x2="368" y2="-110"/><line x1="0" y1="-72" x2="368" y2="-72"/><line x1="0" y1="-36" x2="368" y2="-36"/><line x1="0" y1="0" x2="368" y2="0"/></g>
+      <g>
+        <rect x="32" y="-58" width="56" height="58" rx="4" fill="#5b9dff"/>
+        <rect x="120" y="-72" width="56" height="72" rx="4" fill="#5b9dff"/>
+        <rect x="208" y="-66" width="56" height="66" rx="4" fill="#5b9dff"/>
+        <rect x="296" y="-112" width="56" height="112" rx="4" fill="#00d4ff"/>
+      </g>
+      <g font-size="11" font-weight="600" fill="#4a607e" text-anchor="middle">
+        <text x="60"  y="20">Q1</text><text x="148" y="20">Q2</text><text x="236" y="20">Q3</text><text x="324" y="20">Q4</text>
+      </g>
+      <g font-size="10.5" font-weight="700" fill="#1a2744" text-anchor="middle">
+        <text x="60"  y="-68">$478k</text><text x="148" y="-82">$612k</text><text x="236" y="-76">$558k</text><text x="324" y="-122" fill="#00d4ff">$772k</text>
+      </g>
+    </g>
+  </g>
+
+  <!-- ===== INSIGHTS PANEL ===== -->
+  <g transform="translate(24,668)">
+    <text x="0" y="-2" font-size="11" font-weight="700" letter-spacing="0.12em" fill="#4a607e">LIVE INSIGHTS</text>
+    <!-- 3 insight cards -->
+    <g transform="translate(0,10)">
+      <rect width="440" height="190" rx="12" fill="#ffffff" stroke="#e4eaf4" filter="url(#soft)"/>
+      <rect x="0" y="0" width="4" height="190" rx="2" fill="#10b981"/>
+      <g transform="translate(20,30)">
+        <rect width="74" height="20" rx="10" fill="#ecfdf5" stroke="#a7f3d0"/><text x="37" y="14" text-anchor="middle" font-size="10" font-weight="800" fill="#047857" letter-spacing="0.12em">STRENGTH</text>
+      </g>
+      <text x="20" y="78" font-size="14" font-weight="800" fill="#0a1628" letter-spacing="-0.01em">Enterprise segment is your engine</text>
+      <text x="20" y="100" font-size="11.5" fill="#4a607e">
+        <tspan x="20" dy="0">17% of your deals generate 51% of revenue.</tspan>
+        <tspan x="20" dy="18">Average enterprise deal is</tspan>
+        <tspan font-weight="700" fill="#0a1628"> $12.8k</tspan>
+        <tspan> — 6.7× the SMB average.</tspan>
+        <tspan x="20" dy="18">North region accounts for 71% of</tspan>
+        <tspan x="20" dy="16">enterprise wins.</tspan>
+      </text>
+    </g>
+    <g transform="translate(456,10)">
+      <rect width="440" height="190" rx="12" fill="#ffffff" stroke="#e4eaf4" filter="url(#soft)"/>
+      <rect x="0" y="0" width="4" height="190" rx="2" fill="#f59e0b"/>
+      <g transform="translate(20,30)">
+        <rect width="60" height="20" rx="10" fill="#fffbeb" stroke="#fde68a"/><text x="30" y="14" text-anchor="middle" font-size="10" font-weight="800" fill="#92400e" letter-spacing="0.12em">WATCH</text>
+      </g>
+      <text x="20" y="78" font-size="14" font-weight="800" fill="#0a1628" letter-spacing="-0.01em">Discounting is climbing into Q4</text>
+      <text x="20" y="100" font-size="11.5" fill="#4a607e">
+        <tspan x="20" dy="0">Average discount rose</tspan>
+        <tspan font-weight="700" fill="#0a1628"> 18% → 27%</tspan>
+        <tspan> from Q3 to Q4.</tspan>
+        <tspan x="20" dy="18">Pipeline is up 31% but margin is</tspan>
+        <tspan x="20" dy="16">moving the wrong way. Worth checking</tspan>
+        <tspan x="20" dy="16">if it's deliberate.</tspan>
+      </text>
+    </g>
+    <g transform="translate(912,10)">
+      <rect width="440" height="190" rx="12" fill="#ffffff" stroke="#e4eaf4" filter="url(#soft)"/>
+      <rect x="0" y="0" width="4" height="190" rx="2" fill="#dc2626"/>
+      <g transform="translate(20,30)">
+        <rect width="80" height="20" rx="10" fill="#fef2f2" stroke="#fecaca"/><text x="40" y="14" text-anchor="middle" font-size="10" font-weight="800" fill="#b91c1c" letter-spacing="0.12em">ANOMALY</text>
+      </g>
+      <text x="20" y="78" font-size="14" font-weight="800" fill="#0a1628" letter-spacing="-0.01em">3 outlier deals skew your averages</text>
+      <text x="20" y="100" font-size="11.5" fill="#4a607e">
+        <tspan x="20" dy="0">3 deals above</tspan>
+        <tspan font-weight="700" fill="#0a1628"> $48k</tspan>
+        <tspan> (4σ from median)</tspan>
+        <tspan x="20" dy="18">are pulling your avg deal up 22%.</tspan>
+        <tspan x="20" dy="16">Rep performance ranking changes if</tspan>
+        <tspan x="20" dy="16">you exclude them.</tspan>
+      </text>
+    </g>
+  </g>
+</svg>
