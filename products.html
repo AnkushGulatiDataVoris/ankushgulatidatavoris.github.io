@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Products — Apps I've built and run · Datavoris</title>
+<meta name="description" content="Production software built and operated by Datavoris. Live products, real customers — not prototypes."/>
+<link rel="icon" type="image/svg+xml" href="favicon.svg?v=2"/>
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png?v=2"/>
+<link rel="shortcut icon" href="favicon.ico?v=2"/>
+<meta name="theme-color" content="#0a1628"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="dv-style.css?v=5"/>
+<style>
+.products-hero{background:var(--navy-800);padding:4rem 0 3.5rem;position:relative;overflow:hidden;}
+.products-hero::before{content:'';position:absolute;top:-80px;right:0;width:480px;height:480px;background:radial-gradient(circle,rgba(0,212,255,0.07),transparent 65%);}
+.products-hero .inner{position:relative;z-index:1;max-width:720px;}
+.products-hero h1{color:var(--text-100);font-size:clamp(2rem,4vw,2.8rem);margin:0.8rem 0 0.7rem;letter-spacing:-0.03em;}
+.products-hero h1 em{font-style:normal;background:linear-gradient(135deg,var(--cyan),#5b9dff);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;}
+.products-hero p{color:var(--text-500);font-size:1.02rem;line-height:1.75;max-width:580px;}
+
+.products-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:1.1rem;padding:3.5rem 0 5rem;}
+.product-card{position:relative;background:var(--surface-card);border:1px solid var(--border-white);border-radius:var(--r-md);padding:1.7rem 1.7rem 1.5rem;display:flex;flex-direction:column;gap:0.8rem;transition:border-color 0.18s,transform 0.18s,box-shadow 0.18s;overflow:hidden;}
+.product-card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:linear-gradient(180deg,var(--cyan),#5b9dff);opacity:0;transition:opacity 0.18s;}
+.product-card:hover{border-color:rgba(0,212,255,0.4);transform:translateY(-3px);box-shadow:0 16px 36px rgba(8,14,30,0.1);}
+.product-card:hover::before{opacity:1;}
+.product-head{display:flex;align-items:flex-start;justify-content:space-between;gap:0.8rem;flex-wrap:wrap;}
+.product-name{font-family:var(--font-display);font-size:1.4rem;font-weight:800;color:var(--on-white-900);letter-spacing:-0.02em;line-height:1.15;}
+.product-status{display:inline-flex;align-items:center;gap:0.4rem;font-size:0.62rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:#047857;background:#ecfdf5;border:1px solid #a7f3d0;border-radius:999px;padding:0.22rem 0.65rem;white-space:nowrap;}
+.product-status.beta{color:#92400e;background:#fffbeb;border-color:#fde68a;}
+.product-status.soft-launch{color:#1d4ed8;background:#eff6ff;border-color:#bfdbfe;}
+.product-status::before{content:'';width:6px;height:6px;border-radius:50%;background:currentColor;}
+.product-tagline{font-size:0.93rem;color:var(--on-white-500);line-height:1.65;flex:1;}
+.product-meta{display:flex;align-items:center;gap:0.5rem;flex-wrap:wrap;font-size:0.68rem;color:var(--on-white-300);letter-spacing:0.05em;text-transform:uppercase;font-weight:600;}
+.product-meta .dot-sep{width:3px;height:3px;border-radius:50%;background:var(--on-white-300);}
+.product-tag{font-size:0.66rem;font-weight:600;text-transform:uppercase;letter-spacing:0.08em;color:var(--navy-800);background:rgba(0,212,255,0.12);border-radius:4px;padding:0.15rem 0.5rem;}
+.product-actions{display:flex;gap:0.55rem;flex-wrap:wrap;margin-top:0.4rem;}
+.product-actions a{display:inline-flex;align-items:center;gap:6px;font-size:0.82rem;font-weight:600;padding:0.5rem 0.95rem;border-radius:999px;text-decoration:none;transition:all 0.15s;line-height:1;}
+.product-actions a.primary{background:var(--cyan);color:var(--navy-900);font-weight:700;}
+.product-actions a.primary:hover{background:#22e1ff;transform:translateY(-1px);box-shadow:0 6px 18px rgba(0,212,255,0.25);}
+.product-actions a.secondary{background:transparent;color:var(--on-white-700);border:1px solid var(--border-white);}
+.product-actions a.secondary:hover{border-color:rgba(0,212,255,0.4);color:var(--navy-800);}
+
+.products-band{background:var(--surface-off);padding:3.5rem 0;border-top:1px solid var(--border-white);}
+.products-band-inner{max-width:760px;margin:0 auto;text-align:center;padding:0 1.5rem;}
+.products-band h2{font-size:clamp(1.5rem,2.5vw,1.95rem);margin-bottom:0.7rem;color:var(--on-white-900);letter-spacing:-0.02em;}
+.products-band p{color:var(--on-white-500);font-size:1rem;line-height:1.7;margin-bottom:1.5rem;}
+.products-empty{text-align:center;padding:4rem 1rem;color:var(--on-white-500);}
+</style>
+</head>
+<body>
+
+<nav class="site-nav">
+  <div class="container nav-inner">
+    <a href="index.html" class="nav-logo"><span class="nav-logo-mark"><svg viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="npn1" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#00d4ff"/><stop offset="1" stop-color="#5b9dff"/></linearGradient></defs><g stroke="url(#npn1)" stroke-width="9" stroke-linecap="round" fill="none"><path d="M128 70 L186 104 L186 152 L128 186 L70 152 L70 104 Z"/><line x1="128" y1="70" x2="128" y2="128"/><line x1="186" y1="152" x2="128" y2="128"/><line x1="70" y1="152" x2="128" y2="128"/></g><g fill="#00d4ff"><circle cx="128" cy="70" r="11"/><circle cx="186" cy="104" r="9"/><circle cx="186" cy="152" r="9"/><circle cx="128" cy="186" r="11"/><circle cx="70" cy="152" r="9"/><circle cx="70" cy="104" r="9"/></g><circle cx="128" cy="128" r="14" fill="#aef0ff"/></svg></span>Datavoris</a>
+    <div class="nav-links" id="navLinks">
+      <a href="index.html#services">Services</a>
+      <a href="index.html#tools">Tools</a>
+      <a href="index.html#work">Work</a>
+      <a href="products.html" class="active">Products</a>
+      <a href="dv-founder.html">About</a>
+      <a href="blog.html">Blog</a>
+      <a href="dv-assessment.html">Assessment</a>
+      <a href="dv-analyzer.html">Analyzer</a>
+      <a href="index.html#contact">Contact</a>
+      <div class="nav-cta-mobile"><a href="index.html#contact">Let's talk</a></div>
+    </div>
+    <button class="nav-hamburger" id="navToggle" aria-label="Menu" aria-expanded="false" onclick="(function(b){var l=document.getElementById('navLinks');var d=document.getElementById('navBackdrop');var o=!l.classList.contains('open');l.classList.toggle('open',o);b.classList.toggle('open',o);if(d)d.classList.toggle('open',o);b.setAttribute('aria-expanded',o?'true':'false');})(this)">
+      <svg class="menu-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="4" y1="7" x2="20" y2="7"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="17" x2="20" y2="17"/></svg>
+      <svg class="x-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="6" y1="6" x2="18" y2="18"/><line x1="18" y1="6" x2="6" y2="18"/></svg>
+    </button>
+    <a href="index.html#contact" class="btn btn-cyan btn-sm">Let's talk</a>
+  </div>
+</nav>
+<div class="nav-backdrop" id="navBackdrop" onclick="document.getElementById('navToggle').click()"></div>
+
+<div class="products-hero">
+  <div class="container inner">
+    <span class="eyebrow eyebrow-navy">Products</span>
+    <h1>Software I've built and <em>run</em>.</h1>
+    <p>Production apps with real customers — not prototypes, not demos. Each one started as a problem I couldn't ignore, and turned into something live in the market. This page is the catalogue.</p>
+  </div>
+</div>
+
+<div class="container">
+  <div class="products-grid" id="productGrid"></div>
+</div>
+
+<div class="products-band">
+  <div class="products-band-inner">
+    <h2>Need this kind of thing built for your business?</h2>
+    <p>The same shipping muscle I use on my own products is what I bring to client work. From "I have an idea" to "live, paying customers" — that's the path.</p>
+    <a href="index.html#contact" class="btn btn-cyan">Book a discovery call →</a>
+  </div>
+</div>
+
+<footer class="site-footer">
+  <div class="container footer-inner">
+    <div>
+      <div class="footer-logo"><span class="nav-logo-mark" style="width:26px;height:26px"><svg viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="npfn1" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#00d4ff"/><stop offset="1" stop-color="#5b9dff"/></linearGradient></defs><g stroke="url(#npfn1)" stroke-width="9" stroke-linecap="round" fill="none"><path d="M128 70 L186 104 L186 152 L128 186 L70 152 L70 104 Z"/><line x1="128" y1="70" x2="128" y2="128"/><line x1="186" y1="152" x2="128" y2="128"/><line x1="70" y1="152" x2="128" y2="128"/></g><g fill="#00d4ff"><circle cx="128" cy="70" r="11"/><circle cx="186" cy="104" r="9"/><circle cx="186" cy="152" r="9"/><circle cx="128" cy="186" r="11"/><circle cx="70" cy="152" r="9"/><circle cx="70" cy="104" r="9"/></g><circle cx="128" cy="128" r="14" fill="#aef0ff"/></svg></span>Datavoris</div>
+      <p class="footer-tagline">Automated data solutions for modern teams.</p>
+    </div>
+    <div class="footer-right">
+      <p>© <span id="yr"></span> Datavoris · Agra, India · Remote worldwide</p>
+      <p class="footer-meta">Power BI · Fabric · Python · OpenAI · Zapier · Google Sheets</p>
+    </div>
+  </div>
+</footer>
+
+<script src="products.js"></script>
+<script>
+document.getElementById('yr').textContent = new Date().getFullYear();
+
+function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));}
+function safeExternalUrl(u){
+  if(!u) return '#';
+  const t = String(u).trim();
+  if(/^(javascript|data|vbscript|file):/i.test(t)) return '#';
+  return /^https?:\/\//i.test(t) ? t : ('https://' + t.replace(/^\/+/,''));
+}
+function statusLabel(s){return ({live:'Live',beta:'Beta','soft-launch':'Soft launch'})[s] || 'Live';}
+
+(function(){
+  const grid = document.getElementById('productGrid');
+  const items = (window.DV_PRODUCTS || []).slice();
+  if (!items.length) {
+    grid.innerHTML = '<div class="products-empty">No products listed yet — check back soon.</div>';
+    return;
+  }
+  grid.innerHTML = items.map(p => {
+    const tags = (p.tags || []).map(t => `<span class="product-tag">${esc(t)}</span>`).join('');
+    const meta = [
+      p.year ? `Live since ${esc(String(p.year))}` : '',
+      tags ? tags : ''
+    ].filter(Boolean).join(' <span class="dot-sep"></span> ');
+    const tryUrl = safeExternalUrl(p.url);
+    const storyHref = p.story ? `${esc(p.slug)}.html` : '';
+    return `
+      <article class="product-card">
+        <div class="product-head">
+          <div class="product-name">${esc(p.name)}</div>
+          <span class="product-status ${esc(p.status||'live')}">${esc(statusLabel(p.status))}</span>
+        </div>
+        <div class="product-tagline">${esc(p.tagline||'')}</div>
+        <div class="product-meta">${meta}</div>
+        <div class="product-actions">
+          <a class="primary" href="${tryUrl}" target="_blank" rel="noopener">Try it ↗</a>
+          ${storyHref ? `<a class="secondary" href="${storyHref}">Read the story →</a>` : ''}
+        </div>
+      </article>
+    `;
+  }).join('');
+})();
+</script>
+<script>(function closeNavOnClick(){var n=document.getElementById("navLinks");if(n)n.querySelectorAll("a").forEach(function(a){a.addEventListener("click",function(){n.classList.remove("open");});});})();</script>
+</body>
+</html>

@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Analyzer preview — what your dashboard becomes · Datavoris</title>
+<meta name="description" content="A preview of what your dashboard becomes when the Datavoris Analyzer is pointed at your data."/>
+<link rel="icon" type="image/svg+xml" href="favicon.svg?v=2"/>
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png?v=2"/>
+<link rel="shortcut icon" href="favicon.ico?v=2"/>
+<meta name="theme-color" content="#0a1628"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="dv-style.css?v=5"/>
+<style>
+.preview-hero{background:linear-gradient(180deg,var(--navy-800) 0%,var(--navy-900) 100%);padding:4rem 0 2rem;position:relative;overflow:hidden;}
+.preview-hero::before{content:'';position:absolute;top:-100px;left:50%;width:600px;height:600px;background:radial-gradient(circle,rgba(0,212,255,0.10),transparent 65%);transform:translateX(-50%);pointer-events:none;}
+.preview-hero .inner{position:relative;z-index:1;max-width:760px;text-align:center;margin:0 auto;}
+.preview-hero h1{color:var(--text-100);font-size:clamp(2rem,4vw,2.9rem);line-height:1.1;letter-spacing:-0.03em;margin:0.8rem 0 1rem;}
+.preview-hero h1 em{font-style:normal;background:linear-gradient(135deg,var(--cyan),#5b9dff);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;}
+.preview-hero p{color:var(--text-500);font-size:1.05rem;line-height:1.7;max-width:600px;margin:0 auto 2rem;}
+.preview-actions{display:flex;gap:0.8rem;justify-content:center;flex-wrap:wrap;}
+
+.preview-frame{padding:0 1.5rem 3.5rem;background:linear-gradient(180deg,var(--navy-900) 0%,var(--surface-off) 240px);}
+.preview-frame-inner{max-width:1440px;margin:0 auto;}
+.preview-shot{position:relative;border-radius:18px;overflow:hidden;box-shadow:0 40px 100px rgba(5,14,31,0.45),0 12px 30px rgba(5,14,31,0.25);}
+.preview-shot img{display:block;width:100%;height:auto;}
+.preview-shot::after{content:'Illustrative example';position:absolute;top:14px;right:14px;font-size:0.62rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:#c8d8f0;background:rgba(5,14,31,0.7);border:1px solid rgba(255,255,255,0.14);border-radius:999px;padding:0.22rem 0.7rem;backdrop-filter:blur(6px);}
+
+.preview-points{background:var(--surface-off);padding:4rem 1.5rem;}
+.preview-points-grid{max-width:1080px;margin:0 auto;display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;}
+.preview-point{background:var(--surface-card);border:1px solid var(--border-white);border-radius:var(--r-md);padding:1.6rem 1.4rem;}
+.preview-point-ic{width:38px;height:38px;border-radius:10px;background:rgba(0,212,255,0.08);border:1px solid rgba(0,212,255,0.18);display:flex;align-items:center;justify-content:center;color:var(--cyan);margin-bottom:0.9rem;}
+.preview-point-ic svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;}
+.preview-point h3{font-size:1rem;color:var(--on-white-900);margin-bottom:0.35rem;letter-spacing:-0.01em;}
+.preview-point p{font-size:0.85rem;color:var(--on-white-500);line-height:1.65;}
+
+.preview-cta{padding:4.5rem 1.5rem;text-align:center;background:var(--surface-off);}
+.preview-cta h2{font-size:clamp(1.6rem,3vw,2.2rem);color:var(--on-white-900);margin-bottom:0.7rem;letter-spacing:-0.02em;}
+.preview-cta p{font-size:1rem;color:var(--on-white-500);max-width:560px;margin:0 auto 1.7rem;line-height:1.7;}
+
+@media(max-width:768px){.preview-points-grid{grid-template-columns:1fr;}.preview-shot{border-radius:12px;}}
+</style>
+</head>
+<body>
+
+<nav class="site-nav">
+  <div class="container nav-inner">
+    <a href="index.html" class="nav-logo"><span class="nav-logo-mark"><svg viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="napv" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#00d4ff"/><stop offset="1" stop-color="#5b9dff"/></linearGradient></defs><g stroke="url(#napv)" stroke-width="9" stroke-linecap="round" fill="none"><path d="M128 70 L186 104 L186 152 L128 186 L70 152 L70 104 Z"/><line x1="128" y1="70" x2="128" y2="128"/><line x1="186" y1="152" x2="128" y2="128"/><line x1="70" y1="152" x2="128" y2="128"/></g><g fill="#00d4ff"><circle cx="128" cy="70" r="11"/><circle cx="186" cy="104" r="9"/><circle cx="186" cy="152" r="9"/><circle cx="128" cy="186" r="11"/><circle cx="70" cy="152" r="9"/><circle cx="70" cy="104" r="9"/></g><circle cx="128" cy="128" r="14" fill="#aef0ff"/></svg></span>Datavoris</a>
+    <div class="nav-links" id="navLinks">
+      <a href="index.html#services">Services</a>
+      <a href="index.html#tools">Tools</a>
+      <a href="index.html#work">Work</a>
+      <a href="dv-founder.html">About</a>
+      <a href="blog.html">Blog</a>
+      <a href="dv-assessment.html">Assessment</a>
+      <a href="dv-analyzer.html" class="active">Analyzer</a>
+      <a href="index.html#contact">Contact</a>
+      <div class="nav-cta-mobile"><a href="index.html#contact">Let's talk</a></div>
+    </div>
+    <button class="nav-hamburger" id="navToggle" aria-label="Menu" aria-expanded="false" onclick="(function(b){var l=document.getElementById('navLinks');var d=document.getElementById('navBackdrop');var o=!l.classList.contains('open');l.classList.toggle('open',o);b.classList.toggle('open',o);if(d)d.classList.toggle('open',o);b.setAttribute('aria-expanded',o?'true':'false');})(this)">
+      <svg class="menu-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="4" y1="7" x2="20" y2="7"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="17" x2="20" y2="17"/></svg>
+      <svg class="x-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="6" y1="6" x2="18" y2="18"/><line x1="18" y1="6" x2="6" y2="18"/></svg>
+    </button>
+    <a href="index.html#contact" class="btn btn-cyan btn-sm">Let's talk</a>
+  </div>
+</nav>
+<div class="nav-backdrop" id="navBackdrop" onclick="document.getElementById('navToggle').click()"></div>
+
+<section class="preview-hero">
+  <div class="inner">
+    <span class="eyebrow eyebrow-navy">Analyzer preview</span>
+    <h1>This is what your dashboard <em>becomes</em>.</h1>
+    <p>Drop in a spreadsheet, and the analyzer turns it into a real, interactive dashboard — the kind you'd otherwise hire someone to build in Power BI. Here's what that looks like for a sales dataset.</p>
+    <div class="preview-actions">
+      <a href="dv-analyzer.html" class="btn btn-cyan">Try it with your data →</a>
+      <a href="index.html#contact" class="btn btn-outline-navy">Talk to me about building this for real</a>
+    </div>
+  </div>
+</section>
+
+<section class="preview-frame">
+  <div class="preview-frame-inner">
+    <div class="preview-shot">
+      <img src="mockups/analyzer-vision.svg" alt="Premium analyzer dashboard preview: hero metric of $2.42M with +23.6% delta, four KPI cards, revenue-by-region and revenue-by-segment charts, quarterly trend, and three insight callouts."/>
+    </div>
+  </div>
+</section>
+
+<section class="preview-points">
+  <div class="preview-points-grid">
+    <div class="preview-point">
+      <div class="preview-point-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M3 3v18h18"/><rect x="7" y="12" width="3" height="6" rx="0.5"/><rect x="12" y="8" width="3" height="10" rx="0.5"/><rect x="17" y="4" width="3" height="14" rx="0.5"/></svg></div>
+      <h3>Reads your data, picks the right metric</h3>
+      <p>The analyzer classifies every column by name and value pattern — so it features revenue (not the customer ID), and slices by region (not the zip code).</p>
+    </div>
+    <div class="preview-point">
+      <div class="preview-point-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></div>
+      <h3>Trend, delta, and direction at a glance</h3>
+      <p>When there's a date column, the hero shows the total, a half-over-half delta, and a wide trend chart — the moment you open it, you know whether things are up or down.</p>
+    </div>
+    <div class="preview-point">
+      <div class="preview-point-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.35-4.35"/></svg></div>
+      <h3>Insights, not just charts</h3>
+      <p>Concentration risk, margin drift, anomalies. The insights panel calls out what's actually interesting — so you spend time deciding, not searching.</p>
+    </div>
+  </div>
+</section>
+
+<section class="preview-cta">
+  <h2>See it on your own numbers</h2>
+  <p>Drop a CSV or Excel file into the analyzer — it runs in your browser, your data never leaves your device. If the result looks close to what you need but you want it live, refreshing on its own and delivered to your team — that's the part I build.</p>
+  <div class="preview-actions">
+    <a href="dv-analyzer.html" class="btn btn-cyan">Open the analyzer →</a>
+    <a href="index.html#contact" class="btn btn-outline-white">Book a discovery call</a>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <div class="container footer-inner">
+    <div>
+      <div class="footer-logo"><span class="nav-logo-mark" style="width:26px;height:26px"><svg viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="napvf" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#00d4ff"/><stop offset="1" stop-color="#5b9dff"/></linearGradient></defs><g stroke="url(#napvf)" stroke-width="9" stroke-linecap="round" fill="none"><path d="M128 70 L186 104 L186 152 L128 186 L70 152 L70 104 Z"/><line x1="128" y1="70" x2="128" y2="128"/><line x1="186" y1="152" x2="128" y2="128"/><line x1="70" y1="152" x2="128" y2="128"/></g><g fill="#00d4ff"><circle cx="128" cy="70" r="11"/><circle cx="186" cy="104" r="9"/><circle cx="186" cy="152" r="9"/><circle cx="128" cy="186" r="11"/><circle cx="70" cy="152" r="9"/><circle cx="70" cy="104" r="9"/></g><circle cx="128" cy="128" r="14" fill="#aef0ff"/></svg></span>Datavoris</div>
+      <p class="footer-tagline">Automated data solutions for modern teams.</p>
+    </div>
+    <div class="footer-right">
+      <p>© <span id="yr"></span> Datavoris · Agra, India · Remote worldwide</p>
+      <p class="footer-meta">Power BI · Fabric · Python · OpenAI · Zapier · Google Sheets</p>
+    </div>
+  </div>
+</footer>
+
+<script>document.getElementById('yr').textContent=new Date().getFullYear();</script>
+</body>
+</html>

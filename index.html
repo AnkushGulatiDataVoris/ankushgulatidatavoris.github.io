@@ -15,7 +15,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
 <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet"/>
-<link rel="stylesheet" href="dv-style.css?v=4"/>
+<link rel="stylesheet" href="dv-style.css?v=5"/>
 </head>
 <body>
 
@@ -26,8 +26,10 @@
       <a href="#services">Services</a>
       <a href="#tools">Tools</a>
       <a href="#work">Work</a>
+      <a href="products.html">Products</a>
       <a href="dv-founder.html">About</a>
-      <a href="blog.html">Blog</a>      <a href="dv-assessment.html">Assessment</a>
+      <a href="blog.html">Blog</a>
+      <a href="dv-assessment.html">Assessment</a>
       <a href="dv-analyzer.html">Analyzer</a>
       <a href="#contact">Contact</a>
       <div class="nav-cta-mobile"><a href="#contact">Let's talk</a></div>
@@ -236,6 +238,21 @@
   </div>
 </section>
 
+<!-- PRODUCTS — apps I've built and run -->
+<section id="products" class="section">
+  <div class="container">
+    <div class="sec-hdr">
+      <span class="eyebrow eyebrow-dark">Products</span>
+      <h2>Software I've built and <span class="grad-text">run</span>.</h2>
+      <p>Not prototypes. Not portfolio pieces. Production apps with real customers — the same shipping muscle I bring to client work.</p>
+    </div>
+    <div id="homeProductsGrid" class="products-home-grid"></div>
+    <div style="text-align:center;margin-top:2.4rem">
+      <a href="products.html" class="btn btn-outline-navy">See all products →</a>
+    </div>
+  </div>
+</section>
+
 <!-- ABOUT -->
 <section id="about" class="section section-alt">
   <div class="container about-split">
@@ -374,6 +391,35 @@ async function handleSubmit() {
   ).forEach(el => el.style.display = 'none');
   document.getElementById('form-success').style.display = 'block';
 }
+</script>
+<script src="products.js"></script>
+<script>
+(function renderHomeProducts(){
+  const grid = document.getElementById('homeProductsGrid');
+  if (!grid) return;
+  const items = (window.DV_PRODUCTS || []).slice();
+  const esc = s => String(s==null?'':s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+  const safe = u => { const t = String(u||'').trim(); if (/^(javascript|data|vbscript|file):/i.test(t)) return '#'; return /^https?:\/\//i.test(t) ? t : ('https://' + t.replace(/^\/+/,'')); };
+  const label = s => ({live:'Live',beta:'Beta','soft-launch':'Soft launch'})[s] || 'Live';
+  if (!items.length) {
+    grid.innerHTML = '<div class="product-h-empty">No products listed yet — check back soon.</div>';
+    return;
+  }
+  grid.innerHTML = items.slice(0, 3).map(p => `
+    <article class="product-h-card">
+      <div class="product-h-head">
+        <div class="product-h-name">${esc(p.name)}</div>
+        <span class="product-h-status ${esc(p.status||'live')}">${esc(label(p.status))}</span>
+      </div>
+      <div class="product-h-tagline">${esc(p.tagline||'')}</div>
+      <div class="product-h-meta">${p.year ? 'Live since ' + esc(String(p.year)) : 'In production'}</div>
+      <div class="product-h-actions">
+        <a class="primary" href="${safe(p.url)}" target="_blank" rel="noopener">Try it ↗</a>
+        ${p.story ? `<a class="secondary" href="${esc(p.slug)}.html">Read the story →</a>` : ''}
+      </div>
+    </article>
+  `).join('');
+})();
 </script>
 <script>(function closeNavOnClick(){var n=document.getElementById("navLinks");if(n)n.querySelectorAll("a").forEach(function(a){a.addEventListener("click",function(){n.classList.remove("open");});});})();</script>
 </body>

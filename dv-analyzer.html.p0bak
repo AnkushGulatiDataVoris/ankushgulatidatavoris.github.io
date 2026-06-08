@@ -297,23 +297,6 @@ table.prev tr:hover td{background:var(--off);}
   .anz-counters{grid-template-columns:repeat(2,1fr);}
 }
 
-/* ── HERO ZONE (Phase 0.5) ── */
-.dash-hero{position:relative;background:linear-gradient(135deg,#0a1628 0%,#0f1e3d 60%,#0a1628 100%);border-radius:var(--r);padding:1.8rem 2rem;margin-bottom:1rem;overflow:hidden;border:1px solid rgba(0,212,255,0.18);}
-.dash-hero::before{content:'';position:absolute;top:-80px;right:-60px;width:340px;height:340px;background:radial-gradient(circle,rgba(0,212,255,0.18),transparent 65%);pointer-events:none;}
-.dash-hero::after{content:'';position:absolute;bottom:-100px;left:-60px;width:280px;height:280px;background:radial-gradient(circle,rgba(91,157,255,0.12),transparent 65%);pointer-events:none;}
-.dash-hero-top{position:relative;z-index:1;display:flex;align-items:flex-start;justify-content:space-between;gap:1.5rem;flex-wrap:wrap;margin-bottom:1.2rem;}
-.dash-hero-meta{flex:1;min-width:220px;}
-.dash-hero-eyebrow{display:inline-flex;align-items:center;gap:0.45rem;font-size:0.66rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--cyan);background:rgba(0,212,255,0.08);border:1px solid rgba(0,212,255,0.2);border-radius:999px;padding:0.25rem 0.7rem;margin-bottom:0.85rem;}
-.dash-hero-number{font-family:var(--fd);font-size:clamp(2.2rem,4.8vw,3.4rem);font-weight:900;letter-spacing:-0.04em;line-height:1;color:#fff;}
-.dash-hero-delta{display:inline-flex;align-items:center;gap:5px;font-family:var(--fb);font-size:0.82rem;font-weight:700;padding:0.25rem 0.7rem;border-radius:999px;margin-left:0.8rem;vertical-align:0.45rem;}
-.dash-hero-delta.up{background:rgba(16,217,160,0.18);color:#34e8b3;border:1px solid rgba(16,217,160,0.3);}
-.dash-hero-delta.down{background:rgba(251,113,133,0.18);color:#fb7185;border:1px solid rgba(251,113,133,0.3);}
-.dash-hero-delta.flat{background:rgba(122,144,184,0.18);color:#c8d8f0;border:1px solid rgba(122,144,184,0.25);}
-.dash-hero-sub{font-size:0.88rem;color:rgba(220,232,255,0.7);margin-top:0.9rem;line-height:1.6;max-width:560px;}
-.dash-hero-sub b{color:#fff;font-weight:600;}
-.dash-hero-chart{position:relative;z-index:1;height:180px;margin-top:0.5rem;}
-@media(max-width:560px){.dash-hero{padding:1.3rem 1.2rem;}.dash-hero-chart{height:150px;}}
-
 /* ── POWER BI-STYLE DASHBOARD ── */
 .dash{display:grid;grid-template-columns:210px 1fr;gap:1rem;margin-top:1rem;align-items:start;}
 .dash-filters{background:var(--card);border:1px solid var(--bw);border-radius:var(--r);padding:1.1rem 1rem;position:sticky;top:78px;}
@@ -385,7 +368,6 @@ table.prev tr:hover td{background:var(--off);}
       <a href="index.html#services">Services</a>
       <a href="index.html#tools">Tools</a>
       <a href="index.html#work">Work</a>
-      <a href="products.html">Products</a>
       <a href="dv-founder.html">About</a>
       <a href="blog.html">Blog</a>      <a href="dv-assessment.html">Assessment</a>
       <a href="dv-analyzer.html" class="active">Analyzer</a>
@@ -420,7 +402,7 @@ table.prev tr:hover td{background:var(--off);}
     <div class="drop-sub">CSV or Excel · up to ~5,000 rows works best</div>
     <button class="drop-btn" type="button" id="pickBtn">Choose a file</button>
     <div class="drop-formats">.csv · .xlsx · .xls · .tsv</div>
-    <div class="sample-link">No file handy? <a id="sampleBtn">Try it with sample sales data →</a> &nbsp;·&nbsp; <a href="analyzer-preview.html">See an example dashboard →</a></div>
+    <div class="sample-link">No file handy? <a id="sampleBtn">Try it with sample sales data →</a></div>
     <input type="file" id="fileInput" accept=".csv,.tsv,.xlsx,.xls" style="display:none"/>
   </div>
 
@@ -704,253 +686,47 @@ function pearson(a,b){
 }
 
 // ---------- MAIN ANALYZE ----------
-/**
- * Phase 0 architecture (spec-driven Analyzer):
- *   raw file → buildProfile() → Profile
- *   Profile + data → rulesGenerator() → ReportSpec
- *   ReportSpec + Profile + data → renderer (analyze + renderDashboard)
- *
- * Profile is what we *know* about the dataset (deterministic, no decisions).
- * ReportSpec is what we *render* (every decision lives here, one source of truth).
- * Phase 1 will replace rulesGenerator() with a Claude generator that produces the same
- * ReportSpec shape but with semantic column understanding. The renderer never changes.
- */
-function buildProfile(headers, data){
-  headers = headers.filter(h => h !== '');
-  const rowCount = data.length;
-  const cols = headers.map(h => {
-    const values = data.map(r => r[h]);
-    const type = detectType(values);
-    const missing = values.filter(v => v===null||v===undefined||String(v).trim()==='').length;
-    const uniq = new Set(values.filter(v=>v!==null&&v!==undefined&&String(v).trim()!=='').map(v=>String(v))).size;
-    let stats=null, nums=null;
-    if (type === 'number') { nums = values.map(toNum); stats = numStats(nums); }
-    return { name:h, type, missing, missingPct: rowCount?missing/rowCount*100:0, uniq, values, nums, stats };
-  });
-  const numCols = cols.filter(c => c.type === 'number');
-  const catCols = cols.filter(c => c.type === 'categorical');
-  const dateCol = cols.find(c => c.type === 'date') || null;
-  const totalCells = rowCount * cols.length;
-  const totalMissing = cols.reduce((s,c) => s + c.missing, 0);
-  const completeness = totalCells ? (1 - totalMissing/totalCells) * 100 : 100;
-  const seen = new Set(); let dupes = 0;
-  data.forEach(r => { const k = headers.map(h => r[h]).join('|'); if (seen.has(k)) dupes++; else seen.add(k); });
-  let health = completeness * 0.7;
-  health += (dupes === 0 ? 15 : dupes/rowCount < 0.05 ? 8 : 0);
-  health += (cols.some(c => c.type === 'date') ? 8 : 4);
-  health += (numCols.length >= 1 ? 7 : 0);
-  health = Math.max(8, Math.min(99, Math.round(health)));
-  return { rowCount, colCount: cols.length, headers, cols, numCols, catCols, dateCol, totalMissing, completeness, dupes, health };
-}
-
-/**
- * ReportSpec — declarative description of everything to render.
- *   source: string                          // filename
- *   meta: { rowCount, colCount, completeness, dupes, health, totalMissing }
- *   title: string                            // short page subtitle
- *   executiveSummary: string                 // HTML
- *   headlines: [{ sev:'critical'|'warn'|'good', tag, text }]
- *   outliers:  [{ col:{name}, row, value, delta, direction:'hi'|'lo' }]
- *   automationValue: { weeklyHours, annualHours, annualCost }
- *   insights:  [{ t:'good'|'warn'|'info', ic, x }]
- *   columnTable: [{ name, type, missing, missingPct, uniq, stats? }]
- *   charts:    [{ kind:'hist'|'bar'|'line'|'group', colName?, catName?, dateName?, valName?, title, sub }]
- *   correlation: { colNames:[...] } | null
- *   preview:   { columns:[name,...], rows:[[v,...],...] }
- *   dashboard: { metricColName, dateColName, filterColNames:[...], visuals:[{kind:'trend'|'byCat'|'dist'|'count', catName?, title, sub}] }
- */
-function classifyColumns(profile){
-  const ID_PAT = /(^|[_\b])(id|uuid|guid|hash|sku|code|key|ref|asin|isbn|fips)([_\b]|$)|\bzip\b|\bpostal\b|_id$|^id$/i;
-  const METRIC_PAT = /\b(revenue|sales|amount|price|total|subtotal|cost|profit|spend|spent|budget|qty|quantity|units|count|volume|gmv|arr|mrr|ltv|cac|gross|net|loss|gain|fees?|tax|discount|earnings?|expense|payment)\b/i;
-  const CURRENCY_PAT = /\b(revenue|sales|amount|price|total|subtotal|cost|profit|spend|spent|budget|gmv|arr|mrr|ltv|cac|gross|net|loss|gain|fees?|tax|earnings?|expense|payment|usd|eur|gbp|inr)\b|[$€£₹]/i;
-  const PERCENT_PAT = /\b(pct|percent|rate|share|ratio|growth|margin|completion)\b|%/i;
-  const SCORE_PAT = /\b(rating|score|nps|csat|stars?|rank|grade|tier|level|index)\b/i;
-  const GEO_PAT = /\b(country|region|state|province|city|county|territory|zone|district|area)\b/i;
-  const PRODUCT_PAT = /\b(product|item|brand|model|category|department|vendor|supplier|sku_name)\b/i;
-  const PERSON_PAT = /\b(rep|salesperson|agent|owner|manager|employee|customer_name|first[_ ]?name|last[_ ]?name)\b/i;
-  const STATUS_PAT = /\b(status|stage|phase|state|active|enabled|approved|paid|shipped|delivered)\b/i;
-  const roles = {};
-  for (const c of profile.cols) {
-    const n = c.name;
-    let role = 'text';
-    const extras = {};
-    if (c.type === 'date') role = 'date';
-    else if (c.type === 'number') {
-      if (ID_PAT.test(n)) role = 'identifier';
-      else if (PERCENT_PAT.test(n)) { role = 'percent'; extras.isPercent = true; }
-      else if (SCORE_PAT.test(n)) role = 'score';
-      else if (METRIC_PAT.test(n)) { role = 'metric'; if (CURRENCY_PAT.test(n)) extras.isCurrency = true; }
-      else role = 'numeric';
-    } else if (c.type === 'categorical') {
-      if (GEO_PAT.test(n)) role = 'geo';
-      else if (PRODUCT_PAT.test(n)) role = 'product';
-      else if (PERSON_PAT.test(n)) role = 'person';
-      else if (STATUS_PAT.test(n)) role = 'status';
-      else role = 'dimension';
-    } else if (c.type === 'text') {
-      role = ID_PAT.test(n) ? 'identifier' : 'text';
-    }
-    roles[n] = Object.assign({ role }, extras);
-  }
-  return roles;
-}
-function inferDomain(profile){
-  const names = profile.cols.map(c => c.name.toLowerCase()).join(' ');
-  if (/\b(revenue|sales|deal|order|customer|product|region|rep|pipeline|opportunit)/.test(names)) return 'Sales';
-  if (/\b(session|pageview|visit|bounce|conversion|campaign|click|impression|utm|landing)/.test(names)) return 'Marketing & web';
-  if (/\b(employee|salary|department|hire|tenure|hr|leave|payroll)/.test(names)) return 'HR & people';
-  if (/\b(transaction|account|balance|invoice|payment|ledger|expense|reconcil)/.test(names)) return 'Finance';
-  if (/\b(inventory|sku|shipment|warehouse|delivery|supplier|order_status)/.test(names)) return 'Operations';
-  if (/\b(patient|diagnos|hospital|clinic|treatment|drug|prescription|claim)/.test(names)) return 'Healthcare';
-  if (/\b(student|grade|course|assignment|enrol|tuition)/.test(names)) return 'Education';
-  if (/\b(ticket|incident|priority|assignee|resolution|sla)/.test(names)) return 'Support';
-  return null;
-}
-function smartFmt(v, hint){
-  if (v == null || isNaN(v)) return '–';
-  const abs = Math.abs(v);
-  if (hint && hint.isCurrency) {
-    if (abs >= 1e9) return '$' + (v/1e9).toFixed(1) + 'B';
-    if (abs >= 1e6) return '$' + (v/1e6).toFixed(1) + 'M';
-    if (abs >= 1e3) return '$' + (v/1e3).toFixed(1) + 'k';
-    return '$' + v.toFixed(abs < 100 ? (abs < 10 ? 2 : 1) : 0);
-  }
-  if (hint && hint.isPercent) return v.toFixed(abs >= 100 ? 0 : 1) + '%';
-  if (abs >= 1e9) return (v/1e9).toFixed(1) + 'B';
-  if (abs >= 1e6) return (v/1e6).toFixed(1) + 'M';
-  if (abs >= 1e3) return (v/1e3).toFixed(1) + 'k';
-  if (abs < 1 && abs > 0) return v.toFixed(2);
-  return v.toFixed(abs < 100 ? 1 : 0);
-}
-function pickPrimaryMetric(profile, roles){
-  const totalMag = c => Math.abs((c.stats && c.stats.mean ? c.stats.mean : 0) * (c.stats && c.stats.count ? c.stats.count : profile.rowCount));
-  const named = profile.numCols.filter(c => roles[c.name] && roles[c.name].role === 'metric');
-  if (named.length) return named.slice().sort((a,b) => totalMag(b) - totalMag(a))[0];
-  const ok = profile.numCols.filter(c => { const r = roles[c.name] ? roles[c.name].role : 'numeric'; return r !== 'identifier' && r !== 'score' && r !== 'percent'; });
-  if (ok.length) return ok.slice().sort((a,b) => Math.abs(b.stats ? b.stats.mean : 0) - Math.abs(a.stats ? a.stats.mean : 0))[0];
-  return null;
-}
-function computeHalfDelta(rows, metricName, dateName){
-  if (!dateName) return null;
-  const dated = rows.map(r => ({ t: Date.parse(r[dateName]), v: toNum(r[metricName]) })).filter(x => !isNaN(x.t) && !isNaN(x.v));
-  if (dated.length < 4) return null;
-  dated.sort((a,b) => a.t - b.t);
-  const mid = Math.floor(dated.length / 2);
-  const first = dated.slice(0, mid).reduce((s,x) => s + x.v, 0);
-  const second = dated.slice(mid).reduce((s,x) => s + x.v, 0);
-  if (first === 0) return null;
-  const deltaPct = (second - first) / Math.abs(first) * 100;
-  const dir = Math.abs(deltaPct) < 2 ? 'flat' : deltaPct > 0 ? 'up' : 'down';
-  return { firstSum: first, secondSum: second, deltaPct, dir };
-}
-function preferredDimension(catCols, roles){
-  const rank = { geo: 0, product: 1, person: 2, status: 3, dimension: 4 };
-  return catCols.slice().sort((a,b) => {
-    const ra = roles[a.name] ? roles[a.name].role : 'dimension';
-    const rb = roles[b.name] ? roles[b.name].role : 'dimension';
-    const s = (rank[ra] != null ? rank[ra] : 9) - (rank[rb] != null ? rank[rb] : 9);
-    if (s !== 0) return s;
-    return a.uniq - b.uniq;
-  });
-}
-
-function rulesGenerator(profile, data, fname){
-  const { rowCount, cols, numCols, catCols, dateCol, completeness, dupes, health, totalMissing, headers } = profile;
-  const roles = classifyColumns(profile);
-  const domain = inferDomain(profile);
-  const metricCol = pickPrimaryMetric(profile, roles);
-  const metricRole = metricCol ? roles[metricCol.name] : null;
-  const formatHint = metricRole ? { isCurrency: !!metricRole.isCurrency, isPercent: !!metricRole.isPercent } : {};
-  const sortedCats = preferredDimension(catCols, roles);
-  const filterColNames = sortedCats.filter(c => (roles[c.name] && roles[c.name].role !== 'identifier') && c.uniq <= 12).slice(0,4).map(c => c.name);
-  const charts = [];
-  const chartableNum = numCols.filter(c => { const r = roles[c.name] ? roles[c.name].role : 'numeric'; return r !== 'identifier'; });
-  if (chartableNum.length) {
-    const c = chartableNum.map(x => ({ c:x, spread: x.stats ? x.stats.std/(Math.abs(x.stats.mean)||1) : 0 })).sort((a,b) => b.spread - a.spread)[0].c;
-    charts.push({ kind:'hist', colName:c.name, title:`How ${c.name} is distributed`, sub:'Where the values cluster' });
-  }
-  if (sortedCats.length) {
-    const c = sortedCats[0];
-    charts.push({ kind:'bar', colName:c.name, title:`${c.name} breakdown`, sub:'Most common values' });
-  }
-  if (dateCol && metricCol) {
-    charts.push({ kind:'line', dateName:dateCol.name, valName:metricCol.name, title:`${metricCol.name} over time`, sub:'Monthly trend' });
-  }
-  if (sortedCats.length && metricCol) {
-    const c = sortedCats[0];
-    charts.push({ kind:'group', catName:c.name, valName:metricCol.name, title:`${metricCol.name} by ${c.name}`, sub:'Where the totals concentrate' });
-  }
-  const visuals = [];
-  if (sortedCats.length && metricCol) {
-    const c = sortedCats[0];
-    visuals.push({ kind:'byCat', catName:c.name, title:`${short(metricCol.name)} by ${short(c.name)}`, sub:'Where the totals concentrate' });
-  }
-  if (sortedCats.length > 1 && metricCol) {
-    const c = sortedCats[1];
-    visuals.push({ kind:'byCat', catName:c.name, title:`${short(metricCol.name)} by ${short(c.name)}`, sub:'Split by another dimension' });
-  }
-  if (metricCol) {
-    visuals.push({ kind:'dist', title:`${short(metricCol.name)} spread`, sub:'How values are distributed' });
-  }
-  while (visuals.length < 3 && sortedCats.length >= (visuals.filter(v => v.kind === 'count').length + 1)) {
-    const used = visuals.filter(v => v.catName).map(v => v.catName);
-    const next = sortedCats.find(c => !used.includes(c.name));
-    if (!next) break;
-    visuals.push({ kind:'count', catName:next.name, title:`${short(next.name)} breakdown`, sub:'Record count' });
-  }
-  let heroLabel, heroChartKind = null;
-  if (metricCol) { heroLabel = `Total ${metricCol.name}`; heroChartKind = dateCol ? 'trend' : 'dist'; }
-  else { heroLabel = `Records analysed`; heroChartKind = sortedCats.length ? 'count' : null; }
-  let dashTitle = `${rowCount.toLocaleString()} rows · ${cols.length} columns`;
-  if (domain) dashTitle = `${domain} dataset · ${dashTitle}`;
-  return {
-    source: fname,
-    meta: { rowCount, colCount: cols.length, completeness, dupes, health, totalMissing },
-    title: dashTitle,
-    domain,
-    roles,
-    formatHint,
-    executiveSummary: execSummary(cols, numCols, catCols, dateCol, rowCount, completeness, dupes, health, fname),
-    headlines: buildHeadlines(cols, numCols, catCols, dupes, rowCount, completeness, health),
-    outliers: detectOutliers(numCols, data, headers),
-    automationValue: estimateAutomationValue(rowCount, cols, numCols, health, dupes),
-    insights: buildInsights(cols, numCols, catCols, dupes, rowCount, completeness),
-    columnTable: cols.map(c => ({ name:c.name, type:c.type, missing:c.missing, missingPct:c.missingPct, uniq:c.uniq, stats:c.stats })),
-    charts,
-    correlation: numCols.length >= 2 ? { colNames: numCols.slice(0,6).map(c => c.name) } : null,
-    preview: { columns: cols.map(c => c.name), rows: data.slice(0,8).map(r => cols.map(c => r[c.name])) },
-    dashboard: {
-      metricColName: metricCol ? metricCol.name : null,
-      dateColName: dateCol ? dateCol.name : null,
-      filterColNames, visuals, heroLabel, heroChartKind, heroDomain: domain
-    }
-  };
-}
-
-function analyze(headers, data, fname){
+function analyze(headers,data,fname){
   clearErr();
-  charts.forEach(c => { try { c.destroy(); } catch(e){} }); charts = [];
+  headers=headers.filter(h=>h!=='');
+  const rowCount=data.length;
+  const cols=headers.map(h=>{
+    const values=data.map(r=>r[h]);
+    const type=detectType(values);
+    const missing=values.filter(v=>v===null||v===undefined||String(v).trim()==='').length;
+    const uniq=new Set(values.filter(v=>v!==null&&v!==undefined&&String(v).trim()!=='').map(v=>String(v))).size;
+    let stats=null,nums=null;
+    if(type==='number'){nums=values.map(toNum);stats=numStats(nums);}
+    return{name:h,type,missing,missingPct:rowCount?missing/rowCount*100:0,uniq,values,nums,stats};
+  });
 
-  // Phase 0: deterministic spec. Phase 1+ will source spec from Claude with rules fallback.
-  const profile = buildProfile(headers, data);
-  const spec = rulesGenerator(profile, data, fname);
+  const numCols=cols.filter(c=>c.type==='number');
+  const catCols=cols.filter(c=>c.type==='categorical');
+  const totalCells=rowCount*cols.length;
+  const totalMissing=cols.reduce((s,c)=>s+c.missing,0);
+  const completeness=totalCells?(1-totalMissing/totalCells)*100:100;
+  // duplicate rows
+  const seen=new Set();let dupes=0;
+  data.forEach(r=>{const k=headers.map(h=>r[h]).join('|');if(seen.has(k))dupes++;else seen.add(k);});
 
-  // Render-time aliases (no decisions are made below this line — everything reads from spec/profile)
-  const { cols, numCols, catCols, dateCol, totalMissing } = profile;
-  const { rowCount, completeness, dupes, health } = spec.meta;
+  let health=completeness*0.7;
+  health+=(dupes===0?15:dupes/rowCount<0.05?8:0);
+  health+=(cols.some(c=>c.type==='date')?8:4);
+  health+=(numCols.length>=1?7:0);
+  health=Math.max(8,Math.min(99,Math.round(health)));
 
-  const headlinesHTML = spec.headlines.length
-    ? `<div class="sec-label">Headline findings</div><div class="headlines">` +
-      spec.headlines.map(h => `<div class="headline ${h.sev}"><span class="headline-tag">${esc(h.tag)}</span><div class="headline-text">${h.text}</div></div>`).join('') +
-      `</div>`
-    : '';
+  charts.forEach(c=>{try{c.destroy();}catch(e){}});charts=[];
 
-  let html = `
+  // BUILD HTML
+  const headlines=buildHeadlines(cols,numCols,catCols,dupes,rowCount,completeness,health);
+  const headlinesHTML=headlines.length?`<div class="sec-label">Headline findings</div><div class="headlines">`+
+    headlines.map(h=>`<div class="headline ${h.sev}"><span class="headline-tag">${esc(h.tag)}</span><div class="headline-text">${h.text}</div></div>`).join('')+`</div>`:'';
+  let html=`
   <div class="file-bar fade">
     <div class="file-bar-left">
       <div class="file-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M14 3v6h6"/></svg></div>
-      <div style="min-width:0"><div class="file-nm">${esc(spec.source)}</div>
-      <div class="file-meta">${spec.title}</div></div>
+      <div style="min-width:0"><div class="file-nm">${esc(fname)}</div>
+      <div class="file-meta">${rowCount.toLocaleString()} rows · ${cols.length} columns</div></div>
     </div>
     <button class="file-reset" onclick="resetTool()">↺ Analyze another file</button>
   </div>
@@ -959,20 +735,10 @@ function analyze(headers, data, fname){
 
   <div class="exec-summary">
     <div class="es-tag"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="6" y="3" width="12" height="18" rx="2"/><path d="M9 8h6M9 12h6M9 16h4"/></svg>Executive Summary</div>
-    <p>${spec.executiveSummary}</p>
+    <p>${execSummary(cols,numCols,catCols,dateCol0(cols),rowCount,completeness,dupes,health,fname)}</p>
   </div>
 
-  <div class="sec-label">${esc(spec.domain ? spec.domain + ' overview' : 'Interactive dashboard')}</div>
-  <div class="dash-hero">
-    <div class="dash-hero-top">
-      <div class="dash-hero-meta">
-        <span class="dash-hero-eyebrow">${esc(spec.dashboard.heroLabel)}</span>
-        <div><span class="dash-hero-number" id="heroNumber">—</span><span class="dash-hero-delta flat" id="heroDelta" style="display:none">—</span></div>
-        <p class="dash-hero-sub" id="heroSub">—</p>
-      </div>
-    </div>
-    <div class="dash-hero-chart"><canvas id="heroChart"></canvas></div>
-  </div>
+  <div class="sec-label">Interactive dashboard</div>
   <div class="dash">
     <aside class="dash-filters" id="dashFilters">
       <button class="dash-filters-head" type="button" onclick="toggleFilters()" aria-expanded="false">
@@ -1007,30 +773,31 @@ function analyze(headers, data, fname){
     <p>${healthMsg(health,totalMissing,dupes,rowCount,cols)}</p></div>
   </div>`;
 
-  // OUTLIERS card — driven by spec.outliers
-  if (spec.outliers.length) {
-    html += `<div class="sec-label">Outliers worth a look</div>
+  // ── OUTLIERS card ─────────────────────────────────────
+  const outliers=detectOutliers(numCols,data,headers);
+  if(outliers.length){
+    html+=`<div class="sec-label">Outliers worth a look</div>
     <div class="outliers">
       <div class="outliers-head">
         <div>
           <div class="outliers-title">Values that stand out from the rest</div>
           <p class="outliers-sub">These data points sit well outside the normal range for their column. Sometimes that's a real signal (a record sale, a top customer). Sometimes it's a data-entry error worth catching before it skews a report.</p>
         </div>
-        <span class="outliers-pill">${spec.outliers.length} flagged</span>
+        <span class="outliers-pill">${outliers.length} flagged</span>
       </div>
       <div class="outliers-list">`;
-    spec.outliers.forEach(o => {
-      const cls = o.delta > 4 ? 'hi' : '';
-      const direction = o.direction === 'hi' ? 'above' : 'below';
-      html += `<div class="outlier-row"><div class="outlier-col">${esc(o.col.name)}<div class="ot-meta">Row ${o.row+2} · ${direction} the typical range</div></div><div class="outlier-val">${fmt(o.value)}</div><div class="outlier-delta ${cls}">${o.delta.toFixed(1)}σ from median</div></div>`;
+    outliers.forEach(o=>{
+      const cls=o.delta>4?'hi':'';
+      const direction=o.direction==='hi'?'above':'below';
+      html+=`<div class="outlier-row"><div class="outlier-col">${esc(o.col.name)}<div class="ot-meta">Row ${o.row+2} · ${direction} the typical range</div></div><div class="outlier-val">${fmt(o.value)}</div><div class="outlier-delta ${cls}">${o.delta.toFixed(1)}σ from median</div></div>`;
     });
-    html += `</div></div>`;
+    html+=`</div></div>`;
   }
 
-  // AUTOMATION VALUE callout — driven by spec.automationValue
-  const av = spec.automationValue;
-  const fmt$ = n => '$' + n.toLocaleString();
-  html += `<div class="sec-label">If this report ran itself</div>
+  // ── AUTOMATION VALUE callout ──────────────────────────
+  const av=estimateAutomationValue(rowCount,cols,numCols,health,dupes);
+  const fmt$=n=>'$'+n.toLocaleString();
+  html+=`<div class="sec-label">If this report ran itself</div>
   <div class="autoval">
     <span class="autoval-tag">Estimated automation value</span>
     <h3>This dataset could be powering an automated report — instead of a weekly spreadsheet ritual.</h3>
@@ -1045,72 +812,86 @@ function analyze(headers, data, fname){
     <p class="autoval-note">Rough heuristic, based on dataset size, column count, and data-quality score. Real figures depend on how the report is currently being produced — tends to under-estimate complex reports stitched from multiple sources.</p>
   </div>`;
 
-  // INSIGHTS — driven by spec.insights
-  html += `<div class="sec-label">Key findings</div><div class="insight-list">`;
-  spec.insights.forEach(i => html += `<div class="insight ${i.t}"><span class="insight-ic">${i.ic}</span><div class="insight-tx">${i.x}</div></div>`);
-  html += `</div>`;
+  // INSIGHTS
+  const ins=buildInsights(cols,numCols,catCols,dupes,rowCount,completeness);
+  html+=`<div class="sec-label">Key findings</div><div class="insight-list">`;
+  ins.forEach(i=>html+=`<div class="insight ${i.t}"><span class="insight-ic">${i.ic}</span><div class="insight-tx">${i.x}</div></div>`);
+  html+=`</div>`;
 
-  // COLUMN PROFILE — uses profile.cols (sparklines need raw values/nums)
-  html += `<div class="sec-label">Column profile</div><div class="col-table">
+  // COLUMN PROFILE
+  html+=`<div class="sec-label">Column profile</div><div class="col-table">
     <div class="col-hdr"><div>Column</div><div>Type</div><div>Missing</div><div class="col-spark-cell">Distribution</div></div>`;
-  cols.forEach(c => {
-    const tp = {number:['type-num','Number'], categorical:['type-cat','Category'], date:['type-date','Date'], text:['type-txt','Text'], empty:['type-txt','Empty']}[c.type];
-    const mc = c.missingPct === 0 ? 'miss-ok' : c.missingPct < 10 ? 'miss-warn' : 'miss-bad';
-    let spark = '', stat = '';
-    if (c.type === 'number' && c.stats) {
-      const h = histogram(c.nums, 12), mxc = Math.max(...h.map(b => b.count)) || 1;
-      spark = '<div class="spark">' + h.map(b => `<i style="height:${b.count/mxc*100}%"></i>`).join('') + '</div>';
-      stat = `<div class="col-stat">avg ${fmt(c.stats.mean)} · range ${fmt(c.stats.min)}–${fmt(c.stats.max)}</div>`;
-    } else {
-      const f = freq(c.values, 5), mxc = Math.max(...f.map(x => x[1])) || 1;
-      spark = '<div class="spark">' + f.map(x => `<i style="height:${x[1]/mxc*100}%"></i>`).join('') + '</div>';
-      stat = `<div class="col-stat">${c.uniq} unique${f.length?` · top: ${esc(f[0][0])}`:''}</div>`;
+  cols.forEach(c=>{
+    const tp={number:['type-num','Number'],categorical:['type-cat','Category'],date:['type-date','Date'],text:['type-txt','Text'],empty:['type-txt','Empty']}[c.type];
+    const mc=c.missingPct===0?'miss-ok':c.missingPct<10?'miss-warn':'miss-bad';
+    let spark='',stat='';
+    if(c.type==='number'&&c.stats){
+      const h=histogram(c.nums,12),mxc=Math.max(...h.map(b=>b.count))||1;
+      spark='<div class="spark">'+h.map(b=>`<i style="height:${b.count/mxc*100}%"></i>`).join('')+'</div>';
+      stat=`<div class="col-stat">avg ${fmt(c.stats.mean)} · range ${fmt(c.stats.min)}–${fmt(c.stats.max)}</div>`;
+    }else{
+      const f=freq(c.values,5),mxc=Math.max(...f.map(x=>x[1]))||1;
+      spark='<div class="spark">'+f.map(x=>`<i style="height:${x[1]/mxc*100}%"></i>`).join('')+'</div>';
+      stat=`<div class="col-stat">${c.uniq} unique${f.length?` · top: ${esc(f[0][0])}`:''}</div>`;
     }
-    html += `<div class="col-row"><div class="col-nm" title="${esc(c.name)}">${esc(c.name)}</div>
+    html+=`<div class="col-row"><div class="col-nm" title="${esc(c.name)}">${esc(c.name)}</div>
       <div><span class="type-pill ${tp[0]}">${tp[1]}</span></div>
       <div class="col-miss ${mc}">${c.missing===0?'None':c.missingPct.toFixed(0)+'%'}</div>
       <div class="col-spark-cell">${spark}${stat}</div></div>`;
   });
-  html += `</div>`;
+  html+=`</div>`;
 
-  // VISUAL BREAKDOWN — driven by spec.charts
-  if (spec.charts.length) {
-    html += `<div class="sec-label">Visual breakdown</div><div class="chart-grid">`;
-    spec.charts.slice(0,4).forEach((d,i) => {
-      html += `<div class="chart-card"><h4>${esc(d.title)}</h4><div class="ch-sub">${esc(d.sub)}</div><div class="chart-wrap"><canvas id="ch${i}"></canvas></div></div>`;
+  // CHARTS
+  const chartDefs=[];
+  if(numCols.length){const c=numCols.map(c=>({c,spread:c.stats?c.stats.std/(Math.abs(c.stats.mean)||1):0})).sort((a,b)=>b.spread-a.spread)[0].c;chartDefs.push({kind:'hist',col:c});}
+  if(catCols.length){chartDefs.push({kind:'bar',col:catCols.sort((a,b)=>a.uniq-b.uniq)[0]});}
+  const dateCol=cols.find(c=>c.type==='date');
+  if(dateCol&&numCols.length){chartDefs.push({kind:'line',date:dateCol,val:numCols[0]});}
+  if(catCols.length&&numCols.length){chartDefs.push({kind:'group',cat:catCols.sort((a,b)=>a.uniq-b.uniq)[0],val:numCols[0]});}
+
+  if(chartDefs.length){
+    html+=`<div class="sec-label">Visual breakdown</div><div class="chart-grid">`;
+    chartDefs.slice(0,4).forEach((d,i)=>{
+      const titles={hist:[`Distribution of ${d.kind==='hist'?d.col.name:''}`,'How values are spread'],
+        bar:[`${d.col?d.col.name:''} breakdown`,'Count by category'],
+        line:[`${d.val?d.val.name:''} over time`,'Trend by date'],
+        group:[`${d.val?d.val.name:''} by ${d.cat?d.cat.name:''}`,'Totals per group']};
+      const t=titles[d.kind];
+      html+=`<div class="chart-card"><h4>${esc(t[0])}</h4><div class="ch-sub">${t[1]}</div><div class="chart-wrap"><canvas id="ch${i}"></canvas></div></div>`;
     });
-    html += `</div>`;
+    html+=`</div>`;
   }
 
-  // CORRELATION — driven by spec.correlation (matrix re-computed in renderer because it needs nums arrays)
-  let corrHTML = '';
-  if (spec.correlation) {
-    const nc = spec.correlation.colNames.map(n => cols.find(c => c.name === n));
-    corrHTML = `<div class="sec-label">Correlations</div><div class="corr-wrap"><div class="corr-grid" style="grid-template-columns:90px repeat(${nc.length},46px)">`;
-    corrHTML += `<div></div>` + nc.map(c => `<div class="corr-lbl v">${esc(short(c.name))}</div>`).join('');
-    nc.forEach(rc => {
-      corrHTML += `<div class="corr-lbl" style="justify-content:flex-end;text-align:right">${esc(short(rc.name))}</div>`;
-      nc.forEach(cc => {
-        const r = rc === cc ? 1 : pearson(rc.nums, cc.nums);
-        const v = r === null ? null : r;
-        const bg = v === null ? '#eef2fa' : corrColor(v);
-        const txt = v === null ? '–' : v.toFixed(1);
-        const tc = v !== null && Math.abs(v) > 0.5 ? '#fff' : '#1a2744';
-        corrHTML += `<div class="corr-cell" style="background:${bg};color:${tc}" title="${esc(rc.name)} vs ${esc(cc.name)}: ${v===null?'n/a':v.toFixed(2)}">${txt}</div>`;
+  // CORRELATION
+  let corrHTML='';
+  if(numCols.length>=2){
+    const nc=numCols.slice(0,6);
+    corrHTML=`<div class="sec-label">Correlations</div><div class="corr-wrap"><div class="corr-grid" style="grid-template-columns:90px repeat(${nc.length},46px)">`;
+    corrHTML+=`<div></div>`+nc.map(c=>`<div class="corr-lbl v">${esc(short(c.name))}</div>`).join('');
+    nc.forEach(rc=>{
+      corrHTML+=`<div class="corr-lbl" style="justify-content:flex-end;text-align:right">${esc(short(rc.name))}</div>`;
+      nc.forEach(cc=>{
+        const r=rc===cc?1:pearson(rc.nums,cc.nums);
+        const v=r===null?null:r;
+        const bg=v===null?'#eef2fa':corrColor(v);
+        const txt=v===null?'–':v.toFixed(1);
+        const tc=v!==null&&Math.abs(v)>0.5?'#fff':'#1a2744';
+        corrHTML+=`<div class="corr-cell" style="background:${bg};color:${tc}" title="${esc(rc.name)} vs ${esc(cc.name)}: ${v===null?'n/a':v.toFixed(2)}">${txt}</div>`;
       });
     });
-    corrHTML += `</div></div>`;
+    corrHTML+=`</div></div>`;
+    // strongest correlation insight handled in insights
   }
-  html += corrHTML;
+  html+=corrHTML;
 
-  // PREVIEW — driven by spec.preview
-  html += `<div class="sec-label">Data preview · first 8 rows</div><div class="prev-wrap"><table class="prev"><thead><tr>` +
-    spec.preview.columns.map(n => `<th>${esc(n)}</th>`).join('') + `</tr></thead><tbody>` +
-    spec.preview.rows.map(row => `<tr>` + row.map(v => `<td>${esc(fmtCell(v))}</td>`).join('') + `</tr>`).join('') +
+  // PREVIEW
+  html+=`<div class="sec-label">Data preview · first 8 rows</div><div class="prev-wrap"><table class="prev"><thead><tr>`+
+    cols.map(c=>`<th>${esc(c.name)}</th>`).join('')+`</tr></thead><tbody>`+
+    data.slice(0,8).map(r=>`<tr>`+cols.map(c=>`<td>${esc(fmtCell(r[c.name]))}</td>`).join('')+`</tr>`).join('')+
     `</tbody></table></div>`;
 
-  // ROADMAP — static (not part of spec yet)
-  html += `<div class="sec-label">How we'd turn this into a live system</div>
+  // HOW WE'D BUILD THIS (process roadmap, no hard pricing)
+  html+=`<div class="sec-label">How we'd turn this into a live system</div>
   <div class="roadmap">
     <p class="rm-intro">What you're looking at is a one-off snapshot. The real value is when it runs <b>automatically</b> — refreshing on its own, flagging issues, and landing in your inbox or a live dashboard. Here's exactly how I'd take <b>your ${rowCount.toLocaleString()} rows across ${cols.length} columns</b> from this preview to a system that runs itself.</p>
     <div class="rm-steps">
@@ -1127,8 +908,8 @@ function analyze(headers, data, fname){
     </div>
   </div>`;
 
-  // CTA — static
-  html += `<div class="cta">
+  // CTA
+  html+=`<div class="cta">
     <h2>Want this running on your real data?</h2>
     <p>Book a free discovery call and I'll show you exactly what it would take to turn your data into an automated system — with a clear quote, no obligation.</p>
     <div class="cta-actions">
@@ -1137,51 +918,43 @@ function analyze(headers, data, fname){
     </div>
   </div>`;
 
-  results.innerHTML = html;
-  results.style.display = 'block';
-  $('introBlock').style.display = 'none';
-  drop.style.display = 'none';
-  window.scrollTo({ top:0, behavior:'smooth' });
+  results.innerHTML=html;
+  results.style.display='block';
+  $('introBlock').style.display='none';
+  drop.style.display='none';
+  window.scrollTo({top:0,behavior:'smooth'});
 
-  // ── DASHBOARD STATE — driven by spec.dashboard ──
-  DASH.headers = headers; DASH.data = data; DASH.cols = cols;
-  DASH.numCols = numCols; DASH.catCols = catCols;
-  DASH.dateCol = spec.dashboard.dateColName ? cols.find(c => c.name === spec.dashboard.dateColName) : null;
-  DASH.health = health; DASH.completeness = completeness;
-  DASH.metric = spec.dashboard.metricColName ? cols.find(c => c.name === spec.dashboard.metricColName) : null;
-  DASH.filterCols = spec.dashboard.filterColNames.map(n => cols.find(c => c.name === n)).filter(Boolean);
-  DASH.formatHint = spec.formatHint || {};
-  DASH.heroChartKind = spec.dashboard.heroChartKind;
-  DASH.heroDomain = spec.dashboard.heroDomain;
-  DASH.visuals = spec.dashboard.visuals;
-  DASH.filters = {};
+  // ── DASHBOARD SETUP ──
+  DASH.headers=headers; DASH.data=data; DASH.cols=cols;
+  DASH.numCols=numCols; DASH.catCols=catCols; DASH.dateCol=dateCol0(cols);
+  DASH.health=health; DASH.completeness=completeness;
+  // headline numeric metric = largest-magnitude mean
+  DASH.metric=numCols.slice().sort((a,b)=>(Math.abs(b.stats?b.stats.mean:0))-(Math.abs(a.stats?a.stats.mean:0)))[0]||null;
+  // up to 4 categorical filters (fewest unique values first = most useful as slicers)
+  DASH.filterCols=catCols.slice().sort((a,b)=>a.uniq-b.uniq).filter(c=>c.uniq<=12).slice(0,4);
+  DASH.filters={}; // {colName: Set(selectedValues)}
   buildFilterPanel();
   renderDashboard();
 
-  // ── DETAIL CHARTS — driven by spec.charts ──
-  requestAnimationFrame(() => {
-    Chart.defaults.font.family = "'Inter',sans-serif";
-    spec.charts.slice(0,4).forEach((d,i) => {
-      const cv = $('ch' + i); if (!cv) return;
-      const ctx = cv.getContext('2d');
-      if (d.kind === 'hist') {
-        const c = cols.find(x => x.name === d.colName);
-        const h = histogram(c.nums, 12);
-        charts.push(new Chart(ctx, { type:'bar', data:{labels:h.map(b=>b.label), datasets:[{data:h.map(b=>b.count), backgroundColor:'#00d4ff', borderRadius:4}]}, options: baseOpt() }));
-      } else if (d.kind === 'bar') {
-        const c = cols.find(x => x.name === d.colName);
-        const f = freq(c.values, 8);
-        charts.push(new Chart(ctx, { type:'bar', data:{labels:f.map(x=>x[0]), datasets:[{data:f.map(x=>x[1]), backgroundColor:'#5b9dff', borderRadius:4}]}, options: {...baseOpt(), indexAxis:'y'} }));
-      } else if (d.kind === 'line') {
-        const agg = {};
-        data.forEach(r => { const k = String(r[d.dateName]).slice(0,7); const v = toNum(r[d.valName]); if (!isNaN(v) && k.length >= 7) agg[k] = (agg[k] || 0) + v; });
-        const keys = Object.keys(agg).sort();
-        charts.push(new Chart(ctx, { type:'line', data:{labels:keys, datasets:[{data:keys.map(k=>agg[k]), borderColor:'#00d4ff', backgroundColor:'rgba(0,212,255,0.1)', fill:true, tension:0.3, pointRadius:3, pointBackgroundColor:'#00d4ff'}]}, options: baseOpt() }));
-      } else if (d.kind === 'group') {
-        const agg = {};
-        data.forEach(r => { const k = String(r[d.catName] == null ? '(blank)' : r[d.catName]); const v = toNum(r[d.valName]); if (!isNaN(v)) agg[k] = (agg[k] || 0) + v; });
-        const ent = Object.entries(agg).sort((a,b) => b[1] - a[1]).slice(0,8);
-        charts.push(new Chart(ctx, { type:'bar', data:{labels:ent.map(e=>e[0]), datasets:[{data:ent.map(e=>e[1]), backgroundColor:'#10d9a0', borderRadius:4}]}, options: baseOpt() }));
+  // RENDER CHARTS (legacy detailed section below the dashboard)
+  requestAnimationFrame(()=>{
+    Chart.defaults.font.family="'Inter',sans-serif";
+    chartDefs.slice(0,4).forEach((d,i)=>{
+      const cv=$('ch'+i);if(!cv)return;const ctx=cv.getContext('2d');
+      if(d.kind==='hist'){
+        const h=histogram(d.col.nums,12);
+        charts.push(new Chart(ctx,{type:'bar',data:{labels:h.map(b=>b.label),datasets:[{data:h.map(b=>b.count),backgroundColor:'#00d4ff',borderRadius:4}]},options:baseOpt()}));
+      }else if(d.kind==='bar'){
+        const f=freq(d.col.values,8);
+        charts.push(new Chart(ctx,{type:'bar',data:{labels:f.map(x=>x[0]),datasets:[{data:f.map(x=>x[1]),backgroundColor:'#5b9dff',borderRadius:4}]},options:{...baseOpt(),indexAxis:'y'}}));
+      }else if(d.kind==='line'){
+        const agg={};data.forEach(r=>{const dt=r[d.date.name];const k=String(dt).slice(0,7);const v=toNum(r[d.val.name]);if(!isNaN(v))agg[k]=(agg[k]||0)+v;});
+        const keys=Object.keys(agg).sort();
+        charts.push(new Chart(ctx,{type:'line',data:{labels:keys,datasets:[{data:keys.map(k=>agg[k]),borderColor:'#00d4ff',backgroundColor:'rgba(0,212,255,0.1)',fill:true,tension:0.3,pointRadius:3,pointBackgroundColor:'#00d4ff'}]},options:baseOpt()}));
+      }else if(d.kind==='group'){
+        const agg={};data.forEach(r=>{const k=String(r[d.cat.name]==null?'(blank)':r[d.cat.name]);const v=toNum(r[d.val.name]);if(!isNaN(v))agg[k]=(agg[k]||0)+v;});
+        const ent=Object.entries(agg).sort((a,b)=>b[1]-a[1]).slice(0,8);
+        charts.push(new Chart(ctx,{type:'bar',data:{labels:ent.map(e=>e[0]),datasets:[{data:ent.map(e=>e[1]),backgroundColor:'#10d9a0',borderRadius:4}]},options:baseOpt()}));
       }
     });
   });
@@ -1235,109 +1008,74 @@ function toggleFilters(){
 }
 
 function renderDashboard(){
-  const rows = getFilteredRows();
-  const total = DASH.data.length;
-  const f = DASH.filters || {};
-  const activeBits = Object.keys(f).filter(k => f[k] && f[k].size).map(k => `${k}: ${[...f[k]].join(', ')}`);
-  $('activeNote').textContent = activeBits.length ? `Filtered → ${activeBits.join('  ·  ')}  (${rows.length.toLocaleString()} of ${total.toLocaleString()} rows)` : '';
-  const m = DASH.metric;
-  const hint = DASH.formatHint || {};
-  const heroNumEl = $('heroNumber'), heroDeltaEl = $('heroDelta'), heroSubEl = $('heroSub'), heroChartCanvas = $('heroChart');
-  if (heroNumEl) {
-    let big;
-    if (m) { const vals = rows.map(r => toNum(r[m.name])).filter(v => !isNaN(v)); const sum = vals.reduce((a,b)=>a+b,0); big = smartFmt(sum, hint); }
-    else big = rows.length.toLocaleString();
-    heroNumEl.textContent = big;
+  const rows=getFilteredRows();
+  const total=DASH.data.length;
+  // active note
+  const f=DASH.filters||{};
+  const activeBits=Object.keys(f).filter(k=>f[k]&&f[k].size).map(k=>`${k}: ${[...f[k]].join(', ')}`);
+  $('activeNote').textContent=activeBits.length?`Filtered → ${activeBits.join('  ·  ')}  (${rows.length.toLocaleString()} of ${total.toLocaleString()} rows)`:'';
+
+  // ── KPIs ──
+  const m=DASH.metric;
+  let kpis='';
+  if(m){
+    const vals=rows.map(r=>toNum(r[m.name])).filter(v=>!isNaN(v));
+    const sum=vals.reduce((a,b)=>a+b,0), avg=vals.length?sum/vals.length:0;
+    kpis+=`<div class="dash-kpi"><div class="k-n">${fmt(sum)}</div><div class="k-l">Total ${esc(short(m.name))}</div></div>`;
+    kpis+=`<div class="dash-kpi"><div class="k-n">${fmt(avg)}</div><div class="k-l">Avg ${esc(short(m.name))}</div></div>`;
+  }else{
+    kpis+=`<div class="dash-kpi"><div class="k-n">${rows.length.toLocaleString()}</div><div class="k-l">Rows</div></div>`;
+    kpis+=`<div class="dash-kpi"><div class="k-n">${DASH.cols.length}</div><div class="k-l">Columns</div></div>`;
   }
-  if (heroDeltaEl) {
-    let html = '';
-    if (m && DASH.dateCol) {
-      const d = computeHalfDelta(rows, m.name, DASH.dateCol.name);
-      if (d) {
-        const sign = d.dir === 'up' ? '↑' : d.dir === 'down' ? '↓' : '·';
-        const pct = Math.abs(d.deltaPct).toFixed(d.deltaPct >= 100 ? 0 : 1);
-        html = `${sign} ${pct}% vs first half`;
-        heroDeltaEl.className = 'dash-hero-delta ' + d.dir;
-      }
-    }
-    heroDeltaEl.style.display = html ? 'inline-flex' : 'none';
-    heroDeltaEl.textContent = html;
+  kpis+=`<div class="dash-kpi"><div class="k-n">${rows.length.toLocaleString()}</div><div class="k-l">Records</div></div>`;
+  kpis+=`<div class="dash-kpi"><div class="k-n">${DASH.health}</div><div class="k-l">Health score</div></div>`;
+  $('dashKpis').innerHTML=kpis;
+
+  // ── 4 VISUALS ──
+  // decide which 4 to show based on available data
+  const grid=$('dashGrid');
+  const viz=[];
+  if(DASH.dateCol&&m)viz.push({id:'dv0',kind:'trend',title:`${short(m.name)} over time`,sub:'Monthly trend'});
+  if(DASH.catCols.length&&m)viz.push({id:'dv1',kind:'byCat',cat:DASH.catCols.slice().sort((a,b)=>a.uniq-b.uniq)[0],title:`${short(m.name)} by ${short(DASH.catCols.slice().sort((a,b)=>a.uniq-b.uniq)[0].name)}`,sub:'Totals per group'});
+  if(DASH.catCols.length>1&&m)viz.push({id:'dv2',kind:'byCat',cat:DASH.catCols.slice().sort((a,b)=>a.uniq-b.uniq)[1],title:`${short(m.name)} by ${short(DASH.catCols.slice().sort((a,b)=>a.uniq-b.uniq)[1].name)}`,sub:'Totals per group'});
+  if(m)viz.push({id:'dv3',kind:'dist',col:m,title:`${short(m.name)} distribution`,sub:'How values spread'});
+  // fallbacks if not enough numeric/date
+  while(viz.length<4&&DASH.catCols.length>=(viz.filter(v=>v.kind==='count').length+1)){
+    const used=viz.filter(v=>v.cat).map(v=>v.cat.name);
+    const next=DASH.catCols.find(c=>!used.includes(c.name));
+    if(!next)break;
+    viz.push({id:'dv'+viz.length,kind:'count',cat:next,title:`${short(next.name)} breakdown`,sub:'Record count'});
   }
-  if (heroSubEl) {
-    let span = '';
-    if (DASH.dateCol) {
-      const dates = rows.map(r => Date.parse(r[DASH.dateCol.name])).filter(t => !isNaN(t));
-      if (dates.length) { const min = new Date(Math.min(...dates)), max = new Date(Math.max(...dates)); const fmtD = d => d.toLocaleDateString('en-US', { month:'short', year:'numeric' }); span = `<b>${fmtD(min)} – ${fmtD(max)}</b>`; }
-    }
-    const dim = DASH.filterCols.length ? `, sliceable by <b>${DASH.filterCols.map(c => c.name).join('</b>, <b>')}</b>` : '';
-    const dom = DASH.heroDomain ? `${DASH.heroDomain} data — ` : '';
-    heroSubEl.innerHTML = `${dom}<b>${rows.length.toLocaleString()}</b> records${span ? ' over ' + span : ''}${dim}.`;
-  }
-  let kpis = '';
-  if (m) {
-    const vals = rows.map(r => toNum(r[m.name])).filter(v => !isNaN(v));
-    const sum = vals.reduce((a,b) => a+b, 0), avg = vals.length ? sum/vals.length : 0;
-    kpis += `<div class="dash-kpi"><div class="k-n">${smartFmt(sum, hint)}</div><div class="k-l">Total ${esc(short(m.name))}</div></div>`;
-    kpis += `<div class="dash-kpi"><div class="k-n">${smartFmt(avg, hint)}</div><div class="k-l">Avg ${esc(short(m.name))}</div></div>`;
-  } else {
-    kpis += `<div class="dash-kpi"><div class="k-n">${rows.length.toLocaleString()}</div><div class="k-l">Rows</div></div>`;
-    kpis += `<div class="dash-kpi"><div class="k-n">${DASH.cols.length}</div><div class="k-l">Columns</div></div>`;
-  }
-  kpis += `<div class="dash-kpi"><div class="k-n">${rows.length.toLocaleString()}</div><div class="k-l">Records</div></div>`;
-  kpis += `<div class="dash-kpi"><div class="k-n">${DASH.health}</div><div class="k-l">Health score</div></div>`;
-  $('dashKpis').innerHTML = kpis;
-  const grid = $('dashGrid');
-  const viz = (DASH.visuals || []).slice(0,3).map((v,i) => Object.assign({}, v, { id: 'dv' + i }));
-  grid.innerHTML = viz.length
-    ? viz.map(v => `<div class="dash-viz"><h5>${esc(v.title)}</h5><div class="v-sub">${esc(v.sub)}</div><div class="v-wrap"><canvas id="${v.id}"></canvas></div></div>`).join('')
-    : '<div class="dash-viz"><h5>Not enough structured data</h5><div class="v-sub">Upload data with numbers, categories, or dates to see charts.</div></div>';
-  dashCharts.forEach(c => { try { c.destroy(); } catch(e){} });
-  dashCharts = [];
-  requestAnimationFrame(() => {
-    if (heroChartCanvas) {
-      const ctx = heroChartCanvas.getContext('2d');
-      const kind = DASH.heroChartKind;
-      if (kind === 'trend' && m && DASH.dateCol) {
-        const agg = {};
-        rows.forEach(r => { const k = String(r[DASH.dateCol.name]).slice(0,7); const v = toNum(r[m.name]); if (!isNaN(v) && k.length>=7) agg[k] = (agg[k]||0)+v; });
-        const keys = Object.keys(agg).sort();
-        dashCharts.push(new Chart(ctx, { type:'line', data:{ labels:keys, datasets:[{ data:keys.map(k=>agg[k]), borderColor:'#00d4ff', backgroundColor:'rgba(0,212,255,0.18)', fill:true, tension:0.32, pointRadius:0, pointHoverRadius:5, pointHoverBackgroundColor:'#00d4ff', borderWidth:2.5 }] }, options: heroOpt(hint) }));
-      } else if (kind === 'dist' && m) {
-        const nums = rows.map(r => toNum(r[m.name])).filter(x => !isNaN(x));
-        const h = histogram(nums, 14);
-        dashCharts.push(new Chart(ctx, { type:'bar', data:{ labels:h.map(b=>b.label), datasets:[{ data:h.map(b=>b.count), backgroundColor:'#00d4ff', borderRadius:3 }] }, options: heroOpt(hint) }));
-      } else if (kind === 'count' && DASH.catCols.length) {
-        const cat = DASH.catCols[0];
-        const agg = {};
-        rows.forEach(r => { const k = String(r[cat.name]==null?'(blank)':r[cat.name]); agg[k]=(agg[k]||0)+1; });
-        const ent = Object.entries(agg).sort((a,b)=>b[1]-a[1]).slice(0,8);
-        dashCharts.push(new Chart(ctx, { type:'bar', data:{ labels:ent.map(e=>e[0]), datasets:[{ data:ent.map(e=>e[1]), backgroundColor:'#00d4ff', borderRadius:3 }] }, options: heroOpt() }));
-      }
-    }
-    viz.forEach(v => {
-      const cv = $(v.id); if (!cv) return;
-      const ctx = cv.getContext('2d');
-      if (v.kind === 'byCat') {
-        const agg = {};
-        rows.forEach(r => { const k = String(r[v.catName]==null?'(blank)':r[v.catName]); const val = toNum(r[m.name]); if (!isNaN(val)) agg[k]=(agg[k]||0)+val; });
-        const ent = Object.entries(agg).sort((a,b)=>b[1]-a[1]).slice(0,8);
-        dashCharts.push(new Chart(ctx, { type:'bar', data:{ labels:ent.map(e=>e[0]), datasets:[{ data:ent.map(e=>e[1]), backgroundColor:'#5b9dff', borderRadius:4 }] }, options: Object.assign({}, baseOpt(hint), { indexAxis:'y' }) }));
-      } else if (v.kind === 'dist') {
-        const nums = rows.map(r => toNum(r[m.name])).filter(x => !isNaN(x));
-        const h = histogram(nums, 10);
-        dashCharts.push(new Chart(ctx, { type:'bar', data:{ labels:h.map(b=>b.label), datasets:[{ data:h.map(b=>b.count), backgroundColor:'#10d9a0', borderRadius:4 }] }, options: baseOpt(hint) }));
-      } else if (v.kind === 'count') {
-        const agg = {};
-        rows.forEach(r => { const k = String(r[v.catName]==null?'(blank)':r[v.catName]); agg[k]=(agg[k]||0)+1; });
-        const ent = Object.entries(agg).sort((a,b)=>b[1]-a[1]).slice(0,8);
-        dashCharts.push(new Chart(ctx, { type:'bar', data:{ labels:ent.map(e=>e[0]), datasets:[{ data:ent.map(e=>e[1]), backgroundColor:'#f59e0b', borderRadius:4 }] }, options: baseOpt() }));
+  grid.innerHTML=viz.slice(0,4).map(v=>`<div class="dash-viz"><h5>${esc(v.title)}</h5><div class="v-sub">${v.sub}</div><div class="v-wrap"><canvas id="${v.id}"></canvas></div></div>`).join('')
+    || '<div class="dash-viz"><h5>Not enough structured data</h5><div class="v-sub">Upload data with numbers, categories, or dates to see charts.</div></div>';
+
+  // destroy old dashboard charts then draw
+  dashCharts.forEach(c=>{try{c.destroy();}catch(e){}});dashCharts=[];
+  requestAnimationFrame(()=>{
+    viz.slice(0,4).forEach(v=>{
+      const cv=$(v.id);if(!cv)return;const ctx=cv.getContext('2d');
+      if(v.kind==='trend'){
+        const agg={};rows.forEach(r=>{const k=String(r[DASH.dateCol.name]).slice(0,7);const val=toNum(r[m.name]);if(!isNaN(val)&&k.length>=7)agg[k]=(agg[k]||0)+val;});
+        const keys=Object.keys(agg).sort();
+        dashCharts.push(new Chart(ctx,{type:'line',data:{labels:keys,datasets:[{data:keys.map(k=>agg[k]),borderColor:'#00d4ff',backgroundColor:'rgba(0,212,255,0.12)',fill:true,tension:0.3,pointRadius:2,pointBackgroundColor:'#00d4ff'}]},options:baseOpt()}));
+      }else if(v.kind==='byCat'){
+        const agg={};rows.forEach(r=>{const k=String(r[v.cat.name]==null?'(blank)':r[v.cat.name]);const val=toNum(r[m.name]);if(!isNaN(val))agg[k]=(agg[k]||0)+val;});
+        const ent=Object.entries(agg).sort((a,b)=>b[1]-a[1]).slice(0,8);
+        dashCharts.push(new Chart(ctx,{type:'bar',data:{labels:ent.map(e=>e[0]),datasets:[{data:ent.map(e=>e[1]),backgroundColor:'#5b9dff',borderRadius:4}]},options:{...baseOpt(),indexAxis:'y'}}));
+      }else if(v.kind==='dist'){
+        const nums=rows.map(r=>toNum(r[v.col.name])).filter(x=>!isNaN(x));
+        const h=histogram(nums,10);
+        dashCharts.push(new Chart(ctx,{type:'bar',data:{labels:h.map(b=>b.label),datasets:[{data:h.map(b=>b.count),backgroundColor:'#10d9a0',borderRadius:4}]},options:baseOpt()}));
+      }else if(v.kind==='count'){
+        const agg={};rows.forEach(r=>{const k=String(r[v.cat.name]==null?'(blank)':r[v.cat.name]);agg[k]=(agg[k]||0)+1;});
+        const ent=Object.entries(agg).sort((a,b)=>b[1]-a[1]).slice(0,8);
+        dashCharts.push(new Chart(ctx,{type:'bar',data:{labels:ent.map(e=>e[0]),datasets:[{data:ent.map(e=>e[1]),backgroundColor:'#f59e0b',borderRadius:4}]},options:baseOpt()}));
       }
     });
   });
 }
 
-function baseOpt(hint){ return { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false }, tooltip: { backgroundColor: '#0a1628', titleColor: '#f0f6ff', titleFont: { family: "'Space Grotesk', sans-serif", weight: '700', size: 11 }, bodyColor: '#c8d8f0', bodyFont: { family: "'Inter', sans-serif", size: 11 }, padding: 10, cornerRadius: 8, borderColor: 'rgba(0,212,255,0.25)', borderWidth: 1, displayColors: false, callbacks: { label: ctx => ' ' + smartFmt(ctx.parsed && ctx.parsed.y != null ? ctx.parsed.y : (ctx.parsed && ctx.parsed.x != null ? ctx.parsed.x : ctx.parsed), hint) } } }, scales: { x: { grid: { display: false }, ticks: { color: '#7a90b8', font: { size: 10, family: "'Inter',sans-serif" }, maxRotation: 0, autoSkipPadding: 14 } }, y: { grid: { color: 'rgba(8,14,30,0.06)' }, ticks: { color: '#7a90b8', font: { size: 10, family: "'Inter',sans-serif" }, callback: v => smartFmt(v, hint) } } } }; }
-function heroOpt(hint){ return { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false }, tooltip: { backgroundColor: '#050e1f', titleColor: '#f0f6ff', titleFont: { family: "'Space Grotesk', sans-serif", weight: '700', size: 11 }, bodyColor: '#aef0ff', bodyFont: { family: "'Inter', sans-serif", size: 11 }, padding: 10, cornerRadius: 8, borderColor: 'rgba(0,212,255,0.35)', borderWidth: 1, displayColors: false, callbacks: { label: ctx => ' ' + smartFmt(ctx.parsed && ctx.parsed.y != null ? ctx.parsed.y : (ctx.parsed && ctx.parsed.x != null ? ctx.parsed.x : ctx.parsed), hint) } } }, scales: { x: { grid: { display: false }, ticks: { color: 'rgba(220,232,255,0.45)', font: { size: 10, family: "'Inter',sans-serif" }, maxRotation: 0, autoSkipPadding: 14 } }, y: { grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: 'rgba(220,232,255,0.45)', font: { size: 10, family: "'Inter',sans-serif" }, callback: v => smartFmt(v, hint) } } } }; }
+function baseOpt(){return{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{backgroundColor:'#0a1628',padding:9,cornerRadius:7}},scales:{x:{grid:{display:false},ticks:{color:'#7a90b8',font:{size:10},maxRotation:45}},y:{grid:{color:'rgba(8,14,30,0.06)'},ticks:{color:'#7a90b8',font:{size:10}}}}};}
 
 function dateCol0(cols){return cols.find(c=>c.type==='date')||null;}
 

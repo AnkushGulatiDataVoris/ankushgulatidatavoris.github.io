@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Sello — built and run by Datavoris</title>
+<meta name="description" content="The story of Sello — a production SaaS built and operated by Datavoris."/>
+<link rel="icon" type="image/svg+xml" href="favicon.svg?v=2"/>
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png?v=2"/>
+<link rel="shortcut icon" href="favicon.ico?v=2"/>
+<meta name="theme-color" content="#0a1628"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="dv-style.css?v=5"/>
+<style>
+.pp-hero{background:linear-gradient(180deg,var(--navy-800) 0%,var(--navy-900) 100%);padding:4rem 0 3rem;position:relative;overflow:hidden;}
+.pp-hero::before{content:'';position:absolute;top:-100px;right:-60px;width:520px;height:520px;background:radial-gradient(circle,rgba(0,212,255,0.12),transparent 65%);pointer-events:none;}
+.pp-hero::after{content:'';position:absolute;bottom:-120px;left:-80px;width:420px;height:420px;background:radial-gradient(circle,rgba(91,157,255,0.10),transparent 65%);pointer-events:none;}
+.pp-hero-inner{position:relative;z-index:1;max-width:760px;}
+.pp-back{display:inline-flex;align-items:center;gap:6px;font-size:0.82rem;color:var(--text-500);text-decoration:none;margin-bottom:1.5rem;transition:color 0.15s;}
+.pp-back:hover{color:var(--cyan);}
+.pp-status{display:inline-flex;align-items:center;gap:0.45rem;font-size:0.66rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:#34e8b3;background:rgba(16,217,160,0.15);border:1px solid rgba(16,217,160,0.3);border-radius:999px;padding:0.28rem 0.85rem;margin-bottom:1.1rem;}
+.pp-status::before{content:'';width:7px;height:7px;border-radius:50%;background:#34e8b3;box-shadow:0 0 0 4px rgba(16,217,160,0.18);animation:pp-pulse 1.6s ease-in-out infinite;}
+@keyframes pp-pulse{0%,100%{opacity:1;}50%{opacity:0.5;}}
+.pp-title{color:var(--text-100);font-family:var(--font-display);font-size:clamp(2.4rem,5vw,3.6rem);font-weight:900;letter-spacing:-0.04em;line-height:1.05;margin-bottom:1rem;}
+.pp-title em{font-style:normal;background:linear-gradient(135deg,var(--cyan),#5b9dff);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;}
+.pp-tagline{font-size:1.15rem;color:var(--text-300);line-height:1.65;max-width:620px;margin-bottom:1.8rem;}
+.pp-meta{display:flex;align-items:center;gap:0.6rem;flex-wrap:wrap;font-size:0.75rem;color:var(--text-500);margin-bottom:2rem;}
+.pp-meta b{color:var(--text-100);font-weight:600;}
+.pp-meta .pp-sep{width:3px;height:3px;border-radius:50%;background:var(--text-700);}
+.pp-actions{display:flex;gap:0.8rem;flex-wrap:wrap;}
+
+.pp-body{max-width:740px;margin:0 auto;padding:3.5rem 1.5rem 1rem;}
+.pp-body h2{font-family:var(--font-display);font-size:1.55rem;color:var(--on-white-900);margin:2.6rem 0 1rem;letter-spacing:-0.02em;padding-left:1rem;border-left:3px solid var(--cyan);}
+.pp-body h2:first-of-type{margin-top:0;}
+.pp-body p{font-size:1.04rem;color:var(--on-white-700);line-height:1.85;margin-bottom:1.3rem;}
+.pp-body p b{color:var(--on-white-900);font-weight:600;}
+
+.pp-capabilities{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin:1.5rem 0 2rem;}
+.pp-cap{background:var(--surface-card);border:1px solid var(--border-white);border-radius:var(--r-md);padding:1.3rem 1.2rem;}
+.pp-cap-num{display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:8px;background:rgba(0,212,255,0.08);border:1px solid rgba(0,212,255,0.2);color:var(--cyan);font-family:var(--font-display);font-weight:800;font-size:0.9rem;margin-bottom:0.7rem;}
+.pp-cap h3{font-size:0.95rem;color:var(--on-white-900);margin-bottom:0.4rem;letter-spacing:-0.01em;}
+.pp-cap p{font-size:0.85rem;color:var(--on-white-500);line-height:1.65;margin:0;}
+
+.pp-stack{display:flex;flex-wrap:wrap;gap:0.5rem;margin:1rem 0 2rem;}
+.pp-stack span{font-size:0.72rem;font-weight:600;color:var(--navy-800);background:rgba(0,212,255,0.1);border:1px solid rgba(0,212,255,0.18);border-radius:999px;padding:0.3rem 0.8rem;}
+
+.pp-shot{margin:2.5rem auto 2rem;position:relative;text-align:center;padding:3rem 1rem 1rem;background:radial-gradient(ellipse at center,rgba(251,146,60,0.10),transparent 65%);border-radius:var(--r-xl);}
+.pp-shot::before{content:'';position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:340px;height:340px;background:radial-gradient(circle,rgba(0,212,255,0.06),transparent 60%);pointer-events:none;}
+.pp-shot img{display:block;max-width:300px;width:100%;height:auto;margin:0 auto;filter:drop-shadow(0 30px 60px rgba(10,22,40,0.25)) drop-shadow(0 10px 24px rgba(10,22,40,0.12));position:relative;z-index:1;}
+.pp-shot-cap{display:inline-flex;align-items:center;gap:0.5rem;margin-top:1.4rem;font-size:0.78rem;font-weight:600;color:var(--on-white-500);background:rgba(255,255,255,0.7);border:1px solid var(--border-white);border-radius:999px;padding:0.4rem 0.9rem;position:relative;z-index:1;backdrop-filter:blur(6px);}
+.pp-shot-cap::before{content:'';width:7px;height:7px;border-radius:50%;background:#34e8b3;box-shadow:0 0 0 3px rgba(52,232,179,0.2);}
+
+.pp-cta{background:linear-gradient(135deg,var(--navy-800),var(--navy-700));border-radius:var(--r-xl);padding:3rem 2.5rem;text-align:center;margin:3rem auto;max-width:740px;position:relative;overflow:hidden;}
+.pp-cta::after{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--cyan),#5b9dff,var(--cyan));background-size:200% auto;animation:pp-sh 3s linear infinite;}
+@keyframes pp-sh{to{background-position:200% center;}}
+.pp-cta h2{color:var(--text-100);font-size:1.5rem;border:none;padding:0;margin:0 0 0.6rem;}
+.pp-cta p{color:var(--text-500);font-size:0.95rem;max-width:480px;margin:0 auto 1.6rem;line-height:1.7;}
+.pp-cta-actions{display:flex;gap:0.9rem;justify-content:center;flex-wrap:wrap;}
+
+@media(max-width:680px){.pp-capabilities{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+
+<nav class="site-nav">
+  <div class="container nav-inner">
+    <a href="index.html" class="nav-logo"><span class="nav-logo-mark"><svg viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="nslo" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#00d4ff"/><stop offset="1" stop-color="#5b9dff"/></linearGradient></defs><g stroke="url(#nslo)" stroke-width="9" stroke-linecap="round" fill="none"><path d="M128 70 L186 104 L186 152 L128 186 L70 152 L70 104 Z"/><line x1="128" y1="70" x2="128" y2="128"/><line x1="186" y1="152" x2="128" y2="128"/><line x1="70" y1="152" x2="128" y2="128"/></g><g fill="#00d4ff"><circle cx="128" cy="70" r="11"/><circle cx="186" cy="104" r="9"/><circle cx="186" cy="152" r="9"/><circle cx="128" cy="186" r="11"/><circle cx="70" cy="152" r="9"/><circle cx="70" cy="104" r="9"/></g><circle cx="128" cy="128" r="14" fill="#aef0ff"/></svg></span>Datavoris</a>
+    <div class="nav-links" id="navLinks">
+      <a href="index.html#services">Services</a>
+      <a href="index.html#tools">Tools</a>
+      <a href="index.html#work">Work</a>
+      <a href="products.html" class="active">Products</a>
+      <a href="dv-founder.html">About</a>
+      <a href="blog.html">Blog</a>
+      <a href="dv-assessment.html">Assessment</a>
+      <a href="dv-analyzer.html">Analyzer</a>
+      <a href="index.html#contact">Contact</a>
+      <div class="nav-cta-mobile"><a href="index.html#contact">Let's talk</a></div>
+    </div>
+    <button class="nav-hamburger" id="navToggle" aria-label="Menu" aria-expanded="false" onclick="(function(b){var l=document.getElementById('navLinks');var d=document.getElementById('navBackdrop');var o=!l.classList.contains('open');l.classList.toggle('open',o);b.classList.toggle('open',o);if(d)d.classList.toggle('open',o);b.setAttribute('aria-expanded',o?'true':'false');})(this)">
+      <svg class="menu-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="4" y1="7" x2="20" y2="7"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="17" x2="20" y2="17"/></svg>
+      <svg class="x-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="6" y1="6" x2="18" y2="18"/><line x1="18" y1="6" x2="6" y2="18"/></svg>
+    </button>
+    <a href="index.html#contact" class="btn btn-cyan btn-sm">Let's talk</a>
+  </div>
+</nav>
+<div class="nav-backdrop" id="navBackdrop" onclick="document.getElementById('navToggle').click()"></div>
+
+<!-- Story page for Sello. Content sourced from sello.datavoris.com on first build — edit freely. -->
+
+<section class="pp-hero">
+  <div class="container pp-hero-inner">
+    <a href="products.html" class="pp-back">← All products</a>
+    <span class="pp-status">Live in production</span>
+    <h1 class="pp-title">Sello — run your shop from your <em>phone</em>.</h1>
+    <p class="pp-tagline">AI + WhatsApp for small retailers. Track inventory, sales, and payments by talking to your phone — built for shop owners who'd rather <em>sell</em> than spreadsheet.</p>
+    <div class="pp-meta">
+      <span>Live since <b>2025</b></span>
+      <span class="pp-sep"></span>
+      <span>Built &amp; run by <b>Datavoris</b></span>
+      <span class="pp-sep"></span>
+      <span>Production · real customers</span>
+    </div>
+    <div class="pp-actions">
+      <a href="https://sello.datavoris.com" target="_blank" rel="noopener" class="btn btn-cyan">Open Sello ↗</a>
+      <a href="index.html#contact" class="btn btn-outline-navy">Talk to me about building yours</a>
+    </div>
+  </div>
+</section>
+
+<article class="pp-body">
+
+  <h2>The why</h2>
+  <p>Walk into any small shop in India and you'll see the same three tools running the business: a <b>thick notebook</b> with the day's sales, an <b>Excel sheet</b> nobody opens after Friday, and a <b>WhatsApp chat</b> that's three years deep with customer payment reminders. Together they sort of work — until the owner wants to know which products actually make money, or which customer hasn't paid in two months.</p>
+  <p>The honest answer was always: <i>nobody knows.</i> Existing software either felt like enterprise ERP cosplay — too many tabs, too much English, too desktop-first — or it stopped at "make a bill" and ignored everything else. So I built Sello. One app, on the phone that's already in their pocket, that talks the way they actually run the shop.</p>
+
+  <h2>What Sello does</h2>
+  <p>Sello replaces the notebook, the Excel sheet, and most of the WhatsApp chaos. The shop owner <b>speaks or types a sale</b> in plain English or Hindi — "sold 2 red kurtis to Priya for ₹2400" — and Sello does the rest: stock updates automatically, profit is calculated on every bill, a GST-compliant invoice goes out on WhatsApp, and the payment reminder is queued for next week. The owner gets to do what they're good at: sell.</p>
+
+  <div class="pp-capabilities">
+    <div class="pp-cap">
+      <div class="pp-cap-num">1</div>
+      <h3>Speak your sales</h3>
+      <p>Voice or text — "Sold 2 red kurtis to Priya for ₹2400" — and the entry's done in 5 seconds. AI handles the messy human input so shop owners never have to think in spreadsheet terms.</p>
+    </div>
+    <div class="pp-cap">
+      <div class="pp-cap-num">2</div>
+      <h3>Inventory that tracks itself</h3>
+      <p>Every sale updates stock automatically — sizes, colours, photos and all. Low-stock alerts fire before you run out, so you never lose a sale to a missing SKU.</p>
+    </div>
+    <div class="pp-cap">
+      <div class="pp-cap-num">3</div>
+      <h3>WhatsApp does the work</h3>
+      <p>GST-compliant invoices and payment reminders go out on the channel your customers already use. One tap, sent. No PDF downloads, no email chains.</p>
+    </div>
+  </div>
+
+  <h2>Who it's for</h2>
+  <p>Boutiques, garment shops, footwear, cosmetics, gift shops, home sellers — small Indian retailers running on phones, juggling 50–500 SKUs, and chasing payments at the end of every month. <b>Free to start, no credit card, works on any phone.</b></p>
+
+  <h2>Under the hood</h2>
+  <p>Built mobile-first because every customer is on a phone, not a laptop. AI does the heavy lifting on the messy parts — partial product names, mixed languages, voice memos — so the shop owner never has to think in fields and forms. The stack is intentionally boring where it can be (so it's reliable for someone whose business depends on it) and intentionally interesting where it has to be (the AI input layer, the WhatsApp Business API integration, the GST invoice generator).</p>
+  <div class="pp-stack">
+    <span>Mobile-first PWA</span>
+    <span>AI-powered entry</span>
+    <span>WhatsApp Business API</span>
+    <span>GST-compliant invoicing</span>
+    <span>Real-time stock sync</span>
+  </div>
+
+  <h2>See it in action</h2>
+  <p>Sello lives where the shop already does — on the phone in the owner's apron pocket. Speak a sale, watch stock update, send the invoice on WhatsApp. The whole loop is seconds long.</p>
+  <div class="pp-shot">
+    <img src="mockups/sello-mobile.svg" alt="Sello mobile app — Priya's Boutique home screen showing today's sales (₹8,420, up 23%), a voice-input button labelled 'Speak your sale', and recent sales feed with WhatsApp invoice indicators." loading="lazy"/>
+    <div class="pp-shot-cap">Illustrative — real app live at sello.datavoris.com</div>
+  </div>
+
+  <h2>Why this matters for your business</h2>
+  <p>Sello started as one frustration — watching shop owners do the work twice, once in real life and once in a notebook — and became a working business with paying users. The muscle that bridges those two states (from "this would be useful" to "people are using it daily") is what I bring into client engagements.</p>
+  <p>It's a different muscle from pure advisory work. It's the difference between recommending a system and <b>shipping</b> one. If you've got a workflow inside your business that feels like Sello's "notebook + Excel + WhatsApp" — too many tools, no single source of truth, everyone in their own version of the spreadsheet — that's exactly the shape of problem I like to solve.</p>
+
+</article>
+
+<div class="container">
+  <div class="pp-cta">
+    <h2>Want something like Sello, built for your business?</h2>
+    <p>I take ideas from "this would be useful" to "live in the market" — usually in weeks, not months. Send me the idea and I'll tell you honestly what it would take.</p>
+    <div class="pp-cta-actions">
+      <a href="https://sello.datavoris.com" target="_blank" rel="noopener" class="btn btn-cyan">See Sello live ↗</a>
+      <a href="index.html#contact" class="btn btn-outline-navy">Book a discovery call</a>
+    </div>
+  </div>
+</div>
+
+<footer class="site-footer">
+  <div class="container footer-inner">
+    <div>
+      <div class="footer-logo"><span class="nav-logo-mark" style="width:26px;height:26px"><svg viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="nslf" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#00d4ff"/><stop offset="1" stop-color="#5b9dff"/></linearGradient></defs><g stroke="url(#nslf)" stroke-width="9" stroke-linecap="round" fill="none"><path d="M128 70 L186 104 L186 152 L128 186 L70 152 L70 104 Z"/><line x1="128" y1="70" x2="128" y2="128"/><line x1="186" y1="152" x2="128" y2="128"/><line x1="70" y1="152" x2="128" y2="128"/></g><g fill="#00d4ff"><circle cx="128" cy="70" r="11"/><circle cx="186" cy="104" r="9"/><circle cx="186" cy="152" r="9"/><circle cx="128" cy="186" r="11"/><circle cx="70" cy="152" r="9"/><circle cx="70" cy="104" r="9"/></g><circle cx="128" cy="128" r="14" fill="#aef0ff"/></svg></span>Datavoris</div>
+      <p class="footer-tagline">Automated data solutions for modern teams.</p>
+    </div>
+    <div class="footer-right">
+      <p>© <span id="yr"></span> Datavoris · Agra, India · Remote worldwide</p>
+      <p class="footer-meta">Power BI · Fabric · Python · OpenAI · Zapier · Google Sheets</p>
+    </div>
+  </div>
+</footer>
+
+<script>document.getElementById('yr').textContent=new Date().getFullYear();</script>
+<script>(function closeNavOnClick(){var n=document.getElementById("navLinks");if(n)n.querySelectorAll("a").forEach(function(a){a.addEventListener("click",function(){n.classList.remove("open");});});})();</script>
+</body>
+</html>
